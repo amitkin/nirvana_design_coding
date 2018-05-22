@@ -1,0 +1,10 @@
+// artifacts
+include 'lift-design'
+include 'movie-theater'
+include 'random-practice'
+
+project(':lift-design').projectDir = "$rootDir/lift-design" as File
+project(':movie-theater').projectDir = "$rootDir/movie-theater" as File
+project(':random-practice').projectDir = "$rootDir/random-practice" as File
+include 'parking-lot-design'
+
