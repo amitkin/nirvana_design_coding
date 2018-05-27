@@ -8,12 +8,12 @@ public class Car implements Vehicle{
     }
 
     @Override
-    public VehicleType getVehicleType() {
-        return null;
+    public VehicleType getType() {
+        return VehicleType.CAR;
     }
 
     @Override
-    public Size getSize() {
-        return Size.M;
+    public VehicleSize getSize() {
+        return VehicleSize.M;
     }
 }

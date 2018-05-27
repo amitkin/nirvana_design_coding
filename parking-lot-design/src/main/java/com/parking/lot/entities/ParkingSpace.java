@@ -4,16 +4,21 @@ import com.parking.lot.exception.ParkingException;
 import com.parking.lot.exception.PaymentException;
 
 public abstract class ParkingSpace {
-    private Vehicle vehicle;
-    private ParkingStructure parkingStructure;
+    boolean isVacant;
+    VehicleSize vehicleSize;
+    Vehicle vehicle;
+
+    private ParkingLot parkingLot;
 
     public ParkingSlip park(Vehicle v) throws ParkingException {
+        this.vehicle = v;
+        this.isVacant = false;
         return null;
     }
 
     public boolean unpark(ParkingSlip parkingSlip) throws ParkingException {
         //At the time of exit calculatePayment using the entry time in Parking Slip
-        parkingStructure.calculatePayment(this, parkingSlip);
+        parkingLot.calculatePayment(this, parkingSlip);
         return true;
     }
 
