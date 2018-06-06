@@ -1,4 +1,4 @@
-package com.mylearning.leetcode.stackqueue;
+package com.mylearning.stackqueue;
 
 public class TwoStacksSingleArray {
     private int arr[];

@@ -1,4 +1,4 @@
-package com.mylearning.leetcode.bst;
+package com.mylearning.bst;
 
 import java.util.LinkedList;
 import java.util.Queue;

@@ -1,4 +1,4 @@
-package com.mylearning.leetcode;
+package com.mylearning;
 
 public class QuickSort {
     public void sort(int s[], int lo, int hi){

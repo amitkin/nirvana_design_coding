@@ -1,4 +1,4 @@
-package com.mylearning.leetcode;
+package com.mylearning;
 
 /* Dynamic Programming implementation
 of Box Stacking problem in Java*/

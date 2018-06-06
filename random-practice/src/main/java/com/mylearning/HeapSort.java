@@ -1,4 +1,4 @@
-package com.mylearning.leetcode;
+package com.mylearning;
 
 public class HeapSort {
     private void sort(int arr[])

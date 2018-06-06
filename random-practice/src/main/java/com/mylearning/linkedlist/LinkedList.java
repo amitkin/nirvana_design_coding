@@ -1,4 +1,4 @@
-package com.mylearning.leetcode.linkedlist;
+package com.mylearning.linkedlist;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

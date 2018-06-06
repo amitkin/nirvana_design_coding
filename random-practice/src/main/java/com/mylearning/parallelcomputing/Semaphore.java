@@ -1,4 +1,4 @@
-package com.mylearning.leetcode.parallelcomputing;
+package com.mylearning.parallelcomputing;
 
 public class Semaphore {
     private final int MAX_AVAILABLE;

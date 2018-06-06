@@ -1,4 +1,4 @@
-package com.mylearning.leetcode.stackqueue;
+package com.mylearning.stackqueue;
 
 import java.util.Arrays;
 import java.util.Collections;

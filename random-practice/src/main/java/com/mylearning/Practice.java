@@ -1,4 +1,4 @@
-package com.mylearning.leetcode;
+package com.mylearning;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -1,4 +1,4 @@
-package com.mylearning.leetcode;
+package com.mylearning;
 
 // A Java program to print topological sorting of a DAG
 import java.util.Iterator;

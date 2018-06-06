@@ -1,6 +1,6 @@
-package com.mylearning.leetcode.stackqueue;
+package com.mylearning.stackqueue;
 
-import com.mylearning.leetcode.linkedlist.LinkedList.ListNode;
+import com.mylearning.linkedlist.LinkedList.ListNode;
 
 public class QueueLinkedList {
     ListNode root;

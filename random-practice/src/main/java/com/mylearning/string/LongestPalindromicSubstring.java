@@ -1,4 +1,4 @@
-package com.mylearning.leetcode.string;
+package com.mylearning.string;
 
 import java.util.Stack;
 

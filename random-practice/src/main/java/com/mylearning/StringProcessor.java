@@ -1,4 +1,4 @@
-package com.mylearning.leetcode;
+package com.mylearning;
 
 import java.util.Queue;
 import java.util.concurrent.Callable;
