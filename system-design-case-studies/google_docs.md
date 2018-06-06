@@ -14,7 +14,7 @@ This is a quick overview of different techniques and algorithms: https://neil.fr
 
 ### Abstract Architecture
 1. App Servers
- * A single document is edited on one app server. The app server must use some policy to resolve conflicts between documents. Incremental merge (like git/svn) is one good strategy for that. The user's browser periodically sends deltas in document being edited to the app server (after every keystroke maybe). The app server maintains a queue of recent edits and merges them one at a time by locking over a document. A successful edit is accepted silently. An unsuccessful edit ('merge conflict') triggers an HTTP-message sent back to the user's browser. Browser's javascript has a responsibility to restore the document to the unmerged state and also flash an error message to the editing environment.
+ * A single document is edited on one app server. The app server must use some policy to resolve conflicts between documents. Incremental merge (like git/svn) is one good strategy for that. The user's browser periodically sends deltas in document being edited to the app server (after every keystroke maybe). The app server maintains a circularQueueDynamicSizing of recent edits and merges them one at a time by locking over a document. A successful edit is accepted silently. An unsuccessful edit ('merge conflict') triggers an HTTP-message sent back to the user's browser. Browser's javascript has a responsibility to restore the document to the unmerged state and also flash an error message to the editing environment.
 2. Load Balancer
  * For directing users to appropriate app server
 3. Caching
@@ -30,6 +30,6 @@ This is a quick overview of different techniques and algorithms: https://neil.fr
 
 ### Bottlenecks
 1. App server could crash: In that case, load balancer restores most recent copy of document from Memcached to a fresh app server, updates its state, sends a fresh cookie to the user. All intermediate changes are lost
-2. Long queue at an app server resulting in delayed response to the user: (can't think of a solution)
+2. Long circularQueueDynamicSizing at an app server resulting in delayed response to the user: (can't think of a solution)
 3. DB/cache failure: Use standard replicated architecture.
 4. One user getting constant merge conflicts because of slow connection

@@ -1,14 +1,14 @@
-package com.mylearning.leetcode;
+package com.mylearning.leetcode.stackqueue;
 
 import java.io.*;
 
-class CircularQ
+class CircularQueue
 {
     private int cQueue[];
     private int front;
     private int rear;
     private int count;
-    private CircularQ(int count)
+    private CircularQueue(int count)
     {
         cQueue = new int[count];
         front = rear = this.count = 0;
@@ -16,7 +16,7 @@ class CircularQ
 
     private void enqueue(int element) {
         if(count == cQueue.length)
-            System.out.println("Queue is full.");
+            System.out.println("CircularQueueDynamicSizing is full.");
         else{
             cQueue[rear] = element;
             rear = (rear + 1)%cQueue.length;
@@ -26,7 +26,7 @@ class CircularQ
 
     private int dequeue() {
         if(count == 0) {
-            System.out.println("Queue is empty.");
+            System.out.println("CircularQueueDynamicSizing is empty.");
             return -1;
         }
         else {
@@ -41,7 +41,7 @@ class CircularQ
     private void display() {
         int curr = front;
         int noOfElements = count;
-        System.out.print("Queue state: ");
+        System.out.print("CircularQueueDynamicSizing state: ");
         if (count == 0) { System.out.print("[empty]"); }
         else while (noOfElements > 0) {
             System.out.print(cQueue[curr] + " ");
@@ -56,7 +56,7 @@ class CircularQ
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the count of the queue : ");
         int size = Integer.parseInt(br.readLine());
-        CircularQ call = new CircularQ(size);
+        CircularQueue call = new CircularQueue(size);
         int choice;
         boolean exit = false;
         while(!exit)
@@ -75,7 +75,7 @@ class CircularQ
                 if(popped != -9999)
                     System.out.println("\nDeleted : " +popped);
                 else
-                    System.out.println("\nQueue is empty !");
+                    System.out.println("\nCircularQueueDynamicSizing is empty !");
                 break;
             case 3 :
                 call.display();

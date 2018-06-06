@@ -43,7 +43,7 @@ class Graph
                 topologicalSortUtil(i, visited, stack);
         }
 
-        // Push current vertex to stack which stores result
+        // Push current vertex to stackqueue which stores result
         stack.push(new Integer(v));
     }
 
@@ -65,7 +65,7 @@ class Graph
             if (visited[i] == false)
                 topologicalSortUtil(i, visited, stack);
 
-        // Print contents of stack
+        // Print contents of stackqueue
         while (stack.empty()==false)
             System.out.print(stack.pop() + " ");
     }

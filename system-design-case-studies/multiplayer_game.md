@@ -22,7 +22,7 @@
   * base load-balancers to direct new user to an app server
   * Need more?
 5. Worker queues
-  * One queue can be used in slow path to update the game database after a player makes a move for a particular game. (Store player_id, move_id, game_id in database and also icrement move_id for that game)
+  * One circularQueueDynamicSizing can be used in slow path to update the game database after a player makes a move for a particular game. (Store player_id, move_id, game_id in database and also icrement move_id for that game)
 
 ### Operations
 1. The load balancer keeps a list of currently running game and also sends to the app server serving the landing page. A user can do few things as soon as he/she visits the website

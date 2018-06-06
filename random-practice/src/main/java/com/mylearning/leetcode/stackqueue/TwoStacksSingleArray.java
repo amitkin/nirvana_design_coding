@@ -1,4 +1,4 @@
-package com.mylearning.leetcode;
+package com.mylearning.leetcode.stackqueue;
 
 public class TwoStacksSingleArray {
     private int arr[];
@@ -19,7 +19,7 @@ public class TwoStacksSingleArray {
             top1++;
             arr[top1] = x;
         } else{
-            System.out.println("Stack Overflow");
+            System.out.println("MyStack Overflow");
         }
     }
 
@@ -31,11 +31,11 @@ public class TwoStacksSingleArray {
            top2--;
            arr[top2] = x;
        } else{
-           System.out.println("Stack Overflow");
+           System.out.println("MyStack Overflow");
        }
    }
 
-   // Method to pop an element from first stack
+   // Method to pop an element from first stackqueue
    private int pop1()
    {
         if (top1 >= 0 )
@@ -44,12 +44,12 @@ public class TwoStacksSingleArray {
             top1--;
             return x;
         } else{
-            System.out.println("Stack UnderFlow");
+            System.out.println("MyStack UnderFlow");
             return -1;
         }
    }
 
-   // Method to pop an element from second stack
+   // Method to pop an element from second stackqueue
    private int pop2()
    {
         if (top2 < size) {
@@ -57,7 +57,7 @@ public class TwoStacksSingleArray {
             top2++;
             return x;
         } else{
-            System.out.println("Stack UnderFlow");
+            System.out.println("MyStack UnderFlow");
             return -1;
         }
    }

@@ -1,4 +1,4 @@
-package com.mylearning.leetcode.threads;
+package com.mylearning.leetcode.parallelcomputing;
 
 public class PrintEvenOddWaitNotify {
     public static void main(String... args) {

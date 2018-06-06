@@ -3,7 +3,7 @@ package com.mylearning.leetcode.linkedlist;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-class LinkedList {
+public class LinkedList {
 
     public ListNode root;
 
@@ -214,7 +214,7 @@ class LinkedList {
         return head;
     }
 
-    private class ListNode {
+    public static class ListNode {
         public int data;
         public ListNode next;
 

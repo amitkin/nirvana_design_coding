@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /*
-1. Parameter is Queue which has got Strings
+1. Parameter is CircularQueueDynamicSizing which has got Strings
 2. Output should be strings each containing first element as length of string, second element as first character and
 third element onwards should be the string after removing vowels
 3. Separate thread for each task and result should be compiled from all these threads

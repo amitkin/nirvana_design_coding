@@ -59,7 +59,7 @@ public class ParkingLot {
         //Based on the size of Vehicle return the Parking space
         //In order to find the parking space in optimized manner list is not good since it will be linear operation
         //Stacks can be used to store S, M, L, XL size parking spaces so search will be O(1), worst case 4 lookups
-        //So if there is truck(size L) search in the L and XL stack
+        //So if there is truck(size L) search in the L and XL stackqueue
         //Once we get the space put it in the HashTable with LicensePlate as key
 
         if(!isFull())

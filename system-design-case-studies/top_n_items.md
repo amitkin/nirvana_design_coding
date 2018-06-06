@@ -18,12 +18,12 @@
 2. Application Layer:
   * Dedicated app-servers for regular queries and top-N queries. Load-balancer routes requests to only relevant app-server (regular queries directed to regular app-server and vice-versa)
 3. Worker Queues
-  * A regular app server maintains a worker queue and pushes every new word to the queue. The queue has a responsibility to push new results in a bunch to the database. (Maybe update the cache first and then the cache updates the database).
+  * A regular app server maintains a worker circularQueueDynamicSizing and pushes every new word to the circularQueueDynamicSizing. The circularQueueDynamicSizing has a responsibility to push new results in a bunch to the database. (Maybe update the cache first and then the cache updates the database).
 4. Caching
-  * Let's say that we decide to go with a relational database. We maintain a memcahced to cache top results. Every top-N query is routed to memcached and immediately gets an answer through cache. A worker queue updates memcached using its own results. Memcached updates the database at regular interval (every minute?) and refreshes itself using order-by query from the database. (Caching database index for order-by query to speed up memcache update). 
+  * Let's say that we decide to go with a relational database. We maintain a memcahced to cache top results. Every top-N query is routed to memcached and immediately gets an answer through cache. A worker circularQueueDynamicSizing updates memcached using its own results. Memcached updates the database at regular interval (every minute?) and refreshes itself using order-by query from the database. (Caching database index for order-by query to speed up memcache update). 
 
 ### Bottlenecks and Scaling
-1. Cache contension and locking: Multiple write and refresh requests for cache creates contension. Maybe use a separate schedular/load-balancer for cache. Preference of operations top-N > worker-queue update > DB read/write.
-2. App-server failure: A failing app-server implies that all its queue is lost. Can't do much in this case, except frequent writes from queues to cache. Also, this is one of the sources of approximation in top-N results. Assuming top-N results change slowly, a few lost words from the stream wouldn't affect them much.
+1. Cache contension and locking: Multiple write and refresh requests for cache creates contension. Maybe use a separate schedular/load-balancer for cache. Preference of operations top-N > worker-circularQueueDynamicSizing update > DB read/write.
+2. App-server failure: A failing app-server implies that all its circularQueueDynamicSizing is lost. Can't do much in this case, except frequent writes from queues to cache. Also, this is one of the sources of approximation in top-N results. Assuming top-N results change slowly, a few lost words from the stream wouldn't affect them much.
 3. Cache failure: A big issue. Maintain replicated/hirarchical cache
 4. Database failure: Can be address with replicated (master/slave) database.

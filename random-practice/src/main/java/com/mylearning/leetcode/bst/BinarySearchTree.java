@@ -8,7 +8,7 @@ In a Binary Search Tree (BST), all keys in left subtree of a key must be smaller
 and all keys in right subtree must be greater.
 */
 public class BinarySearchTree {
-    private TreeNode root;
+    private BinaryTreeNode root;
 
     private BinarySearchTree() {
         root = null;
@@ -18,11 +18,11 @@ public class BinarySearchTree {
         root = insertRec(root, key);
     }
 
-    private TreeNode insertRec(TreeNode root, int data) {
+    private BinaryTreeNode insertRec(BinaryTreeNode root, int data) {
 
         /* If the tree is empty, return a new node */
         if (root == null) {
-            root = new TreeNode(data);
+            root = new BinaryTreeNode(data);
         } else {
             /* Otherwise, recur down the tree */
             if (data < root.data)
@@ -38,7 +38,7 @@ public class BinarySearchTree {
         inorderRec(root);
     }
 
-    private void inorderRec(TreeNode root){
+    private void inorderRec(BinaryTreeNode root){
         if(root != null){
             inorderRec(root.left);
             System.out.print(root.data + " -> ");
@@ -50,7 +50,7 @@ public class BinarySearchTree {
         return sizeRecur(root);
     }
 
-    private int sizeRecur(TreeNode root){
+    private int sizeRecur(BinaryTreeNode root){
         if(root == null)
             return 0;
         else{
@@ -66,7 +66,7 @@ public class BinarySearchTree {
         return findRec(root, data);
     }
 
-    private boolean findRec(TreeNode root, int data){
+    private boolean findRec(BinaryTreeNode root, int data){
         if(root == null)
             return false;
         else
@@ -84,7 +84,7 @@ public class BinarySearchTree {
     }
 
     //DFS
-    private int maxDepthRec(TreeNode root){
+    private int maxDepthRec(BinaryTreeNode root){
         if(root == null)
             return 0;
         else{
@@ -101,7 +101,7 @@ public class BinarySearchTree {
         return minValueRec(root);
     }
 
-    private int minValueRec(TreeNode root){
+    private int minValueRec(BinaryTreeNode root){
         if(root == null)
             return -1;
         else{
@@ -118,7 +118,7 @@ public class BinarySearchTree {
     //Java manipulates objects 'by reference,' but it passes object references to methods 'by value.'
     //As a result, you cannot write a standard swap method to swap objects.
     //Below if you change the root.data it will reflect but if you do root = root.left nothing happens outside.
-    private int findParentRec(TreeNode root, int i, int j){
+    private int findParentRec(BinaryTreeNode root, int i, int j){
         while(true){
             if(root.data>i && root.data>j)
                 root = root.left;
@@ -133,40 +133,40 @@ public class BinarySearchTree {
         mirrorUtil(root);
     }
 
-    void mirrorUtil(TreeNode node){
+    void mirrorUtil(BinaryTreeNode node){
         if(node == null)
             return;
         if(node.left == null && node.right == null)
             return;
         mirrorUtil(node.left);
         mirrorUtil(node.right);
-        TreeNode temp = node.left;
+        BinaryTreeNode temp = node.left;
         node.left = node.right;
         node.right = temp;
     }
 
-    public TreeNode mirrorCopy(){
+    public BinaryTreeNode mirrorCopy(){
         return mirrorCopyRec(root);
     }
 
-    private TreeNode mirrorCopyRec(TreeNode root){
-        //Important to create temp TreeNode to save the swapped nodes
-        TreeNode temp;
+    private BinaryTreeNode mirrorCopyRec(BinaryTreeNode root){
+        //Important to create temp BinaryTreeNode to save the swapped nodes
+        BinaryTreeNode temp;
         if(root.left == null && root.right == null)
             return root;
         else{
-            temp = new TreeNode(root.data);
+            temp = new BinaryTreeNode(root.data);
             temp.left = mirrorCopyRec(root.right);
             temp.right = mirrorCopyRec(root.left);
             return temp;
         }
     }
 
-    public boolean isIdentical(TreeNode a, TreeNode b){
+    public boolean isIdentical(BinaryTreeNode a, BinaryTreeNode b){
         return isIdenticalRec(a, b);
     }
 
-    private boolean isIdenticalRec(TreeNode a, TreeNode b){
+    private boolean isIdenticalRec(BinaryTreeNode a, BinaryTreeNode b){
         if(a == null && b == null)
             return true;
         else{
@@ -177,14 +177,14 @@ public class BinarySearchTree {
     }
 
     public void levelOrderTraversal(){
-        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
         queue.add(root);
         while (!queue.isEmpty())
         {
             /* poll() - Removes and returns the head of the queue. Returns null if queue is empty.
             remove()-Removes and returns the head of the queue. Throws NoSuchElementException when queue is impty.
             */
-            TreeNode tempNode = queue.poll();
+            BinaryTreeNode tempNode = queue.poll();
             if(tempNode != null) {
                 System.out.print(tempNode.data + " ");
 
@@ -207,7 +207,7 @@ public class BinarySearchTree {
 
     /* Returns true if the given tree is a BST and its
       values are >= min and <= max. */
-    public boolean isBSTUtil(TreeNode root, int min, int max){
+    public boolean isBSTUtil(BinaryTreeNode root, int min, int max){
         if(root == null)
             return true;
         if(root.data < min || root.data > max)
@@ -215,11 +215,11 @@ public class BinarySearchTree {
         return (isBSTUtil(root.left, min, root.data-1) && isBSTUtil(root.right, root.data+1, max));
     }
 
-    class TreeNode {
-        int data;
-        TreeNode left, right;
+    public class BinaryTreeNode {
+        public int data;
+        public BinaryTreeNode left, right;
 
-        private TreeNode(int data) {
+        private BinaryTreeNode(int data) {
             this.data = data;
             left = right = null;
         }
