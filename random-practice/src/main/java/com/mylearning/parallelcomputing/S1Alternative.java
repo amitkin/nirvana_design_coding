@@ -8,8 +8,7 @@ public class S1Alternative {
     public static class UnsafeSpellCheckService extends SpellCheckService {
         private static final int MAX_ENTRIES = 3;
 
-        private static LinkedHashMap<String, String[]> cachedClosestStrings
-                = new LinkedHashMap<String, String[]>() {
+        private static LinkedHashMap<String, String[]> cachedClosestStrings = new LinkedHashMap<String, String[]>() {
             protected boolean removeEldestEntry(Map.Entry eldest) {
                 return size() > MAX_ENTRIES;
             }
