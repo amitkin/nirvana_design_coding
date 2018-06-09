@@ -1,9 +1,13 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 public class RangeLookupInBst {
   @EpiUserType(ctorParams = {int.class, int.class})
 
@@ -20,9 +24,12 @@ public class RangeLookupInBst {
 
   public static List<Integer> rangeLookupInBst(BstNode<Integer> tree,
                                                Interval interval) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+
+    List<Integer> result = new ArrayList<>();
+    rangeLookupInBstHelper(tree, interval, result);
+    return result;
   }
+
   public static void rangeLookupInBstHelper(BstNode<Integer> tree,
                                             Interval interval,
                                             List<Integer> result) {

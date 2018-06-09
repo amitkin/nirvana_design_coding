@@ -1,9 +1,12 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class TreeRightSibling {
   public static class BinaryTreeNode<T> {
     public T data;
@@ -14,9 +17,27 @@ public class TreeRightSibling {
   }
 
   public static void constructRightSibling(BinaryTreeNode<Integer> tree) {
-    // TODO - you fill in here.
-    return;
+
+    while (tree != null) {
+      populateLowerLevelNextField(tree);
+      tree = tree.left;
+    }
   }
+
+  private static void
+  populateLowerLevelNextField(BinaryTreeNode<Integer> startNode) {
+    while (startNode != null && startNode.left != null) {
+      // Populate left child's next field.
+      startNode.left.next = startNode.right;
+      // Populate right child's next field if startNode is not the last node
+      // of this level.
+      if (startNode.next != null) {
+        startNode.right.next = startNode.next.left;
+      }
+      startNode = startNode.next;
+    }
+  }
+
   private static BinaryTreeNode<Integer>
   cloneTree(BinaryTree<Integer> original) {
     if (original == null) {

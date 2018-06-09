@@ -1,12 +1,15 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.RandomSequenceChecker;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 public class UniformRandomNumber {
   private static int zeroOneRandom() {
     Random gen = new Random();
@@ -14,9 +17,18 @@ public class UniformRandomNumber {
   }
 
   public static int uniformRandom(int lowerBound, int upperBound) {
-    // TODO - you fill in here.
-    return 0;
+
+    int numberOfOutcomes = upperBound - lowerBound + 1, result;
+    do {
+      result = 0;
+      for (int i = 0; (1 << i) < numberOfOutcomes; ++i) {
+        // zeroOneRandom() is the provided random number generator.
+        result = (result << 1) | zeroOneRandom();
+      }
+    } while (result >= numberOfOutcomes);
+    return result + lowerBound;
   }
+
   private static boolean uniformRandomRunner(TimedExecutor executor,
                                              int lowerBound, int upperBound)
       throws Exception {

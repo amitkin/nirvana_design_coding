@@ -1,11 +1,15 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 public class IntervalsUnion {
 
   public static class Interval {
@@ -19,9 +23,43 @@ public class IntervalsUnion {
   }
 
   public static List<Interval> unionOfIntervals(List<Interval> intervals) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+
+    // Empty input.
+    if (intervals.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    // Sort intervals according to left endpoints of intervals.
+    intervals.sort((a, b) -> {
+      if (Integer.compare(a.left.val, b.left.val) != 0) {
+        return a.left.val - b.left.val;
+      }
+      // Left endpoints are equal, so now see if one is closed and the
+      // other open - closed intervals should appear first.
+      if (a.left.isClosed && !b.left.isClosed) {
+        return -1;
+      }
+      return !a.left.isClosed && b.left.isClosed ? 1 : 0;
+    });
+    List<Interval> result = new ArrayList<>(Arrays.asList(intervals.get(0)));
+    for (Interval i : intervals) {
+      if (!result.isEmpty() &&
+          (i.left.val < result.get(result.size() - 1).right.val ||
+           (i.left.val == result.get(result.size() - 1).right.val &&
+            (i.left.isClosed ||
+             result.get(result.size() - 1).right.isClosed)))) {
+        if (i.right.val > result.get(result.size() - 1).right.val ||
+            (i.right.val == result.get(result.size() - 1).right.val &&
+             i.right.isClosed)) {
+          result.get(result.size() - 1).right = i.right;
+        }
+      } else {
+        result.add(i);
+      }
+    }
+    return result;
   }
+
   @EpiUserType(
       ctorParams = {int.class, boolean.class, int.class, boolean.class})
   public static class FlatInterval {

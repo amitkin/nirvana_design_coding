@@ -1,19 +1,42 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.LexicographicalListComparator;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
+
 public class EnumerateTrees {
 
   public static List<BinaryTreeNode<Integer>>
   generateAllBinaryTrees(int numNodes) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+
+    List<BinaryTreeNode<Integer>> result = new ArrayList<>();
+    if (numNodes == 0) { // Empty tree, add as an null.
+      result.add(null);
+    }
+
+    for (int numLeftTreeNodes = 0; numLeftTreeNodes < numNodes;
+         ++numLeftTreeNodes) {
+      int numRightTreeNodes = numNodes - 1 - numLeftTreeNodes;
+      List<BinaryTreeNode<Integer>> leftSubtrees =
+          generateAllBinaryTrees(numLeftTreeNodes);
+      List<BinaryTreeNode<Integer>> rightSubtrees =
+          generateAllBinaryTrees(numNodes - 1 - numLeftTreeNodes);
+      // Generates all combinations of leftSubtrees and rightSubtrees.
+      for (BinaryTreeNode<Integer> left : leftSubtrees) {
+        for (BinaryTreeNode<Integer> right : rightSubtrees) {
+          result.add(new BinaryTreeNode<>(0, left, right));
+        }
+      }
+    }
+    return result;
   }
+
   public static List<Integer> serializeStructure(BinaryTreeNode<Integer> tree) {
     List<Integer> result = new ArrayList<>();
     Stack<BinaryTreeNode<Integer>> stack = new Stack<>();

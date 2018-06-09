@@ -1,38 +1,72 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
+
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.Set;
+import java.util.TreeMap;
+
 public class AddingCredits {
 
   public static class ClientsCreditsInfo {
+
+    private int offset = 0;
+    private Map<String, Integer> clientToCredit = new HashMap<>();
+    private NavigableMap<Integer, Set<String>> creditToClients =
+        new TreeMap<>();
+
     public void insert(String clientID, int c) {
-      // TODO - you fill in here.
-      return;
+
+      remove(clientID);
+      clientToCredit.put(clientID, c - offset);
+      creditToClients.putIfAbsent(c - offset, new HashSet<>());
+      Set<String> set = creditToClients.get(c - offset);
+      set.add(clientID);
     }
+
     public boolean remove(String clientID) {
-      // TODO - you fill in here.
-      return true;
+
+      Integer clientCredit = clientToCredit.get(clientID);
+      if (clientCredit != null) {
+        creditToClients.get(clientCredit).remove(clientID);
+        if (creditToClients.get(clientCredit).isEmpty()) {
+          creditToClients.remove(clientCredit);
+        }
+        clientToCredit.remove(clientID);
+        return true;
+      }
+      return false;
     }
+
     public int lookup(String clientID) {
-      // TODO - you fill in here.
-      return 0;
+
+      Integer clientCredit = clientToCredit.get(clientID);
+      return clientCredit == null ? -1 : clientCredit + offset;
     }
-    public void addAll(int C) {
-      // TODO - you fill in here.
-      return;
-    }
+
+    public void addAll(int C) { offset += C; }
+
     public String max() {
-      // TODO - you fill in here.
-      return "";
+
+      return creditToClients.isEmpty()
+          ? ""
+          : creditToClients.lastEntry().getValue().iterator().next();
     }
+
     @Override
     public String toString() {
-      // TODO - you fill in here.
-      return super.toString();
+
+      return "{clientToCredit=" + clientToCredit + '}';
     }
   }
+
   @EpiUserType(ctorParams = {String.class, String.class, int.class})
   public static class Operation {
     public String op;

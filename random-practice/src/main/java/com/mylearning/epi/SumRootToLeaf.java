@@ -1,12 +1,29 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
+
 public class SumRootToLeaf {
   @EpiTest(testDataFile = "sum_root_to_leaf.tsv")
 
   public static int sumRootToLeaf(BinaryTreeNode<Integer> tree) {
-    // TODO - you fill in here.
-    return 0;
+
+    return sumRootToLeafHelper(tree, 0);
+  }
+
+  private static int sumRootToLeafHelper(BinaryTreeNode<Integer> tree,
+                                         int partialPathSum) {
+    if (tree == null) {
+      return 0;
+    }
+
+    partialPathSum = partialPathSum * 2 + tree.data;
+    if (tree.left == null && tree.right == null) { // Leaf.
+      return partialPathSum;
+    }
+    // Non-leaf.
+    return sumRootToLeafHelper(tree.left, partialPathSum) +
+        sumRootToLeafHelper(tree.right, partialPathSum);
   }
 
   public static void main(String[] args) {

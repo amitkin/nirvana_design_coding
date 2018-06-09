@@ -1,7 +1,13 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NavigableSet;
+import java.util.TreeSet;
+
 public class MinimumDistance3SortedArrays {
 
   public static class ArrayData implements Comparable<ArrayData> {
@@ -27,8 +33,33 @@ public class MinimumDistance3SortedArrays {
 
   public static int
   findMinDistanceSortedArrays(List<List<Integer>> sortedArrays) {
-    // TODO - you fill in here.
-    return 0;
+
+    // Indices into each of the arrays.
+    List<Integer> heads = new ArrayList<>(sortedArrays.size());
+    for (List<Integer> arr : sortedArrays) {
+      heads.add(0);
+    }
+    int result = Integer.MAX_VALUE;
+    NavigableSet<ArrayData> currentHeads = new TreeSet<>();
+
+    // Adds the minimum element of each array in to currentHeads.
+    for (int i = 0; i < sortedArrays.size(); ++i) {
+      currentHeads.add(new ArrayData(i, sortedArrays.get(i).get(heads.get(i))));
+    }
+
+    while (true) {
+      result =
+          Math.min(result, currentHeads.last().val - currentHeads.first().val);
+      int idxNextMin = currentHeads.first().idx;
+      // Return if some array has no remaining elements.
+      heads.set(idxNextMin, heads.get(idxNextMin) + 1);
+      if (heads.get(idxNextMin) >= sortedArrays.get(idxNextMin).size()) {
+        return result;
+      }
+      currentHeads.pollFirst();
+      currentHeads.add(new ArrayData(
+          idxNextMin, sortedArrays.get(idxNextMin).get(heads.get(idxNextMin))));
+    }
   }
 
   public static void main(String[] args) {

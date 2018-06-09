@@ -1,17 +1,45 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiTestComparator;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
+
 public class EnumerateBalancedParentheses {
   @EpiTest(testDataFile = "enumerate_balanced_parentheses.tsv")
 
   public static List<String> generateBalancedParentheses(int numPairs) {
-    // TODO - you fill in here.
-    return null;
+
+    List<String> result = new ArrayList<>();
+    directedGenerateBalancedParentheses(numPairs, numPairs, "", result);
+    return result;
   }
+
+  private static void
+  directedGenerateBalancedParentheses(int numLeftParensNeeded,
+                                      int numRightParensNeeded,
+                                      String validPrefix, List<String> result) {
+    if (numRightParensNeeded == 0) {
+      result.add(validPrefix);
+      return;
+    }
+
+    if (numLeftParensNeeded > 0) { // Able to insert '('.
+      directedGenerateBalancedParentheses(numLeftParensNeeded - 1,
+                                          numRightParensNeeded,
+                                          validPrefix + "(", result);
+    }
+    if (numLeftParensNeeded < numRightParensNeeded) { // Able to insert ')'.
+      directedGenerateBalancedParentheses(numLeftParensNeeded,
+                                          numRightParensNeeded - 1,
+                                          validPrefix + ")", result);
+    }
+  }
+
   @EpiTestComparator
   public static BiPredicate<List<String>, List<String>> comp =
       (expected, result) -> {

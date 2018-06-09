@@ -1,11 +1,31 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
+
 public class IsListPalindromic {
   @EpiTest(testDataFile = "is_list_palindromic.tsv")
 
   public static boolean isLinkedListAPalindrome(ListNode<Integer> L) {
-    // TODO - you fill in here.
+
+    // Finds the second half of L.
+    ListNode<Integer> slow = L, fast = L;
+    while (fast != null && fast.next != null) {
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+
+    // Compare the first half and the reversed second half lists.
+    ListNode<Integer> firstHalfIter = L;
+    ListNode<Integer> secondHalfIter =
+        ReverseLinkedListIterative.reverseLinkedList(slow);
+    while (secondHalfIter != null && firstHalfIter != null) {
+      if (!secondHalfIter.data.equals(firstHalfIter.data)) {
+        return false;
+      }
+      secondHalfIter = secondHalfIter.next;
+      firstHalfIter = firstHalfIter.next;
+    }
     return true;
   }
 

@@ -49,7 +49,7 @@ public class TestUtils {
     }
 
     throw new RuntimeException(
-        "Can't find test data directory. Please start the program with \"--test_data_dir <path>\" command-line option");
+        "Can't find test data directory. Please start the program with \"--test-data-dir <path>\" command-line option");
   }
 
   public static String getFilePathInJudgeDir(String fileName) {

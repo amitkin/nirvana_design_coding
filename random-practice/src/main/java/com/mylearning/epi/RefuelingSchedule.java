@@ -1,19 +1,43 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.List;
+
 public class RefuelingSchedule {
+
+  private static class CityAndRemainingGas {
+    public Integer city;
+    public Integer remainingGallons;
+
+    public CityAndRemainingGas(Integer city, Integer remainingGallons) {
+      this.city = city;
+      this.remainingGallons = remainingGallons;
+    }
+  }
+
   private static final int MPG = 20;
 
   // gallons[i] is the amount of gas in city i, and distances[i] is the distance
   // city i to the next city.
   public static int findAmpleCity(List<Integer> gallons,
                                   List<Integer> distances) {
-    // TODO - you fill in here.
-    return 0;
+
+    int remainingGallons = 0;
+    CityAndRemainingGas min = new CityAndRemainingGas(0, 0);
+    final int numCities = gallons.size();
+    for (int i = 1; i < numCities; ++i) {
+      remainingGallons += gallons.get(i - 1) - distances.get(i - 1) / MPG;
+      if (remainingGallons < min.remainingGallons) {
+        min = new CityAndRemainingGas(i, remainingGallons);
+      }
+    }
+    return min.city;
   }
+
   @EpiTest(testDataFile = "refueling_schedule.tsv")
   public static void findAmpleCityWrapper(TimedExecutor executor,
                                           List<Integer> gallons,

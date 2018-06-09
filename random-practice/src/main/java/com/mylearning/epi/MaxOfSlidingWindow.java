@@ -1,9 +1,13 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 public class MaxOfSlidingWindow {
   @EpiUserType(ctorParams = {int.class, double.class})
 
@@ -43,8 +47,19 @@ public class MaxOfSlidingWindow {
 
   public static List<TrafficElement>
   computeTrafficVolumes(List<TrafficElement> A, int w) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+
+    QueueWithMaxUsingDeque.QueueWithMax<TrafficElement> slidingWindow =
+        new QueueWithMaxUsingDeque.QueueWithMax<>();
+    List<TrafficElement> maximumVolumes = new ArrayList<>();
+    for (TrafficElement trafficInfo : A) {
+      slidingWindow.enqueue(trafficInfo);
+      while (trafficInfo.time - slidingWindow.head().time > w) {
+        slidingWindow.dequeue();
+      }
+      maximumVolumes.add(
+          new TrafficElement(trafficInfo.time, slidingWindow.max().volume));
+    }
+    return maximumVolumes;
   }
 
   public static void main(String[] args) {

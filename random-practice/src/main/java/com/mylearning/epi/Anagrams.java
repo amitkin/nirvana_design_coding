@@ -1,18 +1,40 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiTestComparator;
 import com.mylearning.epi.test_framework.LexicographicalListComparator;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Anagrams {
   @EpiTest(testDataFile = "anagrams.tsv")
 
   public static List<List<String>> findAnagrams(List<String> dictionary) {
-    // TODO - you fill in here.
-    return null;
+
+    Map<String, List<String>> sortedStringToAnagrams = new HashMap<>();
+    for (String s : dictionary) {
+      // Sorts the string, uses it as a key, and then appends
+      // the original string as another value in the hash table.
+      String sortedStr =
+          Stream.of(s.split("")).sorted().collect(Collectors.joining());
+      sortedStringToAnagrams.putIfAbsent(sortedStr, new ArrayList<String>());
+      sortedStringToAnagrams.get(sortedStr).add(s);
+    }
+
+    return sortedStringToAnagrams.values()
+        .stream()
+        .filter(group -> group.size() >= 2)
+        .collect(Collectors.toList());
   }
+
   @EpiTestComparator
   public static BiPredicate<List<List<String>>, List<List<String>>> comp =
       (expected, result) -> {

@@ -1,18 +1,34 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.BinaryTreeUtils;
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TestUtils;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.List;
+
 public class BstFromSortedArray {
 
   public static BstNode<Integer>
   buildMinHeightBSTFromSortedArray(List<Integer> A) {
-    // TODO - you fill in here.
-    return null;
+
+    return buildMinHeightBSTFromSortedSubarray(A, 0, A.size());
   }
+
+  // Build a min-height BST over the entries in A.subList(start, end - 1).
+  private static BstNode<Integer>
+  buildMinHeightBSTFromSortedSubarray(List<Integer> A, int start, int end) {
+    if (start >= end) {
+      return null;
+    }
+    int mid = start + ((end - start) / 2);
+    return new BstNode<>(A.get(mid),
+                         buildMinHeightBSTFromSortedSubarray(A, start, mid),
+                         buildMinHeightBSTFromSortedSubarray(A, mid + 1, end));
+  }
+
   @EpiTest(testDataFile = "bst_from_sorted_array.tsv")
   public static int
   buildMinHeightBSTFromSortedArrayWrapper(TimedExecutor executor,

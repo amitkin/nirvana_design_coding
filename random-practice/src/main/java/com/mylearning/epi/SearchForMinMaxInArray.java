@@ -1,8 +1,11 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
+
 import java.util.List;
+
 public class SearchForMinMaxInArray {
   @EpiUserType(ctorParams = {Integer.class, Integer.class})
 
@@ -45,8 +48,27 @@ public class SearchForMinMaxInArray {
   @EpiTest(testDataFile = "search_for_min_max_in_array.tsv")
 
   public static MinMax findMinMax(List<Integer> A) {
-    // TODO - you fill in here.
-    return new MinMax(0, 0);
+
+    if (A.size() <= 1) {
+      return new MinMax(A.get(0), A.get(0));
+    }
+
+    MinMax globalMinMax = MinMax.minMax(A.get(0), A.get(1));
+    // Process two elements at a time.
+    for (int i = 2; i + 1 < A.size(); i += 2) {
+      MinMax localMinMax = MinMax.minMax(A.get(i), A.get(i + 1));
+      globalMinMax =
+          new MinMax(Math.min(globalMinMax.smallest, localMinMax.smallest),
+                     Math.max(globalMinMax.largest, localMinMax.largest));
+    }
+    // If there is odd number of elements in the array, we still
+    // need to compare the last element with the existing answer.
+    if ((A.size() % 2) != 0) {
+      globalMinMax =
+          new MinMax(Math.min(globalMinMax.smallest, A.get(A.size() - 1)),
+                     Math.max(globalMinMax.largest, A.get(A.size() - 1)));
+    }
+    return globalMinMax;
   }
 
   public static void main(String[] args) {

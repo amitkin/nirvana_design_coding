@@ -1,16 +1,26 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.RandomSequenceChecker;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
 public class OfflineSampling {
+
   public static void randomSampling(int k, List<Integer> A) {
-    // TODO - you fill in here.
-    return;
+
+    Random gen = new Random();
+    for (int i = 0; i < k; ++i) {
+      // Generate a random int in [i, A.size() - 1].
+      Collections.swap(A, i, i + gen.nextInt(A.size() - i));
+    }
   }
+
   private static boolean randomSamplingRunner(TimedExecutor executor, int k,
                                               List<Integer> A)
       throws Exception {

@@ -1,11 +1,28 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
+
 public class IsStringPalindromicPunctuation {
   @EpiTest(testDataFile = "is_string_palindromic_punctuation.tsv")
 
   public static boolean isPalindrome(String s) {
-    // TODO - you fill in here.
+
+    // i moves forward, and j moves backward.
+    int i = 0, j = s.length() - 1;
+    while (i < j) {
+      // i and j both skip non-alphanumeric characters.
+      while (!Character.isLetterOrDigit(s.charAt(i)) && i < j) {
+        ++i;
+      }
+      while (!Character.isLetterOrDigit(s.charAt(j)) && i < j) {
+        --j;
+      }
+      if (Character.toLowerCase(s.charAt(i++)) !=
+          Character.toLowerCase(s.charAt(j--))) {
+        return false;
+      }
+    }
     return true;
   }
 

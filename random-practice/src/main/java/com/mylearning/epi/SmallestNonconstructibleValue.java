@@ -1,13 +1,25 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.Collections;
 import java.util.List;
+
 public class SmallestNonconstructibleValue {
   @EpiTest(testDataFile = "smallest_nonconstructible_value.tsv")
 
   public static int smallestNonconstructibleValue(List<Integer> A) {
-    // TODO - you fill in here.
-    return 0;
+
+    Collections.sort(A);
+    int maxConstructibleValue = 0;
+    for (int a : A) {
+      if (a > maxConstructibleValue + 1) {
+        break;
+      }
+      maxConstructibleValue += a;
+    }
+    return maxConstructibleValue + 1;
   }
 
   public static void main(String[] args) {

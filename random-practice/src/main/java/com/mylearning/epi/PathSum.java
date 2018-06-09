@@ -1,13 +1,22 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
+
 public class PathSum {
   @EpiTest(testDataFile = "path_sum.tsv")
 
   public static boolean hasPathSum(BinaryTreeNode<Integer> tree,
                                    int remainingWeight) {
-    // TODO - you fill in here.
-    return true;
+
+    if (tree == null) {
+      return false;
+    } else if (tree.left == null && tree.right == null) { // Leaf.
+      return remainingWeight == tree.data;
+    }
+    // Non-leaf.
+    return hasPathSum(tree.left, remainingWeight - tree.data) ||
+        hasPathSum(tree.right, remainingWeight - tree.data);
   }
 
   public static void main(String[] args) {

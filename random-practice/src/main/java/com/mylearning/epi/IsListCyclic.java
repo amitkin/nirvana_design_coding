@@ -1,14 +1,46 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 public class IsListCyclic {
 
   public static ListNode<Integer> hasCycle(ListNode<Integer> head) {
-    // TODO - you fill in here.
-    return null;
+
+    ListNode<Integer> fast = head, slow = head;
+
+    while (fast != null && fast.next != null) {
+      slow = slow.next;
+      fast = fast.next.next;
+      if (slow == fast) {
+        // There is a cycle, so now let's calculate the cycle length.
+        int cycleLen = 0;
+        do {
+          ++cycleLen;
+          fast = fast.next;
+        } while (slow != fast);
+
+        // Finds the start of the cycle.
+        ListNode<Integer> cycleLenAdvancedIter = head;
+        // cycleLenAdvancedIter pointer advances cycleLen first.
+        while (cycleLen-- > 0) {
+          cycleLenAdvancedIter = cycleLenAdvancedIter.next;
+        }
+
+        ListNode<Integer> iter = head;
+        // Both iterators advance in tandem.
+        while (iter != cycleLenAdvancedIter) {
+          iter = iter.next;
+          cycleLenAdvancedIter = cycleLenAdvancedIter.next;
+        }
+        return iter; // iter is the start of cycle.
+      }
+    }
+    return null; // no cycle.
   }
+
   @EpiTest(testDataFile = "is_list_cyclic.tsv")
   public static void HasCycleWrapper(TimedExecutor executor,
                                      ListNode<Integer> head, int cycleIdx)

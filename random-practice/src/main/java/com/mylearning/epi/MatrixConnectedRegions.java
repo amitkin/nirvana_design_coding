@@ -1,14 +1,52 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
+
 public class MatrixConnectedRegions {
-  public static void flipColor(int x, int y, List<List<Boolean>> image) {
-    // TODO - you fill in here.
-    return;
+
+  private static class Coordinate {
+    public Integer x;
+    public Integer y;
+
+    public Coordinate(Integer x, Integer y) {
+      this.x = x;
+      this.y = y;
+    }
   }
+
+  public static void flipColor(int x, int y, List<List<Boolean>> image) {
+
+    boolean color = image.get(x).get(y);
+
+    Queue<Coordinate> q = new ArrayDeque<>();
+    image.get(x).set(y, !image.get(x).get(y)); // Flips.
+    q.add(new Coordinate(x, y));
+    while (!q.isEmpty()) {
+      Coordinate cur = q.element();
+      for (Coordinate nextMove : Arrays.asList(new Coordinate(cur.x, cur.y + 1),
+              new Coordinate(cur.x, cur.y - 1),
+              new Coordinate(cur.x + 1, cur.y),
+              new Coordinate(cur.x - 1, cur.y))) {
+        if (nextMove.x >= 0 && nextMove.x < image.size() && nextMove.y >= 0 &&
+            nextMove.y < image.get(nextMove.x).size() &&
+            image.get(nextMove.x).get(nextMove.y) == color) {
+          // Flips the color.
+          image.get(nextMove.x).set(nextMove.y, !color);
+          q.add(nextMove);
+        }
+      }
+      q.remove();
+    }
+  }
+
   @EpiTest(testDataFile = "painting.tsv")
   public static List<List<Integer>> flipColorWrapper(TimedExecutor executor,
                                                      int x, int y,

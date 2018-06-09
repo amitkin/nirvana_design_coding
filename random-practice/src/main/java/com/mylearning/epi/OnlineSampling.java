@@ -1,21 +1,45 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.RandomSequenceChecker;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
 public class OnlineSampling {
 
   // Assumption: there are at least k elements in the stream.
   public static List<Integer> onlineRandomSample(Iterator<Integer> stream,
                                                  int k) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+
+    List<Integer> runningSample = new ArrayList<>(k);
+    // Stores the first k elements.
+    for (int i = 0; stream.hasNext() && i < k; ++i) {
+      runningSample.add(stream.next());
+    }
+
+    // Have read the first k elements.
+    int numSeenSoFar = k;
+    Random randIdxGen = new Random();
+    while (stream.hasNext()) {
+      Integer x = stream.next();
+      ++numSeenSoFar;
+      // Generate a random number in [0, numSeenSoFar], and if this number is in
+      // [0, k - 1], we replace that element from the sample with x.
+      final int idxToReplace = randIdxGen.nextInt(numSeenSoFar);
+      if (idxToReplace < k) {
+        runningSample.set(idxToReplace, x);
+      }
+    }
+    return runningSample;
   }
+
   private static boolean onlineRandomSampleRunner(TimedExecutor executor,
                                                   List<Integer> A, int k)
       throws Exception {

@@ -1,22 +1,40 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 public class QueueFromStacks {
 
   public static class Queue {
-    public void enqueue(Integer x) {
-      // TODO - you fill in here.
-      return;
-    }
+
+    private Deque<Integer> enqueue = new ArrayDeque<>();
+    private Deque<Integer> dequeue = new ArrayDeque<>();
+
+    public void enqueue(Integer x) { enqueue.addFirst(x); }
+
     public Integer dequeue() {
-      // TODO - you fill in here.
-      return 0;
+
+      if (dequeue.isEmpty()) {
+        // Transfers the elements from enqueue to dequeue.
+        while (!enqueue.isEmpty()) {
+          dequeue.addFirst(enqueue.removeFirst());
+        }
+      }
+
+      if (!dequeue.isEmpty()) {
+        return dequeue.removeFirst();
+      }
+      throw new NoSuchElementException("Cannot pop empty queue");
     }
   }
+
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class QueueOp {
     public String op;

@@ -1,16 +1,28 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TestUtils;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
+import java.text.Format;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 public class AlternatingArray {
+
   public static void rearrange(List<Integer> A) {
-    // TODO - you fill in here.
-    return;
+
+    for (int i = 1; i < A.size(); ++i) {
+      if (((i % 2) == 0 && A.get(i - 1) < A.get(i)) ||
+          ((i % 2) != 0 && A.get(i - 1) > A.get(i))) {
+        Collections.swap(A, i - 1, i);
+      }
+    }
   }
+
   private static void checkOrder(List<Integer> A) throws TestFailure {
     for (int i = 0; i < A.size(); ++i) {
       if ((i % 2) != 0) {

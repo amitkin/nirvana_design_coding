@@ -1,15 +1,21 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
+import java.util.Map;
 import java.util.Set;
+
 public class GraphClone {
 
   public static class GraphVertex {
@@ -23,9 +29,29 @@ public class GraphClone {
   }
 
   public static GraphVertex cloneGraph(GraphVertex graph) {
-    // TODO - you fill in here.
-    return new GraphVertex(0);
+
+    if (graph == null) {
+      return null;
+    }
+
+    Map<GraphVertex, GraphVertex> vertexMap = new HashMap<>();
+    Queue<GraphVertex> q = new ArrayDeque<>();
+    q.add(graph);
+    vertexMap.put(graph, new GraphVertex(graph.label));
+    while (!q.isEmpty()) {
+      GraphVertex v = q.remove();
+      for (GraphVertex e : v.edges) {
+        // Try to copy vertex e.
+        if (vertexMap.putIfAbsent(e, new GraphVertex(e.label)) == null) {
+          q.add(e);
+        }
+        // Copy edge.
+        vertexMap.get(v).edges.add(vertexMap.get(e));
+      }
+    }
+    return vertexMap.get(graph);
   }
+
   private static List<Integer> copyLabels(List<GraphVertex> edges) {
     List<Integer> labels = new ArrayList<>();
     for (GraphVertex e : edges) {

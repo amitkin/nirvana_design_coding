@@ -1,8 +1,10 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 public class KthNodeInTree {
   public static class BinaryTreeNode<T> {
     public T data;
@@ -20,9 +22,23 @@ public class KthNodeInTree {
 
   public static BinaryTreeNode<Integer>
   findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
-    // TODO - you fill in here.
+
+    BinaryTreeNode<Integer> iter = tree;
+    while (iter != null) {
+      int leftSize = iter.left != null ? iter.left.size : 0;
+      if (leftSize + 1 < k) { // k-th node must be in right subtree of iter.
+        k -= (leftSize + 1);
+        iter = iter.right;
+      } else if (leftSize == k - 1) { // k-th is iter itself.
+        return iter;
+      } else { // k-th node must be in left subtree of iter.
+        iter = iter.left;
+      }
+    }
+    // If k is between 1 and the tree size, this line is unreachable.
     return null;
   }
+
   public static BinaryTreeNode<Integer>
   convertToTreeWithSize(BinaryTree<Integer> original) {
     if (original == null)

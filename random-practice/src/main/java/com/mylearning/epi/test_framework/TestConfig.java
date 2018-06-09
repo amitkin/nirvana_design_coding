@@ -110,7 +110,7 @@ public class TestConfig {
     if (config.testDataDir != null && !config.testDataDir.isEmpty()) {
       if (!Files.isDirectory(Paths.get(config.testDataDir))) {
         throw new RuntimeException(String.format(
-            "CL: --test_data_dir argument (%s) is not a directory",
+            "CL: --test-data-dir argument (%s) is not a directory",
             config.testDataDir));
       }
     } else {

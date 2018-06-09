@@ -1,15 +1,19 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 public class InsertInList {
 
   // Insert newNode after node.
   public static void insertAfter(ListNode<Integer> node,
                                  ListNode<Integer> newNode) {
-    // TODO - you fill in here.
-    return;
+
+    newNode.next = node.next;
+    node.next = newNode;
   }
+
   @EpiTest(testDataFile = "insert_in_list.tsv")
   public static ListNode<Integer>
   insertListWrapper(TimedExecutor executor, ListNode<Integer> l, int nodeIdx,

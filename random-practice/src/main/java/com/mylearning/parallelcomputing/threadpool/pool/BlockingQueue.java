@@ -3,8 +3,8 @@ package com.mylearning.parallelcomputing.threadpool.pool;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BlockingQueue <Type> {
-    private Queue<Type> queue = new LinkedList<>();
+public class BlockingQueue <T> {
+    private Queue<T> queue = new LinkedList<>();
     private int EMPTY = 0;
     private int MAX_TASK_IN_QUEUE = -1;
 
@@ -12,7 +12,7 @@ public class BlockingQueue <Type> {
         this.MAX_TASK_IN_QUEUE = size;
     }
 
-    public synchronized void enqueue(Type task) throws InterruptedException  {
+    public synchronized void enqueue(T task) throws InterruptedException  {
         while(this.queue.size() == this.MAX_TASK_IN_QUEUE) {
             wait(); //auses the current thread to wait until another thread invokes the notify method
         }
@@ -22,7 +22,7 @@ public class BlockingQueue <Type> {
         this.queue.offer(task);
     }
 
-    public synchronized Type dequeue() throws InterruptedException{
+    public synchronized T dequeue() throws InterruptedException{
         while(this.queue.size() == EMPTY){
             wait();
         }

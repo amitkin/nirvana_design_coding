@@ -1,18 +1,35 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiTestComparator;
 import com.mylearning.epi.test_framework.LexicographicalListComparator;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
+
 public class PowerSet {
   @EpiTest(testDataFile = "power_set.tsv")
 
   public static List<List<Integer>> generatePowerSet(List<Integer> inputSet) {
-    // TODO - you fill in here.
-    return null;
+
+    List<List<Integer>> powerSet = new ArrayList<>();
+    for (int intForSubset = 0; intForSubset < (1 << inputSet.size());
+         ++intForSubset) {
+      int bitArray = intForSubset;
+      List<Integer> subset = new ArrayList<>();
+      while (bitArray != 0) {
+        subset.add(inputSet.get(
+            (int)(Math.log(bitArray & ~(bitArray - 1)) / Math.log(2))));
+        bitArray &= bitArray - 1;
+      }
+      powerSet.add(subset);
+    }
+    return powerSet;
   }
+
   @EpiTestComparator
   public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
       (expected, result) -> {

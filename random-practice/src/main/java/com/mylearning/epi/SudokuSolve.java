@@ -1,18 +1,83 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
 public class SudokuSolve {
+
+  private static final int EMPTY_ENTRY = 0;
+
   public static boolean solveSudoku(List<List<Integer>> partialAssignment) {
-    // TODO - you fill in here.
+
+    return solvePartialSudoku(0, 0, partialAssignment);
+  }
+
+  private static boolean
+  solvePartialSudoku(int i, int j, List<List<Integer>> partialAssignment) {
+    if (i == partialAssignment.size()) {
+      i = 0; // Starts a new row.
+      if (++j == partialAssignment.get(i).size()) {
+        return true; // Entire matrix has been filled without conflict.
+      }
+    }
+
+    // Skips nonempty entries.
+    if (partialAssignment.get(i).get(j) != EMPTY_ENTRY) {
+      return solvePartialSudoku(i + 1, j, partialAssignment);
+    }
+
+    for (int val = 1; val <= partialAssignment.size(); ++val) {
+      // It's substantially quicker to check if entry val conflicts
+      // with any of the constraints if we add it at (i,j) before
+      // adding it, rather than adding it and then checking all constraints.
+      // The reason is that we are starting with a valid configuration,
+      // and the only entry which can cause a problem is entry val at (i,j).
+      if (validToAddVal(partialAssignment, i, j, val)) {
+        partialAssignment.get(i).set(j, val);
+        if (solvePartialSudoku(i + 1, j, partialAssignment)) {
+          return true;
+        }
+      }
+    }
+
+    partialAssignment.get(i).set(j, EMPTY_ENTRY); // Undo assignment.
+    return false;
+  }
+
+  private static boolean validToAddVal(List<List<Integer>> partialAssignment,
+                                       int i, int j, int val) {
+    // Check row constraints.
+    if (partialAssignment.stream().anyMatch(row -> row.get(j) == val)) {
+      return false;
+    }
+
+    // Check column constraints.
+    if (partialAssignment.get(i).contains(val)) {
+      return false;
+    }
+
+    // Check region constraints.
+    int regionSize = (int)Math.sqrt(partialAssignment.size());
+    int I = i / regionSize, J = j / regionSize;
+    for (int a = 0; a < regionSize; ++a) {
+      for (int b = 0; b < regionSize; ++b) {
+        if (val ==
+            partialAssignment.get(regionSize * I + a).get(regionSize * J + b)) {
+          return false;
+        }
+      }
+    }
     return true;
   }
+
   @EpiTest(testDataFile = "sudoku_solve.tsv")
   public static void solveSudokuWrapper(TimedExecutor executor,
                                         List<List<Integer>> partialAssignment)

@@ -1,18 +1,30 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiTestComparator;
 import com.mylearning.epi.test_framework.LexicographicalListComparator;
 import com.mylearning.epi.test_framework.GenericTest;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
+
 public class Permutations {
   @EpiTest(testDataFile = "permutations.tsv")
 
   public static List<List<Integer>> permutations(List<Integer> A) {
-    // TODO - you fill in here.
-    return null;
+
+    List<List<Integer>> result = new ArrayList<>();
+    // Generate the first permutation in dictionary order.
+    Collections.sort(A);
+    do {
+      result.add(new ArrayList<>(A));
+      A = NextPermutation.nextPermutation(A);
+    } while (!A.isEmpty());
+    return result;
   }
+
   @EpiTestComparator
   public static BiPredicate<List<List<Integer>>, List<List<Integer>>> comp =
       (expected, result) -> {

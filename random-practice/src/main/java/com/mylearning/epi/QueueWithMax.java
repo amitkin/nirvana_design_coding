@@ -1,24 +1,44 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueWithMax {
-  public void enqueue(Integer x) {
-    // TODO - you fill in here.
-    return;
-  }
+
+  private StackWithMax.Stack enqueue = new StackWithMax.Stack();
+  private StackWithMax.Stack dequeue = new StackWithMax.Stack();
+
+  public void enqueue(Integer x) { enqueue.push(x); }
+
   public Integer dequeue() {
-    // TODO - you fill in here.
-    return 0;
+
+    if (dequeue.empty()) {
+      while (!enqueue.empty()) {
+        dequeue.push(enqueue.pop());
+      }
+    }
+    if (!dequeue.empty()) {
+      return dequeue.pop();
+    }
+    throw new NoSuchElementException("Cannot get dequeue() on empty queue.");
   }
+
   public Integer max() {
-    // TODO - you fill in here.
-    return 0;
+
+    if (!enqueue.empty()) {
+      return dequeue.empty() ? enqueue.max()
+                             : Math.max(enqueue.max(), dequeue.max());
+    } else if (!dequeue.empty()) {
+      return dequeue.max();
+    }
+    throw new NoSuchElementException("Cannot get max() on empty queue.");
   }
+
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class QueueOp {
     public String op;

@@ -1,17 +1,72 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.HashSet;
 import java.util.Set;
+
 public class DoListsOverlap {
 
   public static ListNode<Integer> overlappingLists(ListNode<Integer> l0,
                                                    ListNode<Integer> l1) {
-    // TODO - you fill in here.
-    return null;
+
+    // Store the start of cycle if any.
+    ListNode<Integer> root0 = IsListCyclic.hasCycle(l0);
+    ListNode<Integer> root1 = IsListCyclic.hasCycle(l1);
+
+    if (root0 == null && root1 == null) {
+      // Both lists don't have cycles.
+      return DoTerminatedListsOverlap.overlappingNoCycleLists(l0, l1);
+    } else if ((root0 != null && root1 == null) ||
+               (root0 == null && root1 != null)) {
+      // One list has cycle, and one list has no cycle.
+      return null;
+    }
+    // Both lists have cycles.
+    ListNode<Integer> temp = root1;
+    do {
+      temp = temp.next;
+    } while (temp != root0 && temp != root1);
+
+    // l0 and l1 do not end in the same cycle.
+    if (temp != root0) {
+      return null; // Cycles are disjoint.
+    }
+
+    // l0 and l1 end in the same cycle, locate the overlapping node if they
+    // first overlap before cycle starts.
+    int stem0Length = distance(l0, root0), stem1Length = distance(l1, root1);
+    if (stem0Length > stem1Length) {
+      l0 = DoTerminatedListsOverlap.advanceListByK(stem0Length - stem1Length,
+                                                   l0);
+    } else {
+      l1 = DoTerminatedListsOverlap.advanceListByK(stem1Length - stem0Length,
+                                                   l1);
+    }
+    while (l0 != l1 && l0 != root0 && l1 != root1) {
+      l0 = l0.next;
+      l1 = l1.next;
+    }
+
+    // If l0 == l1 before reaching root0, it means the overlap first occurs
+    // before the cycle starts; otherwise, the first overlapping node is not
+    // unique, so we can return any node on the cycle.
+    return l0 == l1 ? l0 : root0;
   }
+
+  // Calculates the distance between a and b.
+  private static int distance(ListNode<Integer> a, ListNode<Integer> b) {
+    int dis = 0;
+    while (a != b) {
+      a = a.next;
+      ++dis;
+    }
+    return dis;
+  }
+
   @EpiTest(testDataFile = "do_lists_overlap.tsv")
   public static void
   overlappingListsWrapper(TimedExecutor executor, ListNode<Integer> l0,

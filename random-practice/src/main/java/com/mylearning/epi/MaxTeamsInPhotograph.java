@@ -1,10 +1,13 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class MaxTeamsInPhotograph {
 
   public static class GraphVertex {
@@ -14,9 +17,26 @@ public class MaxTeamsInPhotograph {
   }
 
   public static int findLargestNumberTeams(List<GraphVertex> graph) {
-    // TODO - you fill in here.
-    return 0;
+
+    int maxLevel = 0;
+    for (GraphVertex g : graph) {
+      if (g.maxDistance == 0) {
+        maxLevel = Math.max(maxLevel, dfs(g));
+      }
+    }
+    return maxLevel;
   }
+
+  private static int dfs(GraphVertex curr) {
+    curr.maxDistance = 1;
+    for (GraphVertex vertex : curr.edges) {
+      curr.maxDistance = Math.max(
+          curr.maxDistance,
+          (vertex.maxDistance != 0 ? vertex.maxDistance : dfs(vertex)) + 1);
+    }
+    return curr.maxDistance;
+  }
+
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;

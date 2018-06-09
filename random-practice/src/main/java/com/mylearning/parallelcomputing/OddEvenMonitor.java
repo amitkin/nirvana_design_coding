@@ -3,7 +3,7 @@ package com.mylearning.parallelcomputing;
 public class OddEvenMonitor {
     public static final boolean ODD_TURN = true;
     public static final boolean EVEN_TURN = false;
-    private boolean turn = ODD_TURN ;
+    private boolean turn = ODD_TURN;
 
     // Need synchronized in order to call wait(), see
     // http://stackoverflow.com/questions/2779484 for discussion
@@ -20,6 +20,7 @@ public class OddEvenMonitor {
 
     // Need synchronized in order to call notify()
     public synchronized void toggleTurn() {
+        // only odd can change the turn to even and vice-versa
         turn ^= true;
         notify();
     }

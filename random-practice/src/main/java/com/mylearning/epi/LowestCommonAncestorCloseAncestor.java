@@ -1,16 +1,39 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.BinaryTreeUtils;
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class LowestCommonAncestorCloseAncestor {
 
   public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
                                         BinaryTree<Integer> node1) {
-    // TODO - you fill in here.
-    return null;
+
+    Set<BinaryTree<Integer>> hash = new HashSet<>();
+    while (node0 != null || node1 != null) {
+      // Ascend tree in tandem from these two nodes.
+      if (node0 != null) {
+        if (!hash.add(node0)) {
+          return node0;
+        }
+        node0 = node0.parent;
+      }
+      if (node1 != null) {
+        if (!hash.add(node1)) {
+          return node1;
+        }
+        node1 = node1.parent;
+      }
+    }
+    throw new IllegalArgumentException(
+        "node0 and node1 are not in the same tree");
   }
+
   @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
   public static int lcaWrapper(TimedExecutor executor, BinaryTree<Integer> tree,
                                Integer key0, Integer key1) throws Exception {

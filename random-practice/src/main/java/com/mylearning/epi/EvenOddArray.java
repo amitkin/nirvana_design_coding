@@ -1,17 +1,28 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 public class EvenOddArray {
 
   public static void evenOdd(List<Integer> A) {
-    // TODO - you fill in here.
-    return;
+
+    int nextEven = 0, nextOdd = A.size() - 1;
+    while (nextEven < nextOdd) {
+      if (A.get(nextEven) % 2 == 0) {
+        nextEven++;
+      } else {
+        Collections.swap(A, nextEven, nextOdd--);
+      }
+    }
   }
+
   @EpiTest(testDataFile = "even_odd_array.tsv")
   public static void evenOddWrapper(TimedExecutor executor, List<Integer> A)
       throws Exception {

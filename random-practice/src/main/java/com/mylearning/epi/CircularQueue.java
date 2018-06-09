@@ -1,31 +1,63 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
+
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 public class CircularQueue {
 
   public static class Queue {
-    public Queue(int capacity) {}
+
+    private int head = 0, tail = 0, numQueueElements = 0;
+    private static final int SCALE_FACTOR = 2;
+    private Integer[] entries;
+
+    public Queue(int capacity) { entries = new Integer[capacity]; }
+
     public void enqueue(Integer x) {
-      // TODO - you fill in here.
-      return;
+
+      if (numQueueElements == entries.length) { // Need to resize.
+        // Makes the queue elements appear consecutively.
+        Collections.rotate(Arrays.asList(entries), -head);
+        // Resets head and tail.
+        head = 0;
+        tail = numQueueElements;
+        entries = Arrays.copyOf(entries, numQueueElements * SCALE_FACTOR);
+      }
+
+      entries[tail] = x;
+      tail = (tail + 1) % entries.length;
+      ++numQueueElements;
     }
+
     public Integer dequeue() {
-      // TODO - you fill in here.
-      return 0;
+
+      if (numQueueElements != 0) {
+        --numQueueElements;
+        Integer result = entries[head];
+        head = (head + 1) % entries.length;
+        return result;
+      }
+      throw new NoSuchElementException("Dequeue called on an empty queue.");
     }
-    public int size() {
-      // TODO - you fill in here.
-      return 0;
-    }
+
+    public int size() { return numQueueElements; }
+
     @Override
     public String toString() {
-      // TODO - you fill in here.
-      return super.toString();
+
+      return "Queue{"
+          + "head=" + head + ", tail=" + tail +
+          ", entries=" + Arrays.toString(entries) + '}';
     }
   }
+
   @EpiUserType(ctorParams = {String.class, int.class})
   public static class QueueOp {
     public String op;

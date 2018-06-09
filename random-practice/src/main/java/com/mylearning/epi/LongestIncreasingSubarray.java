@@ -1,7 +1,10 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
+
 import java.util.List;
+
 public class LongestIncreasingSubarray {
 
   // Represent subarray by starting and ending indices, inclusive.
@@ -16,9 +19,34 @@ public class LongestIncreasingSubarray {
   }
 
   public static Subarray findLongestIncreasingSubarray(List<Integer> A) {
-    // TODO - you fill in here.
-    return new Subarray(0, 0);
+
+    int maxLength = 1;
+    Subarray result = new Subarray(0, 0);
+    int i = 0;
+    while (i < A.size() - maxLength) {
+      // Backward check and skip if A[j - 1] >= A[j].
+      boolean isSkippable = false;
+      for (int j = i + maxLength; j > i; --j) {
+        if (A.get(j - 1) >= A.get(j)) {
+          i = j;
+          isSkippable = true;
+          break;
+        }
+      }
+
+      // Forward check if it is not skippable.
+      if (!isSkippable) {
+        i += maxLength;
+        while (i < A.size() && A.get(i - 1) < A.get(i)) {
+          ++i;
+          ++maxLength;
+        }
+        result = new Subarray(i - maxLength, i - 1);
+      }
+    }
+    return result;
   }
+
   @EpiTest(testDataFile = "longest_increasing_subarray.tsv")
   public static int findLongestIncreasingSubarrayWrapper(List<Integer> A) {
     Subarray result = findLongestIncreasingSubarray(A);

@@ -1,22 +1,53 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class DeadlockDetection {
 
   public static class GraphVertex {
+
+    public enum Color { WHITE, GRAY, BLACK }
+
+    public Color color;
+
     public List<GraphVertex> edges;
 
-    public GraphVertex() { edges = new ArrayList<>(); }
+    public GraphVertex() {
+
+      color = Color.WHITE;
+
+      edges = new ArrayList<>();
+    }
   }
 
   public static boolean isDeadlocked(List<GraphVertex> graph) {
-    // TODO - you fill in here.
-    return true;
+
+    return graph.stream().anyMatch(
+        vertex -> vertex.color == GraphVertex.Color.WHITE && hasCycle(vertex));
   }
+
+  private static boolean hasCycle(GraphVertex cur) {
+    // Visiting a gray vertex means a cycle.
+    if (cur.color == GraphVertex.Color.GRAY) {
+      return true;
+    }
+
+    cur.color = GraphVertex.Color.GRAY; // Marks current vertex as a gray one.
+    // Traverse the neighbor vertices.
+    if (cur.edges.stream().anyMatch(
+            next -> next.color != GraphVertex.Color.BLACK && hasCycle(next))) {
+      return true;
+    }
+    cur.color = GraphVertex.Color.BLACK; // Marks current vertex as black.
+    return false;
+  }
+
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class Edge {
     public int from;

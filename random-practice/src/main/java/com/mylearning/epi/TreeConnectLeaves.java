@@ -1,18 +1,37 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 public class TreeConnectLeaves {
 
   public static List<BinaryTreeNode<Integer>>
   createListOfLeaves(BinaryTreeNode<Integer> tree) {
-    // TODO - you fill in here.
-    return Collections.emptyList();
+
+    List<BinaryTreeNode<Integer>> leaves = new ArrayList<>();
+    addLeavesLeftToRight(tree, leaves);
+    return leaves;
   }
+
+  private static void
+  addLeavesLeftToRight(BinaryTreeNode<Integer> tree,
+                       List<BinaryTreeNode<Integer>> leaves) {
+    if (tree != null) {
+      if (tree.left == null && tree.right == null) {
+        leaves.add(tree);
+      } else {
+        addLeavesLeftToRight(tree.left, leaves);
+        addLeavesLeftToRight(tree.right, leaves);
+      }
+    }
+  }
+
   @EpiTest(testDataFile = "tree_connect_leaves.tsv")
   public static List<Integer>
   createListOfLeavesWrapper(TimedExecutor executor,

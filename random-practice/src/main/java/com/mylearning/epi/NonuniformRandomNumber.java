@@ -1,21 +1,64 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.RandomSequenceChecker;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
 public class NonuniformRandomNumber {
 
   public static int
   nonuniformRandomNumberGeneration(List<Integer> values,
                                    List<Double> probabilities) {
-    // TODO - you fill in here.
-    return 0;
+
+    List<Double> prefixSumOfProbabilities = new ArrayList<>();
+    // Creating the endpoints for the intervals corresponding to the
+    // probabilities.
+    for (double p : probabilities) {
+      prefixSumOfProbabilities.add(
+          (prefixSumOfProbabilities.isEmpty()
+               ? 0
+               : prefixSumOfProbabilities.get(prefixSumOfProbabilities.size() -
+                                              1)) +
+          p);
+    }
+
+    Random r = new Random();
+    // Get a random number in [0.0,1.0).
+    final double uniform01 = r.nextDouble();
+    // Find the index of the interval that uniform01 lies in.
+    int it = Collections.binarySearch(prefixSumOfProbabilities, uniform01);
+    if (it < 0) {
+      // We want the index of the first element in the array which is
+      // greater than the key.
+      //
+      // When a key is not present in the array, Collections.binarySearch()
+      // returns the negative of 1 plus the smallest index whose entry
+      // is greater than the key.
+      //
+      // Therefore, if the return value is negative, by taking its absolute
+      // value minus 1, we get the desired index.
+      final int intervalIdx = Math.abs(it) - 1;
+      return values.get(intervalIdx);
+    } else {
+      // We have it >= 0, i.e., uniform01 equals an entry
+      // in prefixSumOfProbabilities.
+      //
+      // Because we uniform01 is a random double, the probability of it
+      // equalling an endpoint in prefixSumOfProbabilities is exceedingly low.
+      // However, it is not 0, so to be robust we must consider this case.
+      return values.get(it);
+    }
   }
+
   private static boolean nonuniformRandomNumberGenerationRunner(
       TimedExecutor executor, List<Integer> values, List<Double> probabilities)
       throws Exception {

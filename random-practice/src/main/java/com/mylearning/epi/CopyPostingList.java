@@ -1,19 +1,56 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 public class CopyPostingList {
 
   public static PostingListNode copyPostingsList(PostingListNode l) {
-    // TODO - you fill in here.
-    return null;
+
+    if (l == null) {
+      return null;
+    }
+
+    // Stage 1: Makes a copy of the original list without assigning the jump
+    //          field, and creates the mapping for each node in the original
+    //          list to the copied list.
+    PostingListNode iter = l;
+    while (iter != null) {
+      PostingListNode newNode =
+          new PostingListNode(iter.order, iter.next, null);
+      iter.next = newNode;
+      iter = newNode.next;
+    }
+
+    // Stage 2: Assigns the jump field in the copied list.
+    iter = l;
+    while (iter != null) {
+      if (iter.jump != null) {
+        iter.next.jump = iter.jump.next;
+      }
+      iter = iter.next.next;
+    }
+
+    // Stage 3: Reverts the original list, and assigns the next field of
+    //          the copied list.
+    iter = l;
+    PostingListNode newListHead = iter.next;
+    while (iter.next != null) {
+      PostingListNode temp = iter.next;
+      iter.next = temp.next;
+      iter = temp;
+    }
+    return newListHead;
   }
+
   @EpiUserType(ctorParams = {int.class, int.class})
   public static class SerializedNode {
     public int order;

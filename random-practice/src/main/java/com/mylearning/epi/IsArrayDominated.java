@@ -1,8 +1,10 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,11 +27,24 @@ class Team {
 
   // Checks if team0 can be placed in front of team1.
   public static boolean validPlacementExists(Team team0, Team team1) {
-    // TODO - you fill in here.
+
+    List<Player> team0Sorted = team0.sortPlayersByHeight();
+    List<Player> team1Sorted = team1.sortPlayersByHeight();
+    for (int i = 0; i < team0Sorted.size() && i < team1Sorted.size(); ++i) {
+      if (team0Sorted.get(i).compareTo(team1Sorted.get(i)) >= 0) {
+        return false;
+      }
+    }
     return true;
   }
+
+  private List<Player> sortPlayersByHeight() {
+    return players.stream().sorted().collect(Collectors.toList());
+  }
+
   private List<Player> players;
 }
+
 public class IsArrayDominated {
   @EpiTest(testDataFile = "is_array_dominated.tsv")
   public static void

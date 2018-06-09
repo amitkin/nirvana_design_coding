@@ -2,7 +2,7 @@ package com.mylearning.parallelcomputing.threadpool.pool;
 
 public class ThreadPool {
 	
-    BlockingQueue <Runnable> queue;
+    BlockingQueue<Runnable> queue;
     public ThreadPool(int queueSize, int nThread) {
         queue = new BlockingQueue<>(queueSize);
         String threadName;

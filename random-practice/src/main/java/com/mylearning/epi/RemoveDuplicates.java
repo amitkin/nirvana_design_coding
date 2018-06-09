@@ -1,12 +1,15 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.EpiTestComparator;
 import com.mylearning.epi.test_framework.EpiTestExpectedType;
 import com.mylearning.epi.test_framework.EpiUserType;
 import com.mylearning.epi.test_framework.GenericTest;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
+
 public class RemoveDuplicates {
   @EpiUserType(ctorParams = {String.class, String.class})
   //@include
@@ -45,10 +48,20 @@ public class RemoveDuplicates {
       return lastName.compareTo(name.lastName);
     }
   }
+
   public static void eliminateDuplicate(List<Name> names) {
-    // TODO - you fill in here.
-    return;
+
+    Collections.sort(names); // Makes identical elements become neighbors.
+    int writeIdx = 0;
+    for (int i = 1; i < names.size(); i++) {
+      if (!names.get(i).firstName.equals(names.get(writeIdx).firstName)) {
+        names.set(++writeIdx, names.get(i));
+      }
+    }
+    // Shrinks array size.
+    names.subList(++writeIdx, names.size()).clear();
   }
+
   @EpiTest(testDataFile = "remove_duplicates.tsv")
   public static List<Name> eliminateDuplicateWrapper(List<Name> names) {
     eliminateDuplicate(names);

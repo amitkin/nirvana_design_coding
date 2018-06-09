@@ -1,17 +1,46 @@
 package com.mylearning.epi;
+
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TestFailure;
 import com.mylearning.epi.test_framework.TimedExecutor;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 public class PivotList {
 
   public static ListNode<Integer> listPivoting(ListNode<Integer> l, int x) {
-    // TODO - you fill in here.
-    return null;
+
+    ListNode<Integer> lessHead = new ListNode<>(0, null);
+    ListNode<Integer> equalHead = new ListNode<>(0, null);
+    ListNode<Integer> greaterHead = new ListNode<>(0, null);
+    ListNode<Integer> lessIter = lessHead;
+    ListNode<Integer> equalIter = equalHead;
+    ListNode<Integer> greaterIter = greaterHead;
+    // Populates the three lists.
+    ListNode<Integer> iter = l;
+    while (iter != null) {
+      if (iter.data < x) {
+        lessIter.next = iter;
+        lessIter = iter;
+      } else if (iter.data == x) {
+        equalIter.next = iter;
+        equalIter = iter;
+      } else { // iter.data > x.
+        greaterIter.next = iter;
+        greaterIter = iter;
+      }
+      iter = iter.next;
+    }
+    // Combines the three lists.
+    greaterIter.next = null;
+    equalIter.next = greaterHead.next;
+    lessIter.next = equalHead.next;
+    return lessHead.next;
   }
+
   public static List<Integer> linkedToList(ListNode<Integer> l) {
     List<Integer> v = new ArrayList<>();
     while (l != null) {
