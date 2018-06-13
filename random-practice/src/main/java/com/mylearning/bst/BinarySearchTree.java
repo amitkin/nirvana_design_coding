@@ -1,5 +1,8 @@
 package com.mylearning.bst;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -150,16 +153,16 @@ public class BinarySearchTree {
     }
 
     private BinaryTreeNode mirrorCopyRec(BinaryTreeNode root){
-        //Important to create temp BinaryTreeNode to save the swapped nodes
-        BinaryTreeNode temp;
-        if(root.left == null && root.right == null)
+        if(root == null)
             return root;
-        else{
-            temp = new BinaryTreeNode(root.data);
-            temp.left = mirrorCopyRec(root.right);
-            temp.right = mirrorCopyRec(root.left);
-            return temp;
-        }
+
+        BinaryTreeNode left = mirrorCopyRec(root.left);
+        BinaryTreeNode right = mirrorCopyRec(root.right);
+
+        root.left =  right;
+        root.right = left;
+
+        return root;
     }
 
     public boolean isIdentical(BinaryTreeNode a, BinaryTreeNode b){
@@ -201,18 +204,34 @@ public class BinarySearchTree {
         }
     }
 
-    private boolean isThisABST(){
+    public boolean isThisABST(){
         return isBSTUtil(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     /* Returns true if the given tree is a BST and its
       values are >= min and <= max. */
-    public boolean isBSTUtil(BinaryTreeNode root, int min, int max){
+    private boolean isBSTUtil(BinaryTreeNode root, int min, int max){
         if(root == null)
             return true;
         if(root.data < min || root.data > max)
             return false;
         return (isBSTUtil(root.left, min, root.data-1) && isBSTUtil(root.right, root.data+1, max));
+    }
+
+    public boolean isBalanced() {
+        return dfsHeight(root) != -1;
+    }
+
+    private int dfsHeight(BinaryTreeNode root) {
+        if (root == null) return 0;
+
+        int leftHeight = dfsHeight(root.left);
+        if (leftHeight == -1) return -1;
+        int rightHeight = dfsHeight(root.right);
+        if (rightHeight == -1) return -1;
+
+        if (abs(leftHeight - rightHeight) > 1)  return -1;
+        return max(leftHeight, rightHeight) + 1;
     }
 
     public class BinaryTreeNode {
@@ -238,11 +257,6 @@ public class BinarySearchTree {
         tree.insert(50);
         tree.insert(30);
         tree.insert(20);
-        tree.insert(40);
-        tree.insert(40);
-        tree.insert(70);
-        tree.insert(60);
-        tree.insert(80);
 
         // print inorder traversal of the BST
         tree.inorder();
@@ -259,5 +273,6 @@ public class BinarySearchTree {
         tree.levelOrderTraversal();
         System.out.println();
         System.out.println("isThisABST : " + tree.isThisABST());
+        System.out.println("isBalanced : " + tree.isBalanced());
     }
 }
