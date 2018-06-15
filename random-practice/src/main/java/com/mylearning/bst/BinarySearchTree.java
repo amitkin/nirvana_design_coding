@@ -154,7 +154,7 @@ public class BinarySearchTree {
 
     private BinaryTreeNode mirrorCopyRec(BinaryTreeNode root){
         if(root == null)
-            return root;
+            return null;
 
         BinaryTreeNode left = mirrorCopyRec(root.left);
         BinaryTreeNode right = mirrorCopyRec(root.right);
@@ -219,19 +219,63 @@ public class BinarySearchTree {
     }
 
     public boolean isBalanced() {
-        return dfsHeight(root) != -1;
+        return isBalancedUtil(root) != -1;
     }
 
-    private int dfsHeight(BinaryTreeNode root) {
+    private int isBalancedUtil(BinaryTreeNode root) {
         if (root == null) return 0;
 
-        int leftHeight = dfsHeight(root.left);
+        int leftHeight = isBalancedUtil(root.left);
         if (leftHeight == -1) return -1;
-        int rightHeight = dfsHeight(root.right);
+        int rightHeight = isBalancedUtil(root.right);
         if (rightHeight == -1) return -1;
 
         if (abs(leftHeight - rightHeight) > 1)  return -1;
-        return max(leftHeight, rightHeight) + 1;
+        return 1 + max(leftHeight, rightHeight);
+    }
+
+    public int largestBSTSubtree() {
+        return largestBSTSubtreeUtil(root).size;
+    }
+
+    public LargestBstWrapper largestBSTSubtreeUtil(BinaryTreeNode node){
+        LargestBstWrapper curr = new LargestBstWrapper();
+
+        if(node == null){
+            curr.isBST= true;
+            return curr;
+        }
+
+        LargestBstWrapper l = largestBSTSubtreeUtil(node.left);
+        LargestBstWrapper r = largestBSTSubtreeUtil(node.right);
+
+        //current subtree's boundaries
+        curr.lower = Math.min(node.data, l.lower);
+        curr.upper = Math.max(node.data, r.upper);
+
+        //check left and right subtrees are BST or not
+        //check left's upper again current's value and right's lower against current's value
+        if(l.isBST && r.isBST && l.upper<=node.data && r.lower>=node.data){
+            curr.size = l.size+r.size+1;
+            curr.isBST = true;
+        }else{
+            curr.size = Math.max(l.size, r.size);
+            curr.isBST  = false;
+        }
+        return curr;
+    }
+
+    class LargestBstWrapper{
+        int size;
+        int lower, upper;
+        boolean isBST;
+
+        public LargestBstWrapper(){
+            lower = Integer.MAX_VALUE;
+            upper = Integer.MIN_VALUE;
+            isBST = false;
+            size = 0;
+        }
     }
 
     public class BinaryTreeNode {
@@ -243,6 +287,7 @@ public class BinarySearchTree {
             left = right = null;
         }
     }
+
 
     // Driver Program to test above functions
     public static void main(String[] args) {
@@ -274,5 +319,6 @@ public class BinarySearchTree {
         System.out.println();
         System.out.println("isThisABST : " + tree.isThisABST());
         System.out.println("isBalanced : " + tree.isBalanced());
+        System.out.println("Largest BST Subtree : " + tree.largestBSTSubtree());
     }
 }
