@@ -1,9 +1,9 @@
 
 package com.mylearning.epi.test_framework;
 
-import com.mylearning.epi.BinaryTree;
-import com.mylearning.epi.BinaryTreeNode;
-import com.mylearning.epi.BstNode;
+import com.mylearning.epi.tree.BinaryTree;
+import com.mylearning.epi.tree.BinaryTreeNode;
+import com.mylearning.epi.tree.BstNode;
 
 import java.util.ArrayList;
 import java.util.Collections;

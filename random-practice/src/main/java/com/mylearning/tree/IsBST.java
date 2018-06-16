@@ -1,0 +1,67 @@
+package com.mylearning.tree;
+
+import java.util.Deque;
+import java.util.LinkedList;
+
+import com.mylearning.tree.BinarySearchTree.BinaryTreeNode;
+
+public class IsBST {
+
+    public boolean isBST(BinaryTreeNode root){
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private boolean isBST(BinaryTreeNode root, int min, int max){
+        if(root == null){
+            return true;
+        }
+        if(root.data <= min || root.data > max){
+            return false;
+        }
+        return isBST(root.left, min, root.data) && isBST(root.right, root.data, max);
+    }
+
+
+    public boolean isBSTIterative(BinaryTreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Deque<BinaryTreeNode> stack = new LinkedList<>();
+        BinaryTreeNode node = root;
+        int prev = Integer.MIN_VALUE;
+        int current;
+        while ( true ) {
+            if (node != null) {
+                stack.addFirst(node);
+                node = node.left;
+            } else {
+                if (stack.isEmpty()) {
+                    break;
+                }
+                node = stack.pollFirst();
+                current = node.data;
+                if (current < prev) {
+                    return false;
+                }
+                prev = current;
+                node = node.right;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String args[]){
+        BinarySearchTree bt = new BinarySearchTree();
+        bt.insert(10);
+        bt.insert(15);
+        bt.insert(-10);
+        bt.insert(17);
+        bt.insert(20);
+        bt.insert(0);
+
+        IsBST isBST = new IsBST();
+        System.out.println(isBST.isBST(bt.root));
+        System.out.println(isBST.isBSTIterative(bt.root));
+    }
+}

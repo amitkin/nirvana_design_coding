@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import com.mylearning.bst.BinarySearchTree.BinaryTreeNode;
+import com.mylearning.tree.BinarySearchTree.BinaryTreeNode;
 
 public class StackProblems {
 

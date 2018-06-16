@@ -1,9 +1,9 @@
 
 package com.mylearning.epi.test_framework.serialization_traits;
 
-import com.mylearning.epi.BinaryTree;
-import com.mylearning.epi.BinaryTreeNode;
-import com.mylearning.epi.BstNode;
+import com.mylearning.epi.tree.BinaryTree;
+import com.mylearning.epi.tree.BinaryTreeNode;
+import com.mylearning.epi.tree.BstNode;
 import com.mylearning.epi.test_framework.BinaryTreeUtils;
 import com.mylearning.epi.test_framework.minimal_json.Json;
 import com.mylearning.epi.test_framework.minimal_json.JsonArray;

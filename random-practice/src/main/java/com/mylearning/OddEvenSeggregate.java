@@ -1,6 +1,10 @@
 package com.mylearning;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import com.mylearning.epi.EvenOddArray;
 
 public class OddEvenSeggregate{
 
