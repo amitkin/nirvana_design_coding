@@ -5,7 +5,7 @@ import static java.lang.Math.max;
 import java.util.ArrayList;
 
 class StockBuySell {
-    // This function finds the buy sell schedule for maximum profit
+    // This function finds the buy sell schedule for maximum profit - multiple times
     void stockBuySell(int a[])
     {
         int n = a.length;
@@ -92,9 +92,9 @@ class StockBuySell {
         int[] b={100, 180, 260, 310, 40, 535, 695};
         //System.out.println(maxProfit(a));//7
         StockBuySell s = new StockBuySell();
-        //s.stockBuySell(a);
-        int[] c={1,2,3,4};
-        System.out.println(s.max2TimesProfit(c));
+        s.stockBuySell(a);
+        //int[] c={1,2,3,4};
+        //System.out.println(s.max2TimesProfit(c));
     }
 
     class Interval{

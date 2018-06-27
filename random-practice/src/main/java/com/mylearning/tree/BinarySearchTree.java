@@ -195,6 +195,54 @@ public class BinarySearchTree {
         return false;
     }
 
+    class QItem{
+        BinaryTreeNode node;
+        int depth;
+
+        QItem(BinaryTreeNode node, int depth){
+            this.node  = node;
+            this.depth = depth;
+        }
+    }
+
+    public int minDepth(){
+        if(root == null)
+            return 0;
+
+        Queue<QItem> queue = new LinkedList<>();
+        QItem qItem = new QItem(root, 1);
+        queue.offer(qItem);
+
+        while(!queue.isEmpty())
+        {
+            //pop from queue
+            qItem = ((LinkedList<QItem>) queue).getFirst();
+            ((LinkedList<QItem>) queue).removeFirst();
+            BinaryTreeNode frontNode = qItem.node;
+            int depth = qItem.depth;
+
+            //first leaf node case
+            if(frontNode.left == null && frontNode.right == null)
+                return depth;
+
+            //If not start adding to queue
+            if(frontNode.left!= null){
+                qItem.node = frontNode.left;
+                qItem.depth = depth + 1;
+                queue.offer(qItem);
+            }
+
+            if(frontNode.right!= null){
+                qItem.node = frontNode.right;
+                qItem.depth = depth + 1;
+                queue.offer(qItem);
+            }
+        }
+        return 0;
+    }
+
+
+
     public void levelOrderTraversal(){
         Queue<BinaryTreeNode> queue = new LinkedList<>();
         queue.add(root);
@@ -408,5 +456,6 @@ public class BinarySearchTree {
         tree.levelOrderTraversal();
         System.out.println();
         System.out.println("isBalanced : " + tree.isBalanced());
+        System.out.println("MinDepth : " + tree.minDepth());
     }
 }

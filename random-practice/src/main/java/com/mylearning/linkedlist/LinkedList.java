@@ -94,7 +94,7 @@ public class LinkedList {
 
         ListNode p = root;
         ListNode q = p.next;
-        p.next = null;
+        p.next = null; //root now has only 1 node, rest is with q
         ListNode r;
 
         while(q != null){
@@ -105,17 +105,17 @@ public class LinkedList {
         }
         root = p;
 
-        /*ListNode current = root;
-        ListNode next;
-        ListNode prev = null;
+        /*ListNode q = root;
+        ListNode r;
+        ListNode p = null;
 
-        while(current != null){
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
+        while(q != null){
+            r = q.next;
+            q.next = p;
+            p = q;
+            q = r;
         }
-        root = prev;*/
+        root = p;*/
     }
 
     public ListNode reverseK(ListNode head, int k) {
