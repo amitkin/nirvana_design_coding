@@ -215,9 +215,8 @@ public class BinarySearchTree {
 
         while(!queue.isEmpty())
         {
-            //pop from queue
-            qItem = ((LinkedList<QItem>) queue).getFirst();
-            ((LinkedList<QItem>) queue).removeFirst();
+            //remove item from queue
+            qItem = queue.poll();
             BinaryTreeNode frontNode = qItem.node;
             int depth = qItem.depth;
 
