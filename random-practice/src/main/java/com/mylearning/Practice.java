@@ -53,6 +53,58 @@ public class Practice {
         return count;
     }
 
+    public static int subarraySum(int[] nums, int k) {
+        int start = 0;
+        int curr_sum = 0;
+        int i = 0;
+        int result = 0; 
+        while(true) {
+            while (i < nums.length) {
+                curr_sum = curr_sum + nums[i];
+
+                //check if we have exceeded the window
+                while (curr_sum > k && start < i) {
+                    curr_sum = curr_sum - nums[start];
+                    start += 1;
+                }
+                if (curr_sum == k) {
+                    result += 1;
+                }
+
+                i++;
+            }
+        }
+    }
+
+    // [1,1]  0
+    public static int minSubArrayLen(int s, int[] nums) {
+        int wL = 0;
+        int wR = 0;
+        int n = nums.length;
+
+        int sum = 0;
+        int minWindow = n+1;
+
+        while(wR < n){
+
+            if(sum < s){
+                sum += nums[wR];
+                wR++;
+            }
+
+            while (sum >= s){
+                if(minWindow > wR-wL){
+                    minWindow = wR- wL;
+                }
+
+                sum = sum - nums[wL];
+                wL++;
+            }
+        }
+
+        return (minWindow == n+1)? 0:minWindow;
+    }
+
     public static void main(String[] args) throws Exception{
         /*BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String name = br.readLine();
@@ -60,8 +112,9 @@ public class Practice {
         int a = Integer.parseInt(input[0]);
         int b = Integer.parseInt(input[1]);
         System.out.println(gcd(a, b));*/
-        int[] nums = {1,3,6,7,9,4,10,5,6};
-        System.out.println(countBuildings(nums));
+        int[] nums = {2,3,1,2,4,3};
+        //System.out.println(countBuildings(nums));
+        System.out.println(minSubArrayLen(7, nums));
 
     }
 
