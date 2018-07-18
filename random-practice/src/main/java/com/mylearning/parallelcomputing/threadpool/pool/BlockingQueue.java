@@ -14,7 +14,7 @@ public class BlockingQueue <T> {
 
     public synchronized void enqueue(T task) throws InterruptedException  {
         while(this.queue.size() == this.MAX_TASK_IN_QUEUE) {
-            wait(); //auses the current thread to wait until another thread invokes the notify method
+            wait(); //causes the current thread to wait until another thread invokes the notify method
         }
         if(this.queue.size() == EMPTY) {
             notifyAll(); //wakes up all the threads that are waiting
