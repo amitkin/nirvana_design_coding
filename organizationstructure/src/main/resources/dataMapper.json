@@ -1,0 +1,35 @@
+{
+  "entityClass": "com.mylearning.orgstructure.model.Employee",
+  "fields": [
+    {
+      "name": "id",
+      "jsonName": "Employee ID",
+      "type": "java.lang.Long"
+    },
+    {
+      "name": "cityName",
+      "jsonName": "City Name",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "salary",
+      "jsonName": "Salary",
+      "type": "java.lang.Long"
+    },
+    {
+      "name": "firstName",
+      "jsonName": "First Name",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "secondName",
+      "jsonName": "Second Name",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "managerId",
+      "jsonName": "Manager Emp Id",
+      "type": "java.lang.Long"
+    }
+  ]
+}
