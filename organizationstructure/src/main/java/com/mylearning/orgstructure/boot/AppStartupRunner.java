@@ -2,8 +2,10 @@ package com.mylearning.orgstructure.boot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 import com.mylearning.orgstructure.data.DataImporter;
 import com.mylearning.orgstructure.model.Employee;
@@ -27,7 +29,7 @@ public class AppStartupRunner implements ApplicationRunner {
     private OrganizationRepository organizationRepository;
 
     private Map<Long, EmployeeNode> employeeMap = new HashMap<>();
-    private EmployeeNode root;
+    private EmployeeNode ceo;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -39,11 +41,11 @@ public class AppStartupRunner implements ApplicationRunner {
                     e.getSecondName(), e.getManagerId());
             employeeMap.put(e.getId(), employeeNode);
             if (e.getManagerId() == 0) {
-                root = employeeNode;
+                ceo = employeeNode;
             }
         });
-        buildHierarchyTree(root);
-        printHierarchyTree(root, 0);
+        buildHierarchyTree(ceo);
+        printHierarchyTree(ceo, 0);
     }
 
     private List<EmployeeNode> getSubordinatesById(long rid) {
@@ -80,5 +82,44 @@ public class AppStartupRunner implements ApplicationRunner {
         for (EmployeeNode e : subordinates) {
             printHierarchyTree(e, level + 1);
         }
+    }
+
+    public EmployeeNode closestCommonManager(final EmployeeNode first, final EmployeeNode second) {
+        if (ceo == null || first == null || second == null)
+            return null;
+        if ((!isPresent(ceo, first)) && isPresent(ceo, second))
+            return null;
+        final Queue<EmployeeNode> queue = new LinkedList<>();
+        queue.offer(ceo);
+        EmployeeNode closestKnownManager = null;
+        while (!queue.isEmpty()) {
+            EmployeeNode employee = queue.poll();
+            if (isPresent(employee, first) && isPresent(employee, second)) {
+                closestKnownManager = employee;
+                for (EmployeeNode em : employee.subordinates) {
+                    queue.offer(em);
+                }
+            }
+        }
+        return closestKnownManager;
+    }
+
+    private boolean isPresent(final EmployeeNode manager, final EmployeeNode employee) {
+        if (manager == null)
+            return false;
+        if (manager.id.equals(employee.id))
+            return true;
+        if (manager.subordinates == null)
+            return false;
+
+        boolean covers = false;
+        for (EmployeeNode em : manager.subordinates) {
+            covers = covers || isPresent(em, employee);
+        }
+        return covers;
+    }
+
+    public EmployeeNode getEmployeeNode(long id){
+        return employeeMap.getOrDefault(id, null);
     }
 }

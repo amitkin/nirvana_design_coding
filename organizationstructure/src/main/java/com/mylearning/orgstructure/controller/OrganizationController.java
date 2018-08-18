@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -38,5 +39,10 @@ public class OrganizationController {
     @GetMapping("/salary/all/subordinates/{id}")
     public Long totalSalaryAllSubordinates(@PathVariable Long id){
         return organizationService.totalSalaryAllSubordinates(id);
+    }
+
+    @GetMapping("/common/manager")
+    public Employee getCommonManager(@RequestParam("id1") Long id1, @RequestParam("id2") Long id2){
+        return organizationService.getCommonManager(id1, id2);
     }
 }

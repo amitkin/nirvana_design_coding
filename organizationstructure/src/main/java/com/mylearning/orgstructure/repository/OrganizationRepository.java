@@ -2,6 +2,8 @@ package com.mylearning.orgstructure.repository;
 
 import java.util.List;
 
+import com.mylearning.orgstructure.boot.AppStartupRunner;
+import com.mylearning.orgstructure.boot.EmployeeNode;
 import com.mylearning.orgstructure.model.Employee;
 import com.mylearning.orgstructure.model.EmployeeMapper;
 import com.mylearning.orgstructure.model.EmployeeWithSubOrdinate;
@@ -9,6 +11,7 @@ import com.mylearning.orgstructure.model.EmployeeWithSubOrdinateMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -16,6 +19,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class OrganizationRepository {
+
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     @Qualifier("h2JdbcTemplate")
@@ -54,4 +60,20 @@ public class OrganizationRepository {
         return jdbcTemplate.queryForObject(SQL_SALARY_ALL_SUBORDINATES, new Object[] {id}, Long.class);
     }
 
+    public Employee getCommonManager(Long id1, Long id2){
+        if(id1 != null && id2 != null) {
+            AppStartupRunner appStartupRunner = context.getBean(AppStartupRunner.class);
+            EmployeeNode firstEmployee = appStartupRunner.getEmployeeNode(id1);
+            EmployeeNode seccondEmployee = appStartupRunner.getEmployeeNode(id2);
+            EmployeeNode manager = appStartupRunner.closestCommonManager(firstEmployee, seccondEmployee);
+            if(manager != null) {
+                if (id1.equals(manager.getId()) || id2.equals(manager.getId())) {
+                    return getEmployeeById(manager.getManagerId());
+                } else {
+                    return getEmployeeById(manager.getId());
+                }
+            }
+        }
+        return null;
+    }
 }

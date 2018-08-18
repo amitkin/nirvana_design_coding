@@ -12,4 +12,6 @@ public interface OrganizationService {
     EmployeeWithSubOrdinate getEmployeeWithMaxSubOridinates();
 
     Long totalSalaryAllSubordinates(Long id);
+
+    Employee getCommonManager(Long id1, Long id2);
 }

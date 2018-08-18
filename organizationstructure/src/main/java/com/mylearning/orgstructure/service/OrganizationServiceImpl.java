@@ -40,4 +40,9 @@ public class OrganizationServiceImpl implements OrganizationService{
     public Long totalSalaryAllSubordinates(Long id) {
         return organizationRepository.totalSalaryAllSubordinates(id);
     }
+
+    @Override
+    public Employee getCommonManager(Long id1, Long id2){
+        return organizationRepository.getCommonManager(id1, id2);
+    }
 }
