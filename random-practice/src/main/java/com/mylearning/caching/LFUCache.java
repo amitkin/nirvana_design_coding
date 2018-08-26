@@ -1,4 +1,4 @@
-package com.mylearning;
+package com.mylearning.caching;
 
 import java.util.HashMap;
 import java.util.Map;

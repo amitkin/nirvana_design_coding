@@ -4,7 +4,9 @@ import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -426,6 +428,22 @@ public class BinarySearchTree {
         return node.left == null && node.right == null;
     }
 
+    public int[] toBSTArray() {
+        int size = 20;
+        int [] BSTarray = new int [size];
+        makeArray(root, 0, BSTarray);
+        return BSTarray;
+    }
+
+    //helper method called by toBSTArray
+    public void makeArray(BinaryTreeNode node, int i, int [] BSTarray ) {
+        if (node != null) {
+            BSTarray[i] = node.data;
+            makeArray(node.left, 2*i+1, BSTarray);
+            makeArray(node.right, 2*i+2, BSTarray);
+        }
+    }
+
     // Driver Program to test above functions
     public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
@@ -438,10 +456,15 @@ public class BinarySearchTree {
            20   40  60   80 */
         tree.insert(50);
         tree.insert(30);
+        tree.insert(70);
         tree.insert(20);
+        tree.insert(40);
+        tree.insert(60);
+        tree.insert(80);
 
         // print inorder traversal of the BST
         tree.inorder();
+        System.out.println("\n" + Arrays.toString(tree.toBSTArray()));
         System.out.println("\nSize of Tree : " + tree.size());
         System.out.println("Max Depth of Tree : " + tree.maxDepth());
         System.out.println("Found node with data 70 : " + tree.find(25));

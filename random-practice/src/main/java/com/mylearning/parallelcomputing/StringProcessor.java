@@ -1,4 +1,4 @@
-package com.mylearning;
+package com.mylearning.parallelcomputing;
 
 import java.util.Queue;
 import java.util.concurrent.Callable;

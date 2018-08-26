@@ -105,17 +105,21 @@ public class Practice {
         return (minWindow == n+1)? 0:minWindow;
     }
 
-    public static void main(String[] args) throws Exception{
+    public static int ssDecodeColID(final String col){
+        return col.chars().reduce(0, (result, c) -> result * 26 + c - 'A' + 1);
+    }
+
+    public static void main(String[] args) throws Exception {
         /*BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String name = br.readLine();
         String[] input = name.split(" ");
         int a = Integer.parseInt(input[0]);
         int b = Integer.parseInt(input[1]);
         System.out.println(gcd(a, b));*/
-        int[] nums = {2,3,1,2,4,3};
+        //int[] nums = {2,3,1,2,4,3};
         //System.out.println(countBuildings(nums));
-        System.out.println(minSubArrayLen(7, nums));
-
+        //System.out.println(minSubArrayLen(7, nums));
+        System.out.println(ssDecodeColID("AA"));
     }
 
     public static int lengthOfLIS(int[] nums) {
