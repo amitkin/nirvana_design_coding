@@ -34,14 +34,15 @@ public class StringProcessor {
     //Producer to generate Strings
     class StringGeneratorCallable implements Callable<Void> {
 
-        public Void call() throws InterruptedException {
+        public Void call() {
             int count = 0;
             while (count++ < 10) {
                 String randomString = randomString(10);
-                if(randomString != null)
+                if(!randomString.isEmpty()) {
                     inputQueue.offer(randomString);
-                else
+                } else {
                     System.out.println("Skipping null string insertion in queue");
+                }
             }
             return null;
         }
@@ -91,8 +92,9 @@ public class StringProcessor {
         }
 
         public Integer call() {
-            if(str != null)
+            if(str != null) {
                 return str.length();
+            }
             return null;
         }
     }
@@ -103,8 +105,9 @@ public class StringProcessor {
             this.str = str;
         }
         public Character call() {
-            if(str != null && str.length() > 0)
+            if(str != null && str.length() > 0) {
                 return str.charAt(0);
+            }
             return null;
         }
     }
@@ -116,8 +119,9 @@ public class StringProcessor {
             this.str = str;
         }
         public String call() {
-            if(str != null)
+            if(str != null) {
                 return remVowels(str);
+            }
             return null;
         }
     }

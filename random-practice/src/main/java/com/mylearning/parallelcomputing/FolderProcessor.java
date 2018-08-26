@@ -72,7 +72,7 @@ public class FolderProcessor {
 
     public static void main(String[] args) {
         ExecutorService threadPool = Executors.newFixedThreadPool(2);
-        FolderProcessor folderProcessor = new FolderProcessor(threadPool, "C:/AmitsData/Upgrad/PA1/Our_Solution");
+        FolderProcessor folderProcessor = new FolderProcessor(threadPool, "C:/Temp");
         folderProcessor.processInput();
         threadPool.shutdown();
         try {
