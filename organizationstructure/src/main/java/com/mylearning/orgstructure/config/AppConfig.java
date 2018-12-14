@@ -13,7 +13,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
-@ComponentScan(basePackages = { "com.mylearnig.orgstructure" })
+@ComponentScan(basePackages = { "com.mylearning.orgstructure" })
 public class AppConfig {
 
     @Bean

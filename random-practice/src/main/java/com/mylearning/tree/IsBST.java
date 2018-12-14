@@ -2,6 +2,7 @@ package com.mylearning.tree;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Queue;
 
 import com.mylearning.tree.BinarySearchTree.BinaryTreeNode;
 
@@ -11,6 +12,7 @@ public class IsBST {
         return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
+    //DFS - Recursive
     private boolean isBST(BinaryTreeNode root, int min, int max){
         if(root == null){
             return true;
@@ -22,6 +24,7 @@ public class IsBST {
     }
 
 
+    //DFS Approach - Uses inorder traversal property
     public boolean isBSTIterative(BinaryTreeNode root) {
         if (root == null) {
             return true;
@@ -51,6 +54,34 @@ public class IsBST {
         return true;
     }
 
+    public static class QueueEntry {
+        public BinaryTreeNode node;
+        public Integer lowerBound , upperBound;
+        public QueueEntry(BinaryTreeNode node, Integer lowerBound, Integer upperBound) {
+            this.node = node;
+            this.lowerBound = lowerBound;
+            this.upperBound = upperBound;
+        }
+    }
+
+    //BFS approach
+    public boolean isBinaryTreeBST(BinaryTreeNode tree) {
+        Queue<QueueEntry> BFSQueue = new LinkedList<>();
+        BFSQueue.add(new QueueEntry(tree , Integer.MIN_VALUE , Integer.MAX_VALUE));
+        QueueEntry headEntry = BFSQueue.poll();
+        while (headEntry!= null) {
+            if (headEntry.node != null) {
+                if (headEntry.node.data < headEntry.lowerBound || headEntry.node.data > headEntry.upperBound) {
+                    return false;
+                }
+                BFSQueue.add(new QueueEntry(headEntry.node.left, headEntry.lowerBound, headEntry.node.data));
+                BFSQueue.add(new QueueEntry(headEntry.node.right, headEntry.node.data, headEntry.upperBound));
+            }
+            headEntry = BFSQueue.poll();
+        }
+        return true;
+    }
+
     public static void main(String args[]){
         BinarySearchTree bt = new BinarySearchTree();
         bt.insert(10);
@@ -63,5 +94,6 @@ public class IsBST {
         IsBST isBST = new IsBST();
         System.out.println(isBST.isBST(bt.root));
         System.out.println(isBST.isBSTIterative(bt.root));
+        System.out.println(isBST.isBinaryTreeBST(bt.root));
     }
 }

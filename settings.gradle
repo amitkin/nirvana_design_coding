@@ -9,4 +9,5 @@ project(':random-practice').projectDir = "$rootDir/random-practice" as File
 include 'parking-lot-design'
 include 'system-design-case-studies'
 include 'design-patterns'
+include 'transaction-statistics'
 

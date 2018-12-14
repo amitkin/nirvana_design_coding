@@ -4,96 +4,13 @@ import java.util.HashMap;
 
 public class LRUCache {
 
-    int capacity;
-    private HashMap<Integer, Node> map = new HashMap<>();
-    private Node head = null;
-    private Node tail = null;
+    private int count,capacity;
+    private HashMap<Integer, Node> cache = new HashMap<>();
+    private Node head,tail;
 
-    public LRUCache(int capacity){
-        this.capacity = capacity;
-    }
-
-    private void setHead(Node n){
-        System.out.println("Updating position of Node : " + n);
-        n.next = head;
-        n.prev = null;
-
-        //For one or more nodes scenario
-        if(head != null){
-            head.prev = n;
-        }
-        head = n;
-
-        //For zero node scenario
-        if(tail == null){
-            tail = head;
-        }
-
-    }
-
-    private void remove(Node n){
-        System.out.println("Removing Node : " + n);
-        //Middle node scenario
-        if(n.prev != null){
-            n.prev.next = n.next;
-        }
-        //One node scenario
-        if(n.next == null){
-            head = null;
-            tail = null;
-        } else{
-            //first node scenario
-            head = n.next;
-            head.prev = null;
-        }
-    }
-
-    public int get(int key){
-        if(map.containsKey(key)){
-            //Update the key node to head
-            Node n = map.get(key);
-            remove(n);
-            setHead(n);
-        }
-        return -1;
-    }
-
-    public void set(int key, int value){
-        if(map.containsKey(key)){
-            //Update the key node to head
-            Node n = map.get(key);
-            remove(n);
-            setHead(n);
-        } else{
-            Node newNode = new Node(key, value);
-            if(map.size() >= capacity){
-                map.remove(tail.key);
-                //Remove the tail from double linked list
-                remove(tail);
-            }
-            setHead(newNode);
-            map.put(key, newNode);
-        }
-    }
-
-    private class Node {
-        private int key;
-        private int value;
-        private Node next;
-        private Node prev;
-
-        public Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public int key() {
-            return key;
-        }
-
-        public int value() {
-            return value;
-        }
+    class Node {
+        int key,value;
+        Node pre,post;
 
         @Override
         public String toString() {
@@ -101,15 +18,80 @@ public class LRUCache {
         }
     }
 
+    private void addNode(Node node){
+        node.pre = head;
+        node.post = head.post;
+        head.post.pre = node;
+        head.post = node;
+    }
+
+    private void removeNode(Node node){
+        node.pre.post = node.post;
+        node.post.pre = node.pre;
+    }
+
+    private void moveToFirst(Node node){
+        this.removeNode(node);
+        this.addNode(node);
+    }
+
+    private Node removeFromLast() {
+        Node node = tail.pre;
+        removeNode(node);
+        return node;
+    }
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        count = 0;
+        head = new Node();
+        head.pre = null;
+        tail = new Node();
+        tail.post = null;
+        head.post = tail;
+        tail.pre = head;
+    }
+
+    public int get(int key) {
+        if(cache.containsKey(key)){
+            Node node = cache.get(key);
+            if(node != null){
+                this.moveToFirst(node);
+                return node.value;
+            }
+        }
+        return -1;
+    }
+
+    public void put(int key, int value) {
+        Node node = cache.get(key);
+        if(node != null){
+            node.value = value;
+            this.moveToFirst(node);
+        }else{
+            node = new Node();
+            node.key = key;
+            node.value = value;
+            this.cache.put(key,node);
+            this.addNode(node);
+            this.count++;
+            if(count > capacity){
+                Node lastNode = this.removeFromLast();
+                this.cache.remove(lastNode.key);
+                --count;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         LRUCache lruCache = new LRUCache(5);
-        lruCache.set(1, 10);
-        lruCache.set(2, 15);
-        lruCache.set(3, 20);
-        lruCache.set(4, 25);
-        lruCache.set(5, 30);
-        lruCache.map.values().forEach(System.out::println);
-        lruCache.set(6, 34);
-        lruCache.map.values().forEach(System.out::println);
+        lruCache.put(1, 10);
+        lruCache.put(2, 15);
+        lruCache.put(3, 20);
+        lruCache.put(4, 25);
+        lruCache.put(5, 30);
+        lruCache.cache.values().forEach(System.out::println);
+        lruCache.put(6, 34);
+        lruCache.cache.values().forEach(System.out::println);
     }
 }

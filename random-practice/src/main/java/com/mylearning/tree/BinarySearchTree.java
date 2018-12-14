@@ -3,6 +3,7 @@ package com.mylearning.tree;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
+import java.beans.BeanInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import com.mylearning.epi.tree.BstNode;
 
 /*
 In a Binary Search Tree (BST), all keys in left subtree of a key must be smaller
@@ -40,6 +43,52 @@ public class BinarySearchTree {
         }
         /* return the (unchanged) node pointer */
         return root;
+    }
+
+    //From EPI
+    public boolean delete(Integer key) {
+        // Find the node with key.
+        BinaryTreeNode curr = root, parent = null;
+        while (curr != null && curr.data != key){
+            parent = curr;
+            curr = key < curr.data ? curr.left : curr.right;
+        }
+        if (curr == null) {
+            // There’s no node with key in this tree.
+            return false;
+        }
+        BinaryTreeNode keyNode = curr;
+        if (keyNode.right != null) {
+            // Find the minimum of the right subtree.
+            BinaryTreeNode rKeyNode = keyNode.right ;
+            BinaryTreeNode rParent = keyNode ;
+            while (rKeyNode.left != null) {
+                rParent = rKeyNode ;
+                rKeyNode = rKeyNode.left ;
+            }
+            keyNode.data = rKeyNode.data ;
+            // Move links to erase the node.
+            if (rParent.left == rKeyNode) {
+                rParent.left = rKeyNode.right ;
+            } else { // rParent.left != rKeyNode.
+                rParent.right = rKeyNode.right ;
+            }
+            rKeyNode.right = null;
+        } else {
+            // Update root link if needed.
+            if (root == keyNode) {
+                root = keyNode.left ;
+                keyNode.left = null;
+            } else {
+                if (parent.left == keyNode) {
+                    parent.left = keyNode.left ;
+                } else {
+                    parent.right = keyNode.left ;
+                }
+                keyNode.left = null;
+            }
+        }
+        return true ;
     }
 
     public void inorder(){
@@ -293,8 +342,15 @@ public class BinarySearchTree {
             this.data = data;
             left = right = null;
         }
+
+        private BinaryTreeNode(int data, BinaryTreeNode left, BinaryTreeNode right) {
+            this.data = data;
+            this.left = left;
+            this.right = right;
+        }
     }
 
+    //0(n) solution since we are traversing all the nodes
     public BinaryTreeNode lca(BinaryTreeNode n1, BinaryTreeNode n2){
         return lcaHelper(root, n1, n2);
     }
@@ -314,6 +370,22 @@ public class BinarySearchTree {
             return root;
         }
         return left != null ? left : right;
+    }
+
+    //We descend one level with each iteration, the time complexity is 0(h), where h is height of tree
+    public BinaryTreeNode findLCA(BinaryTreeNode n1, BinaryTreeNode n2) {
+        BinaryTreeNode temp = root;
+        while (temp.data < n1.data || temp.data > n2.data) {
+            // Keep searching since temp is outside of [n1, n2].
+            while (temp.data < n1.data) {
+                temp = temp.right; // LCA must be in temp’s right child.
+            }
+            while (temp.data > n2.data) {
+                temp = temp.left; // LCA must be in temp’s left child.
+            }
+        }
+        // Now, n1.data >= temp.data && n2.data >= temp.data.
+        return temp;
     }
 
     public int sumRootToLeaf() {
@@ -442,6 +514,52 @@ public class BinarySearchTree {
             makeArray(node.left, 2*i+1, BSTarray);
             makeArray(node.right, 2*i+2, BSTarray);
         }
+    }
+
+    // Builds a BST from preorderSequence.subList(start, end).
+    // Worst case is left-skewed tree
+    public BinaryTreeNode rebuildBSTFromPreorder(List<Integer> preorderSequence) {
+        return rebuildBSTFromPreorderHelper(preorderSequence, 0, preorderSequence.size());
+    }
+
+    private BinaryTreeNode rebuildBSTFromPreorderHelper(List<Integer> preorderSequence, int start, int end) {
+        if (start >= end) {
+            return null;
+        }
+        int i = start + 1;
+        while (i < end && preorderSequence.get(i) < preorderSequence.get(start)) {
+            ++i;
+        }
+
+        int data = preorderSequence.get(start);
+        BinaryTreeNode left = rebuildBSTFromPreorderHelper(preorderSequence, start + 1, i);
+        BinaryTreeNode right = rebuildBSTFromPreorderHelper(preorderSequence, i, end);
+        return new BinaryTreeNode(data, left, right);
+    }
+
+    // Global variable , tracks current subtree.
+    private static Integer rootIdx;
+
+    public BinaryTreeNode rebuildBSTFromPreorder2(List<Integer> preorderSequence) {
+        rootIdx = 0;
+        return rebuildBSFromPreorderOnValueRange(preorderSequence, Integer.MIN_VALUE , Integer.MAX_VALUE);
+    }
+
+    // Builds a BST on the subtree rooted at rootldx from preorderSequence on keys
+    // in (lowerBound, upperBound).
+    private BinaryTreeNode rebuildBSFromPreorderOnValueRange(List<Integer> preorderSequence, Integer lowerBound, Integer upperBound) {
+        if (rootIdx == preorderSequence.size()) {
+            return null;
+        }
+        Integer root = preorderSequence.get(rootIdx);
+        if (root < lowerBound || root > upperBound) {
+            return null;
+        }
+        ++rootIdx;
+        // Note that rebuildBSFromPreorderOnValueRange updates rootIdx. So the order of following two calls are critical.
+        BinaryTreeNode leftSubtree = rebuildBSFromPreorderOnValueRange(preorderSequence, lowerBound, root);
+        BinaryTreeNode rightSubtree = rebuildBSFromPreorderOnValueRange(preorderSequence, root, upperBound);
+        return new BinaryTreeNode(root, leftSubtree, rightSubtree);
     }
 
     // Driver Program to test above functions
