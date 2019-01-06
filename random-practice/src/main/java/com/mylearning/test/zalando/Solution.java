@@ -1,22 +1,14 @@
 package com.mylearning.test.zalando;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
 
 class Solution {
     ArrayList<Integer> nums;
     HashMap<Integer, Integer> locs;
-    java.util.Random rand = new java.util.Random();
 
     public Solution() {
         nums = new ArrayList<>();
@@ -77,74 +69,7 @@ class Solution {
         return all_ways;
     }
 
-    public int findKthLargest(int[] nums, int k) {
-        return findKth(nums, k, (a, b) -> Integer.compare(b, a));
-    }
-
-    private int findKth(int[] nums, int k, Comparator<Integer> cmp) {
-        int left = 0, right = nums.length - 1;
-        Random r = new Random(0);
-        while (left <= right) {
-            // Generates a random integer in [left, right].
-            int pivotIdx = r.nextInt(right - left + 1) + left;
-            int newPivotIdx = partitionAroundPivot(left, right, pivotIdx, nums, cmp);
-            if (newPivotIdx == k - 1) {
-                return nums[newPivotIdx];
-            } else if (newPivotIdx > k - 1) {
-                right = newPivotIdx - 1;
-            } else { // newPivotIdx < k - 1.
-                left = newPivotIdx + 1;
-            }
-        }
-
-        throw new NoSuchElementException("no k-th node in array A");
-    }
-
-    // Partitions A.subList(left, right+1) around pivotIdx, returns the new index
-    // of the pivot, newPivotIdx, after partition. After partitioning,
-    // A.subList(left, newPivotIdx) contains elements that are "greater than" the
-    // pivot, and A.subList(newPivotIdx + 1 , right + 1) contains elements that
-    // are "less than" the pivot.
-    //
-    // Note: "greater than" and "less than" are defined by the Comparator object.
-    //
-    // Returns the new index of the pivot element after partition.
-    private int partitionAroundPivot(int left, int right, int pivotIdx, int[] nums, Comparator<Integer> cmp) {
-        int pivotValue = nums[pivotIdx];
-        int newPivotIdx = left;
-
-        swap(nums, pivotIdx, right);
-        for (int i = left; i < right; ++i) {
-            if (cmp.compare(nums[i], pivotValue) < 0) {
-                swap(nums, i, newPivotIdx++);
-            }
-        }
-        swap(nums, right, newPivotIdx);
-        return newPivotIdx;
-    }
-
-    private void swap(int[] nums, int i, int j){
-        int tmp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = tmp;
-    }
-
-
     public static void main(String[] args) {
         Solution s = new Solution();
-        int [] arr = new int[]{3,2,3,1,2,4,5,5,6};
-        System.out.println(s.findKthLargest(arr, 4));
-        LinkedHashMap<Integer, Integer> cache = new LinkedHashMap<Integer, Integer>(10, 1.0f, true){
-            protected boolean removeEldestEntry(Entry eldest) {
-                return size() > 10;
-            }
-        };
-
-        Set<Integer> currentHeads = new TreeSet<>();
-        currentHeads.add(3);
-        currentHeads.add(2);
-        currentHeads.add(7);
-        int max = ((TreeSet<Integer>) currentHeads).last();
-        int min = ((TreeSet<Integer>) currentHeads).first();
     }
 }

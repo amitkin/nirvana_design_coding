@@ -27,7 +27,7 @@ public class Graph {
     }
 
     // Function to add an edge into the graph
-    public void addEdge(int vertex, int edgeWeight)
+    private void addEdge(int vertex, int edgeWeight)
     {
         //get the adjacency list of vertex and add the edge
         adjacencyList.get(vertex).add(edgeWeight);

@@ -82,6 +82,22 @@ public class IsBST {
         return true;
     }
 
+    //Inorder approach
+    BinaryTreeNode prev = null;
+    public boolean isValidBST(BinaryTreeNode root) {
+        if(root != null){
+            if(!isValidBST(root.left)) {
+                return false;
+            }
+            if(prev != null && prev.data >= root.data) {
+                return false;
+            }
+            prev = root;
+            return isValidBST(root.right);
+        }
+        return true;
+    }
+
     public static void main(String args[]){
         BinarySearchTree bt = new BinarySearchTree();
         bt.insert(10);
@@ -90,10 +106,14 @@ public class IsBST {
         bt.insert(17);
         bt.insert(20);
         bt.insert(0);
+        /*bt.insert(2);
+        bt.insert(1);
+        bt.insert(3);*/
 
         IsBST isBST = new IsBST();
         System.out.println(isBST.isBST(bt.root));
         System.out.println(isBST.isBSTIterative(bt.root));
         System.out.println(isBST.isBinaryTreeBST(bt.root));
+        System.out.println(isBST.isValidBST(bt.root));
     }
 }

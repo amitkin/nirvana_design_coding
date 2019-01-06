@@ -3,16 +3,12 @@ package com.mylearning.tree;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
-import java.beans.BeanInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-
-import com.mylearning.epi.tree.BstNode;
 
 /*
 In a Binary Search Tree (BST), all keys in left subtree of a key must be smaller
@@ -318,21 +314,21 @@ public class BinarySearchTree {
         }
     }
 
-    public boolean isBalanced() {
-        return isBalancedUtil(root) != -1;
-    }
+        public boolean isBalanced() {
+            return isBalancedUtil(root) != -1;
+        }
 
-    private int isBalancedUtil(BinaryTreeNode root) {
-        if (root == null) return 0;
+        private int isBalancedUtil(BinaryTreeNode root) {
+            if (root == null) return 0;
 
-        int leftHeight = isBalancedUtil(root.left);
-        if (leftHeight == -1) return -1;
-        int rightHeight = isBalancedUtil(root.right);
-        if (rightHeight == -1) return -1;
+            int leftHeight = isBalancedUtil(root.left);
+            if (leftHeight == -1) return -1;
+            int rightHeight = isBalancedUtil(root.right);
+            if (rightHeight == -1) return -1;
 
-        if (abs(leftHeight - rightHeight) > 1)  return -1;
-        return 1 + max(leftHeight, rightHeight);
-    }
+            if (abs(leftHeight - rightHeight) > 1)  return -1;
+            return 1 + max(leftHeight, rightHeight);
+        }
 
     public class BinaryTreeNode {
         public int data;

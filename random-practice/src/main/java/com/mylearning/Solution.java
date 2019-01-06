@@ -2,9 +2,14 @@ package com.mylearning;
 
 import static java.lang.Math.max;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class Solution {
 
@@ -417,8 +422,80 @@ public class Solution {
         return false;
     }
 
+    public static int findPairs(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k < 0)   return 0;
+
+        int result = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i : nums) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
+        }
+
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            if(k==0){
+                if(entry.getValue() >= 2){
+                    result = result + 1;
+                }
+            } else{
+                if(map.containsKey(entry.getKey() + k)){
+                    result = result + 1;
+                }
+            }
+        }
+        return result;
+    }
+
+    public static int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || k <= 0) {
+            return new int[0];
+        }
+        int n = nums.length;
+        int[] result = new int[n-k+1];
+        int resultIndex = 0;
+        // store index
+        // ArrayDeque is internally backed by circular array and uses less memory compared to LinkedList
+        Deque<Integer> q = new ArrayDeque<>();
+        for (int i = 0; i < nums.length; i++) {
+            // remove numbers out of range k
+            while (!q.isEmpty() && q.peek() < i - k + 1) {
+                q.poll(); //first inserted ones
+            }
+            // remove smaller numbers in k range as they are useless
+            while (!q.isEmpty() && nums[q.peekLast()] < nums[i]) {
+                q.pollLast(); //last inserted ones
+            }
+            // q contains index... result contains content
+            q.offer(i);
+            if (i >= k - 1) {
+                result[resultIndex++] = nums[q.peek()];
+            }
+        }
+        return result;
+    }
+
+    public int firstMissingPositive(int[] nums) {
+        for(int i = 0; i < nums.length; ++i) {
+            while(nums[i] > 0 && nums[i] <= nums.length && nums[nums[i] - 1] != nums[i]){
+                swap(nums, i, nums[i] - 1);
+            }
+        }
+
+        for(int i = 0; i < nums.length; ++i) {
+            if(nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;
+    }
+
     public static void main(String[] args) {
+
+        int arr[] = {1, 3, 1, 5, 4};
+        int k = 0;
+        findPairs(arr, k);
+
         Solution s = new Solution();
+        System.out.println(s.firstMissingPositive(new int[]{7,8,9,11,12}));
 
         int matrix[][] = {{1,4,7,11,15},{2,5,8,12,19},{3,6,9,16,22},{10,13,14,17,24},{18,21,23,26,30}};
         System.out.println("Searched 5 in matrix : " + s.searchMatrix(matrix, 9));
@@ -427,10 +504,9 @@ public class Solution {
         String pat = "c*a*b";
 
         System.out.println(s.matchRegex(str.toCharArray(), pat.toCharArray()));
-        //System.out.println(s.minWindow(str, pat));
+        System.out.println(s.minWindow(str, pat));
 
-        int[] arr = {1,0};
-        //s.moveZeroes(arr);
+        s.moveZeroes(arr);
         /*int arr[] = {8,7,1,2,3,4,6,5};
 
         int arr1[] = {1,2,2,1}, arr2[] = {2,3,4,2};
@@ -453,5 +529,7 @@ public class Solution {
         // Method based on quick sort which matches nuts and bolts
         //s.nutboltmatch(nuts, bolts, 6);
 
+        int a[] = {1,3,-1,-3,5,3,6,7};
+        System.out.println(Arrays.toString(maxSlidingWindow(a, 3)));
     }
 }
