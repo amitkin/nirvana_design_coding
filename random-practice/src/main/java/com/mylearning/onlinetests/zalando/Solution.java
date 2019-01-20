@@ -1,4 +1,4 @@
-package com.mylearning.test.zalando;
+package com.mylearning.onlinetests.zalando;
 
 import java.util.ArrayList;
 import java.util.HashMap;

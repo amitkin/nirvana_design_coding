@@ -1,4 +1,4 @@
-package com.mylearning.test.picnic;
+package com.mylearning.onlinetests.picnic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
