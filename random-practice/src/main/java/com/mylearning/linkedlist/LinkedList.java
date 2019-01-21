@@ -88,59 +88,7 @@ public class LinkedList {
         System.out.print("\n");
     }
 
-    public void reverse(){
-        if(root == null || root.next == null)
-            return;
-
-        ListNode p = root;
-        ListNode q = p.next;
-        p.next = null; //root now has only 1 node, rest is with q
-        ListNode r;
-
-        while(q != null){
-            r = q.next;
-            q.next = p;
-            p = q;
-            q = r;
-        }
-        root = p;
-
-        /*ListNode q = root;
-        ListNode r;
-        ListNode p = null;
-
-        while(q != null){
-            r = q.next;
-            q.next = p;
-            p = q;
-            q = r;
-        }
-        root = p;*/
-    }
-
-    public ListNode reverseK(ListNode head, int k) {
-        if (head == null || head.next == null || k <2)
-            return head;
-
-        ListNode current = head;
-        ListNode next = null;
-        ListNode prev = null;
-        int count = 0;
-
-        while (count < k && current != null) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-            count++;
-        }
-        //current is at kth position and next at k+1, recursive call for list start from current
-        if(current != null)
-            head.next = reverseK(current, k);
-        return prev;
-    }
-
-    public ListNode reverse(ListNode head) {
+    public ListNode reverseIterative(ListNode head){
         if (head == null || head.next == null)
             return head;
 
@@ -156,6 +104,37 @@ public class LinkedList {
             q = r;
         }
         return p;
+    }
+
+
+    public ListNode reverseRecursive(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+
+        ListNode reverseListHead = reverseRecursive(head.next);
+        head.next.next = head;
+        head.next = null;
+        return reverseListHead;
+    }
+
+    public ListNode reverseK(ListNode head, int k) {
+        int n = 0;
+        for (ListNode i = head; i != null; n++, i = i.next);
+
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        for(ListNode prev = dummy, tail = head; n >= k; n -= k) {
+            for (int i = 1; i < k; i++) {
+                ListNode next = tail.next.next;
+                tail.next.next = prev.next;
+                prev.next = tail.next;
+                tail.next = next;
+            }
+
+            prev = tail;
+            tail = tail.next;
+        }
+        return dummy.next;
     }
 
     //https://leetcode.com/problems/intersection-of-two-linked-lists/description/
@@ -236,14 +215,15 @@ public class LinkedList {
 
         linkedList.deleteDups();
         linkedList.display();
-        ListNode reversedNode = linkedList.reverseK(linkedList.get(0), 3); //Modifies the root
-        linkedList.display(reversedNode);
 
         linkedList.insertAfter(linkedList.get(4), 6);
         linkedList.addInFront(0);
         linkedList.display();
-        linkedList.reverse();
+        linkedList.root = linkedList.reverseIterative(linkedList.root);
         linkedList.display();
-
+        linkedList.root = linkedList.reverseRecursive(linkedList.root);
+        linkedList.display();
+        linkedList.root = linkedList.reverseK(linkedList.get(0), 3); //Modifies the root
+        linkedList.display();
     }
 }
