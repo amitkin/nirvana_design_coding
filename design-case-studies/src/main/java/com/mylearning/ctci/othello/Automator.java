@@ -2,7 +2,7 @@ package com.mylearning.ctci.othello;
 
 import java.util.ArrayList;
 
-import CtCILibrary.AssortedMethods;
+import com.mylearning.ctci.library.AssortedMethods;
 
 /* A helper class to automate this game. This is just used for testing purposes. */
 public class Automator {

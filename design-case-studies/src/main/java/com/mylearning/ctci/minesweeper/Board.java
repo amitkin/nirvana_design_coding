@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-import Game.GameState;
+import com.mylearning.ctci.minesweeper.Game.GameState;
 
 public class Board {
 	private int nRows;
