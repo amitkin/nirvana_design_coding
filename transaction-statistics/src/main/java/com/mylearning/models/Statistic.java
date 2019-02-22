@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mylearning.exceptions.FieldNotParseableException;
 import com.mylearning.services.TimeService;
-import com.mylearning.util.TimeConvertor;
+import com.mylearning.ctci.library.TimeConvertor;
 
 public class Statistic {
 

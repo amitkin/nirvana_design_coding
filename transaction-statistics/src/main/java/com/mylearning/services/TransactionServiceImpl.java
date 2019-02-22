@@ -5,7 +5,7 @@ import com.mylearning.exceptions.InvalidJsonException;
 import com.mylearning.exceptions.OlderTransactionException;
 import com.mylearning.models.Transaction;
 import com.mylearning.models.Statistic;
-import com.mylearning.util.TimeConvertor;
+import com.mylearning.ctci.library.TimeConvertor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

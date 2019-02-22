@@ -667,6 +667,11 @@ public class Solution {
         handler.setLevel(Level.FINER);
         logger.addHandler(handler);
         logger.finer("ABC");*/
+        Day day = Day.valueOf("Monda");
+    }
+
+    public enum Day{
+        Sunday, Monday
     }
 }
 
