@@ -67,7 +67,7 @@ public class LruCache {
                                 ", got " + String.valueOf(result));
         }
         break;
-      case "insert":
+      case "add":
         cache.insert(op.arg1, op.arg2);
         break;
       case "erase":

@@ -50,12 +50,12 @@ public class LargestBSTInBinaryTree {
 
     public static void main(String args[]){
         BinarySearchTree bt = new BinarySearchTree();
-        bt.insert(10);
-        bt.insert(-10);
-        bt.insert(15);
-        bt.insert(17);
-        bt.insert(20);
-        bt.insert(0);
+        bt.add(10);
+        bt.add(-10);
+        bt.add(15);
+        bt.add(17);
+        bt.add(20);
+        bt.add(0);
 
         LargestBSTInBinaryTree largestBSTInBinaryTree = new LargestBSTInBinaryTree();
         System.out.println(largestBSTInBinaryTree.largestBSTSubtree(bt.root));

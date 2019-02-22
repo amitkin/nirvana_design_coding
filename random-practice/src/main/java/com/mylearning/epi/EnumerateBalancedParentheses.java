@@ -28,12 +28,12 @@ public class EnumerateBalancedParentheses {
       return;
     }
 
-    if (numLeftParensNeeded > 0) { // Able to insert '('.
+    if (numLeftParensNeeded > 0) { // Able to add '('.
       directedGenerateBalancedParentheses(numLeftParensNeeded - 1,
                                           numRightParensNeeded,
                                           validPrefix + "(", result);
     }
-    if (numLeftParensNeeded < numRightParensNeeded) { // Able to insert ')'.
+    if (numLeftParensNeeded < numRightParensNeeded) { // Able to add ')'.
       directedGenerateBalancedParentheses(numLeftParensNeeded,
                                           numRightParensNeeded - 1,
                                           validPrefix + ")", result);

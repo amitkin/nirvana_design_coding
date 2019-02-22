@@ -45,7 +45,7 @@ class PrettyPrint extends WriterConfig {
   }
 
   /**
-   * Do not break lines, but still insert whitespace between values.
+   * Do not break lines, but still add whitespace between values.
    *
    * @return A PrettyPrint instance for single-line mode
    */

@@ -15,17 +15,34 @@ In a Binary Search Tree (BST), all keys in left subtree of a key must be smaller
 and all keys in right subtree must be greater.
 */
 public class BinarySearchTree {
+
+    public class BinaryTreeNode {
+        public int data;
+        public BinaryTreeNode left, right;
+
+        private BinaryTreeNode(int data) {
+            this.data = data;
+            left = right = null;
+        }
+
+        private BinaryTreeNode(int data, BinaryTreeNode left, BinaryTreeNode right) {
+            this.data = data;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     public BinaryTreeNode root;
 
     public BinarySearchTree() {
         root = null;
     }
 
-    public void insert(int key) {
-        root = insertRec(root, key);
+    public void add(int key) {
+        root = addHelper(root, key);
     }
 
-    private BinaryTreeNode insertRec(BinaryTreeNode root, int data) {
+    private BinaryTreeNode addHelper(BinaryTreeNode root, int data) {
 
         /* If the tree is empty, return a new node */
         if (root == null) {
@@ -33,9 +50,9 @@ public class BinarySearchTree {
         } else {
             /* Otherwise, recur down the tree */
             if (data < root.data)
-                root.left = insertRec(root.left, data);
+                root.left = addHelper(root.left, data);
             else if (data > root.data)
-                root.right = insertRec(root.right, data);
+                root.right = addHelper(root.right, data);
         }
         /* return the (unchanged) node pointer */
         return root;
@@ -184,18 +201,19 @@ public class BinarySearchTree {
 
     void mirror(){
         mirrorUtil(root);
+
     }
 
     void mirrorUtil(BinaryTreeNode node){
         if(node == null)
             return;
-        if(node.left == null && node.right == null)
-            return;
-        mirrorUtil(node.left);
-        mirrorUtil(node.right);
+
         BinaryTreeNode temp = node.left;
         node.left = node.right;
         node.right = temp;
+
+        mirrorUtil(node.left);
+        mirrorUtil(node.right);
     }
 
     public BinaryTreeNode mirrorCopy(){
@@ -206,12 +224,14 @@ public class BinarySearchTree {
         if(root == null)
             return null;
 
-        BinaryTreeNode left = mirrorCopyRec(root.left);
-        BinaryTreeNode right = mirrorCopyRec(root.right);
+        BinaryTreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
 
-        root.left =  right;
-        root.right = left;
+        mirrorCopyRec(root.left);
+        mirrorCopyRec(root.right);
 
+        /* return the (unchanged) root node */
         return root;
     }
 
@@ -314,36 +334,20 @@ public class BinarySearchTree {
         }
     }
 
-        public boolean isBalanced() {
-            return isBalancedUtil(root) != -1;
-        }
+    public boolean isBalanced() {
+        return isBalancedUtil(root) != -1;
+    }
 
-        private int isBalancedUtil(BinaryTreeNode root) {
-            if (root == null) return 0;
+    private int isBalancedUtil(BinaryTreeNode root) {
+        if (root == null) return 0;
 
-            int leftHeight = isBalancedUtil(root.left);
-            if (leftHeight == -1) return -1;
-            int rightHeight = isBalancedUtil(root.right);
-            if (rightHeight == -1) return -1;
+        int leftHeight = isBalancedUtil(root.left);
+        if (leftHeight == -1) return -1;
+        int rightHeight = isBalancedUtil(root.right);
+        if (rightHeight == -1) return -1;
 
-            if (abs(leftHeight - rightHeight) > 1)  return -1;
-            return 1 + max(leftHeight, rightHeight);
-        }
-
-    public class BinaryTreeNode {
-        public int data;
-        public BinaryTreeNode left, right;
-
-        private BinaryTreeNode(int data) {
-            this.data = data;
-            left = right = null;
-        }
-
-        private BinaryTreeNode(int data, BinaryTreeNode left, BinaryTreeNode right) {
-            this.data = data;
-            this.left = left;
-            this.right = right;
-        }
+        if (abs(leftHeight - rightHeight) > 1)  return -1;
+        return 1 + max(leftHeight, rightHeight);
     }
 
     //0(n) solution since we are traversing all the nodes
@@ -512,6 +516,14 @@ public class BinarySearchTree {
         }
     }
 
+    public void inorderArray(BinaryTreeNode node,ArrayList<Integer> arr) {
+        if (node != null) {
+            inorderArray(node.left, arr);
+            arr.add(node.data);
+            inorderArray(node.right, arr);
+        }
+    }
+
     // Builds a BST from preorderSequence.subList(start, end).
     // Worst case is left-skewed tree
     public BinaryTreeNode rebuildBSTFromPreorder(List<Integer> preorderSequence) {
@@ -558,6 +570,21 @@ public class BinarySearchTree {
         return new BinaryTreeNode(root, leftSubtree, rightSubtree);
     }
 
+    //Successor
+    public BinaryTreeNode successor(BinaryTreeNode head, BinaryTreeNode p) {
+        if(head == null){
+            return head;
+        }
+
+        if(head.data <= p.data){
+            return successor(head.right, p);
+        } else {
+            BinaryTreeNode left = successor(head.left, p);
+            return (left != null) ? left : root;
+        }
+    }
+
+
     // Driver Program to test above functions
     public static void main(String[] args) {
         BinarySearchTree tree = new BinarySearchTree();
@@ -568,17 +595,21 @@ public class BinarySearchTree {
               30      70
              /  \    /  \
            20   40  60   80 */
-        tree.insert(50);
-        tree.insert(30);
-        tree.insert(70);
-        tree.insert(20);
-        tree.insert(40);
-        tree.insert(60);
-        tree.insert(80);
+        tree.add(50);
+        tree.add(30);
+        tree.add(70);
+        tree.add(20);
+        tree.add(40);
+        tree.add(60);
+        tree.add(80);
 
         // print inorder traversal of the BST
         tree.inorder();
-        System.out.println("\n" + Arrays.toString(tree.toBSTArray()));
+        System.out.println("\nBSTArray : " + Arrays.toString(tree.toBSTArray()));
+
+        ArrayList<Integer> inorderArr = new ArrayList<>();
+        tree.inorderArray(tree.root, inorderArr);
+        System.out.println("\nInorderArray : " + inorderArr);
         System.out.println("\nSize of Tree : " + tree.size());
         System.out.println("Max Depth of Tree : " + tree.maxDepth());
         System.out.println("Found node with data 70 : " + tree.find(25));

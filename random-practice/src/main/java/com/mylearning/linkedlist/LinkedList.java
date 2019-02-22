@@ -2,6 +2,7 @@ package com.mylearning.linkedlist;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class LinkedList {
 
@@ -123,16 +124,25 @@ public class LinkedList {
 
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        for(ListNode prev = dummy, tail = head; n >= k; n -= k) {
+        ListNode prev = dummy;
+        ListNode tail = head;
+
+        while(n >= k) {
             for (int i = 1; i < k; i++) {
+                //Changing pointers as below in one iteration - one link reversed
+                //2->1->3, head=2, tail=1, next=3
+                //so this needs to be done k-1 times
                 ListNode next = tail.next.next;
                 tail.next.next = prev.next;
                 prev.next = tail.next;
                 tail.next = next;
             }
 
+            //Moving prev to end of first chunk reversed
+            //and tail to the beginning of second chunk
             prev = tail;
             tail = tail.next;
+            n -= k;
         }
         return dummy.next;
     }
@@ -218,6 +228,7 @@ public class LinkedList {
 
         linkedList.insertAfter(linkedList.get(4), 6);
         linkedList.addInFront(0);
+        linkedList.append(7);
         linkedList.display();
         linkedList.root = linkedList.reverseIterative(linkedList.root);
         linkedList.display();

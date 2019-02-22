@@ -1,17 +1,17 @@
 Air traffic control system is a classic example of mediator design pattern. 
 1) Define an interface for mediator/controller. 
-2) Define another interface for client/aircraft. 
+2) Define another interface for client/flight. 
 3) Define concrete impl for the mediator interface.
 4) Define concrete impl for the flight interface. 
 
 Each flight object needs to register with the mediator.
 
-Three fundamental objects i see are:
+Three fundamental objects I see are:
  1) Aircraft
  2) ATS Controller
  3) Common Resources
  
-Aircraft basically seeks permissions for various stages and Controller fundamentally validates and grants. In the process of validation, controller communicates with other 'Aircraft' objects and interacts with 'common resources'
+Aircraft basically seeks permissions for various stages and controller fundamentally validates and grants. In the process of validation, controller communicates with other 'Aircraft' objects and interacts with 'common resources'
 
 Various operations/member functions across these classes could be as follows :
 

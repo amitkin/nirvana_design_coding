@@ -15,6 +15,6 @@ public class Base62Convertor {
     public static void main(String[] args) {
         Base62Convertor convertor = new Base62Convertor();
         //why it is not accomodating one more zero after changing the type to long
-        System.out.println(convertor.base62Encode(1000000000));
+        System.out.println(convertor.base62Encode(62));
     }
 }

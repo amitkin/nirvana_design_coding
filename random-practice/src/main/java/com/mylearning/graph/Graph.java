@@ -2,36 +2,40 @@ package com.mylearning.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
+/*
+Time Complexity of DFS / BFS to search all vertices = O(E + V)
+DFS will therefore use less memory O(log n) than BFS O(n).
+*/
 public class Graph {
 
     private int noOfVertices;
 
     // This keep the information of connected vertices,
-    // for example 0->1 means 1 is connected to 0 and in adjacency list of 0
-    private List<LinkedList<Integer>> adjacencyList;
+    private Map<Integer, Set<Integer>> adjacencyListMap = new HashMap<>();
 
     // If instead of Integer, Character/String is there then use HashMap<Character, List/Set>
 
     public Graph(int noOfVertices) {
         this.noOfVertices = noOfVertices;
-        adjacencyList = new ArrayList<>(noOfVertices);
         for (int i=0; i<noOfVertices; ++i) {
-            adjacencyList.add(new LinkedList<>());
+            adjacencyListMap.put(i, new HashSet<>());
         }
     }
 
     // Function to add an edge into the graph
     private void addEdge(int vertex, int destination)
     {
-        //get the adjacency list of vertex and add the edge
-        adjacencyList.get(vertex).add(destination);
+        //get the adjacency set of vertex and add the edge
+        adjacencyListMap.get(vertex).add(destination);
     }
 
     public List<Integer> bfs(int vertex) {
@@ -57,7 +61,7 @@ public class Graph {
             // Get all adjacent vertices of the dequeued vertex s
             // If a adjacent has not been visited, then mark it
             // visited and enqueue it
-            Iterator<Integer> i = adjacencyList.get(vertex).listIterator();
+            Iterator<Integer> i = adjacencyListMap.get(vertex).iterator();
             while (i.hasNext())
             {
                 int n = i.next();
@@ -89,7 +93,7 @@ public class Graph {
         vertices.add(vertex);
 
         // Recur for all the vertices adjacent to this vertex
-        Iterator<Integer> i = adjacencyList.get(vertex).listIterator();
+        Iterator<Integer> i = adjacencyListMap.get(vertex).iterator();
         while (i.hasNext())
         {
             int nextVertex = i.next();
@@ -100,7 +104,12 @@ public class Graph {
     }
 
     // Time Complexity: The above algorithm is simply DFS with an extra stack. So time complexity is same as DFS which is O(V+E).
+
     // Applications: Topological Sorting is mainly used for scheduling jobs from the given dependencies among jobs.
+    // Applications: In most academic programs there are prerequisite courses for taking a specific course. The prerequisite course(s)
+    // needs to be completed before taking the course. Topological sorting can give you the sequence in which different courses can
+    // be taken by students so that they can complete the pre-requisite courses before taking a course.
+
     // For example : determining the order of compilation tasks to perform in makefiles
     // Topological Sorting for a graph is not possible if the graph is not a Directed Acyclic Graph.
     void topologicalSortDFS()
@@ -129,7 +138,7 @@ public class Graph {
         visited[vertex] = true;
 
         // Recur for all the vertices adjacent to this vertex
-        for (Integer neighbor : adjacencyList.get(vertex)) {
+        for (Integer neighbor : adjacencyListMap.get(vertex)) {
             if (!visited[neighbor]) {
                 topologicalSortUtil(neighbor, visited, stack);
             }
@@ -155,7 +164,7 @@ public class Graph {
         //have to be directed to by one other vertex, vertices whose indegree == 0
         //would not be mapped.
         for (int vertex = 0; vertex < noOfVertices; vertex++) {
-            for (Integer neighbor : adjacencyList.get(vertex)) {
+            for (Integer neighbor : adjacencyListMap.get(vertex)) {
                 if (indegree.containsKey(neighbor)) {
                     indegree.put(neighbor, indegree.get(neighbor) + 1);
                 } else {
@@ -177,7 +186,7 @@ public class Graph {
         //as we delete the edge from the vertex to its neighbors.
         while (!queue.isEmpty()) {
             int vertex = queue.poll();
-            Iterator<Integer> neighbors = adjacencyList.get(vertex).iterator();
+            Iterator<Integer> neighbors = adjacencyListMap.get(vertex).iterator();
             while (neighbors.hasNext()) {
                 int neighbor = neighbors.next();
                 indegree.put(neighbor, indegree.get(neighbor) - 1);

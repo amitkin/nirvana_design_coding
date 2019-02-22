@@ -2,17 +2,30 @@ package com.mylearning;
 
 import static java.lang.Math.max;
 
+import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import java.util.Stack;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import com.mylearning.StockBuySell.Interval;
 
 public class Solution {
 
@@ -489,9 +502,124 @@ public class Solution {
         return nums.length + 1;
     }
 
+    void printNGE(int arr[], int n)
+    {
+        int next, i, j;
+        for (i = 0; i < n; i++)
+        {
+            next = -1;
+            for (j = i + 1; j < n; j++)
+            {
+                if (arr[i] < arr[j])
+                {
+                    next = arr[j];
+                    break;
+                }
+            }
+        }
+    }
+
+    //3,3,3,1,1
+    //1,2,3,4,5
+    //5,4,3,2,1
+    //3,4,5,6,1
+    public static void finalPrice(List<Integer> prices) {
+        // Write your code here
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < prices.size(); i++){
+            while (!stack.isEmpty() && prices.get(i) <= prices.get(stack.peek())) {
+                int prevPriceIndex = stack.pop();
+                int discount = prices.get(i);
+                map.put(prevPriceIndex, prices.get(prevPriceIndex) - discount);
+            }
+            stack.push(i);
+        }
+
+        List<String> nonDiscountIndexes = new ArrayList<>();
+        int totalCost = 0;
+        for (int i = 0; i < prices.size(); i++){
+            if(map.containsKey(i)){
+                totalCost += map.get(i);
+            } else{
+                totalCost += prices.get(i);
+                nonDiscountIndexes.add(i + "");
+            }
+        }
+
+        System.out.println(totalCost);
+        System.out.println(String.join(" ", nonDiscountIndexes));
+    }
+
+    public static int solve(List<Integer> A, List<Integer> B, List<Integer> C) {
+        int aLength = A.size();
+        int bLength = B.size();
+        int cLength = C.size();
+
+        int maxLength = aLength > bLength ? (aLength > cLength ? aLength : cLength) : (bLength > cLength ? bLength : cLength);
+
+        int i = 0, j = 0, k = 0;
+        int currentMax = 0;
+        int currentMin = 0;
+        int minDifference = Integer.MAX_VALUE;
+
+        while(i<maxLength){
+
+            if(A.get(i) < B.get(j) && A.get(i) < C.get(k)){
+                i++;
+                currentMin = A.get(i);
+                currentMax = B.get(j) < C.get(k) ? C.get(k) : B.get(j);
+            } else if(B.get(j) <= A.get(i) && B.get(j) < C.get(k)){
+                j++;
+                currentMin = B.get(j);
+                currentMax = A.get(i) < C.get(k) ? C.get(k) : A.get(i);
+            } else if(C.get(k) < A.get(i) && C.get(k) <= B.get(j)){
+                k++;
+                currentMin = C.get(k);
+                currentMax = A.get(i) < B.get(j) ? B.get(j) : A.get(i);
+            }
+
+            minDifference = Math.min(minDifference, Math.abs(currentMax - currentMin));
+
+        }
+
+        return minDifference;
+    }
+
+    public static void merge(ArrayList<Integer> a, ArrayList<Integer> b) {
+        int i = a.size() - 1;
+        int j = b.size() - 1;
+        int k = a.size() + b.size() - 1;
+
+        while(i>=0 && j>=0){
+            if(a.get(i) > b.get(j)) {
+                a.add(k, a.get(i));
+                i--;
+                k--;
+            } else {
+                a.add(k, b.get(j));
+                j--;
+                k--;
+            }
+        }
+
+        while(i>=0){
+            a.add(k, a.get(i));
+            i--;
+            k--;
+        }
+
+        while(j>=0){
+            a.add(k, b.get(j));
+            j--;
+            k--;
+        }
+    }
+
     public static void main(String[] args) {
 
-        int arr[] = { 1, 3, 1, 5, 4 };
+        /*int arr[] = { 1, 3, 1, 5, 4 };
         int k = 0;
         findPairs(arr, k);
 
@@ -520,7 +648,7 @@ public class Solution {
         //s.quickSort(arr, 0, arr.length-1);
         //s.reverse(arr, 0, 2);
         //s.rotate(arr, 3);
-        for (int i : arr) {
+        /*for (int i : arr) {
             System.out.print(i + " ");
         }
         System.out.println("");
@@ -538,6 +666,7 @@ public class Solution {
         ConsoleHandler handler = new ConsoleHandler();
         handler.setLevel(Level.FINER);
         logger.addHandler(handler);
-        logger.finer("ABC");
+        logger.finer("ABC");*/
     }
 }
+

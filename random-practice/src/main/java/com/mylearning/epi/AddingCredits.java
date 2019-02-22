@@ -134,7 +134,7 @@ public class AddingCredits {
               .withMismatchInfo(opIdx, iArg, result);
         }
         break;
-      case "insert":
+      case "add":
         cr.insert(sArg, iArg);
         break;
       case "add_all":

@@ -4,11 +4,11 @@ import java.util.Stack;
 
 /*
 Push(x) : Inserts x at the top of stack.
-- If stack is empty, insert x into the stack and make minElement equal to x.
+- If stack is empty, add x into the stack and make minElement equal to x.
 - If stack is not empty, compare x with minElement. Two cases arise:
-    - If x is greater than or equal to minElement, simply insert x.
-    - If x is less than minElement, insert (2*x – minElement) into the stack and make minElement equal to x.
-      For example, let previous minElement was 3. Now we want to insert 2. We update minElement as 2 and insert 2*2 – 3 = 1 into the stack.
+    - If x is greater than or equal to minElement, simply add x.
+    - If x is less than minElement, add (2*x – minElement) into the stack and make minElement equal to x.
+      For example, let previous minElement was 3. Now we want to add 2. We update minElement as 2 and add 2*2 – 3 = 1 into the stack.
 
 Pop() : Removes an element from top of stack.
 - Remove element from top. Let the removed element be y. Two cases arise:
