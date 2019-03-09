@@ -83,7 +83,7 @@ public class IsBST {
     }
 
     //Inorder approach
-    BinaryTreeNode prev = null;
+    /*BinaryTreeNode prev = null;
     public boolean isValidBST(BinaryTreeNode node) {
         if(node != null){
             if(!isValidBST(node.left)) {
@@ -93,9 +93,33 @@ public class IsBST {
                 return false;
             }
             prev = node;
-            return isValidBST(node.right);
+            if(!isValidBST(node.right)) {
+                return false;
+            }
         }
         return true;
+    }*/
+
+    //Without global
+    public boolean isValidBSTHelper(BinaryTreeNode root, BinaryTreeNode prev) {
+        if(root != null){
+            if(!isValidBSTHelper(root.left, prev)) {
+                return false;
+            }
+            if(prev != null && prev.data >= root.data) {
+                return false;
+            }
+            prev = root;
+            if(prev != null) {
+                prev.data = root.data; //Important
+            }
+            return isValidBSTHelper(root.right, prev);
+        }
+        return true;
+    }
+
+    public boolean isValidBST (BinaryTreeNode root){
+        return isValidBSTHelper(root, null);
     }
 
     public static void main(String args[]){
@@ -114,6 +138,12 @@ public class IsBST {
         System.out.println(isBST.isBST(bt.root));
         System.out.println(isBST.isBSTIterative(bt.root));
         System.out.println(isBST.isBinaryTreeBST(bt.root));
-        System.out.println(isBST.isValidBST(bt.root));
+
+        BinaryTreeNode root = new BinaryTreeNode(1);
+        //root.left = new BinaryTreeNode(1);
+        root.right = new BinaryTreeNode(1);
+        //root.right.left = new BinaryTreeNode(3);
+        //root.right.right = new BinaryTreeNode(6);
+        System.out.println(isBST.isValidBST(root));
     }
 }

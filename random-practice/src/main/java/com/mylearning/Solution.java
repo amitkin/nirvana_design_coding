@@ -2,30 +2,15 @@ package com.mylearning;
 
 import static java.lang.Math.max;
 
-import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
 import java.util.Stack;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import com.mylearning.StockBuySell.Interval;
 
 public class Solution {
 
@@ -667,11 +652,6 @@ public class Solution {
         handler.setLevel(Level.FINER);
         logger.addHandler(handler);
         logger.finer("ABC");*/
-        Day day = Day.valueOf("Monda");
-    }
-
-    public enum Day{
-        Sunday, Monday
     }
 }
 

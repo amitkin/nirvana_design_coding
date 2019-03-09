@@ -16,16 +16,16 @@ and all keys in right subtree must be greater.
 */
 public class BinarySearchTree {
 
-    public class BinaryTreeNode {
+    public static class BinaryTreeNode {
         public int data;
         public BinaryTreeNode left, right;
 
-        private BinaryTreeNode(int data) {
+        public BinaryTreeNode(int data) {
             this.data = data;
             left = right = null;
         }
 
-        private BinaryTreeNode(int data, BinaryTreeNode left, BinaryTreeNode right) {
+        public BinaryTreeNode(int data, BinaryTreeNode left, BinaryTreeNode right) {
             this.data = data;
             this.left = left;
             this.right = right;
