@@ -1,11 +1,11 @@
 Below are the Big O performance of common functions of different Java Collections.
 
 
-List                 | Add  | Remove | Get  | Contains | Next | Data Structure
----------------------|------|--------|------|----------|------|---------------
-ArrayList            | O(1) |  O(n)  | O(1) |   O(n)   | O(1) | Array
-LinkedList           | O(1) |  O(1)  | O(n) |   O(n)   | O(1) | Linked List
-CopyOnWriteArrayList | O(n) |  O(n)  | O(1) |   O(n)   | O(1) | Array
+List                 | Add  | Add(index) | Remove | Get  | Contains | Next | Data Structure
+---------------------|------|------------|--------|------|----------|------|---------------
+ArrayList            | O(1) |  O(n) | O(n)  | O(1) |   O(n)   | O(1) | Array
+LinkedList           | O(1) |  O(1) | O(1)  | O(n) |   O(n)   | O(1) | Linked List
+CopyOnWriteArrayList | O(n) |  O(n) | O(n)  | O(1) |   O(n)   | O(1) | Array
 
 
 
