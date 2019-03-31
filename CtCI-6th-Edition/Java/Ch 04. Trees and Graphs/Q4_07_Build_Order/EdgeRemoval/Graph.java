@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graph {
-	private ArrayList<Project> nodes = new ArrayList<Project>();
-	private HashMap<String, Project> map = new HashMap<String, Project>();
+	private ArrayList<Project> nodes = new ArrayList<>();
+	private HashMap<String, Project> map = new HashMap<>();
 	
 	public Project getOrCreateNode(String name) {
 		if (!map.containsKey(name)) {
