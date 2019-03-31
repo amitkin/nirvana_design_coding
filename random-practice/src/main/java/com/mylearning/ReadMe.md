@@ -1,4 +1,4 @@
-package com.mylearning;Below are the Big O performance of common functions of different Java Collections.
+Below are the Big O performance of common functions of different Java Collections.
 
 
 List                 | Add  | Remove | Get  | Contains | Next | Data Structure
