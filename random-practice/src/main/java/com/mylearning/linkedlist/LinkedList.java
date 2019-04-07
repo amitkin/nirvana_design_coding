@@ -2,7 +2,6 @@ package com.mylearning.linkedlist;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 
 public class LinkedList {
 
@@ -210,6 +209,33 @@ public class LinkedList {
         public ListNode(int d){
             data = d;
             next = null;
+        }
+    }
+
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (k <= 1 || head == null || head.next == null)
+            return head;
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        ListNode prev, start, then, tail;
+        tail = prev = dummyHead;
+        start = prev.next;
+        while (true) {
+            // check if there's k nodes left-out
+            for (int i = 0; i < k; i++) {
+                tail = tail.next;
+                if (tail == null)
+                    return dummyHead.next;
+            }
+            // reverse k nodes
+            for (int i = 0; i < k - 1; i++) {
+                then = start.next;
+                start.next = then.next;
+                then.next = prev.next;
+                prev.next = then;
+            }
+            tail = prev = start;
+            start = prev.next;
         }
     }
 
