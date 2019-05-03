@@ -1,129 +1,79 @@
 package com.mylearning.caching;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedHashSet;
 
 public class LFUCache {
 
-    private Map<Integer, Node> values = new HashMap<>();
-    private Map<Integer, Integer> counts = new HashMap<>();
-    private TreeMap<Integer, DoubleLinkedList> frequencies = new TreeMap<>();
-    private final int MAX_CAPACITY;
+    /*
+    Algorithm
+    1. the least recently+frequently used value to be removed is the first element in LinkedHashSet with the
+    lowest count/frequency.
+    2. min is used to track the group of elements with least frequency
+    3. lists maps frequency to groups, each element in same group has the same count.
+
+    */
+    private int min;
+
+    private final int capacity;
+    private final HashMap<Integer, Integer> keyToVal;
+    private final HashMap<Integer, Integer> keyToCount;
+    private final HashMap<Integer, LinkedHashSet<Integer>> countToLRUKeys;
 
     public LFUCache(int capacity) {
-        MAX_CAPACITY = capacity;
+        this.min = -1;
+        this.capacity = capacity;
+        this.keyToVal = new HashMap<>();
+        this.keyToCount = new HashMap<>();
+        this.countToLRUKeys = new HashMap<>();
     }
 
     public int get(int key) {
-        if (!values.containsKey(key)) {
-            return -1;
-        }
+        if (!keyToVal.containsKey(key)) return -1;
 
-        Node node = values.get(key);
+        int count = keyToCount.get(key);
+        countToLRUKeys.get(count).remove(key); // remove key from current count (since we will inc count)
+        if (count == min && countToLRUKeys.get(count).size() == 0) min++; // nothing in the current min bucket
 
-        // Move item from one frequency list to next. O(1) this time.
-        int frequency = counts.get(key);
-        frequencies.get(frequency).remove(node);
-        removeIfListEmpty(frequency);
-        frequencies.computeIfAbsent(frequency + 1, k -> new DoubleLinkedList()).add(node);
-
-        counts.put(key, frequency + 1);
-        return values.get(key).value;
+        putCount(key, count + 1);
+        return keyToVal.get(key);
     }
 
-    public void set(int key, int value) {
-        if (!values.containsKey(key)) {
+    public void put(int key, int value) {
+        if (capacity <= 0) return;
 
-            Node node = new Node(key, value);
-
-            if (values.size() == MAX_CAPACITY) {
-
-                int lowestCount = frequencies.firstKey();   // smallest frequency
-                Node nodeTodelete = frequencies.get(lowestCount).head(); // first item (LRU)
-                frequencies.get(lowestCount).remove(nodeTodelete);
-
-                int keyToDelete = nodeTodelete.key();
-                removeIfListEmpty(lowestCount);
-                values.remove(keyToDelete);
-                counts.remove(keyToDelete);
-            }
-
-            values.put(key, node);
-            counts.put(key, 1);
-            frequencies.computeIfAbsent(1, k -> new DoubleLinkedList()).add(node); // starting frequency = 1
+        if (keyToVal.containsKey(key)) {
+            keyToVal.put(key, value); // update key's value
+            get(key); // update key's count
+            return;
         }
+
+        if (keyToVal.size() >= capacity)
+            evict(countToLRUKeys.get(min).iterator().next()); // evict LRU from this min count bucket
+
+        min = 1;
+        putCount(key, min); // adding new key and count
+        keyToVal.put(key, value); // adding new key and value
     }
 
-    private void removeIfListEmpty(int frequency) {
-        if (frequencies.get(frequency).size() == 0) {
-            frequencies.remove(frequency);  // remove from map if list is empty
-        }
+    private void evict(int key) {
+        countToLRUKeys.get(min).remove(key);
+        keyToVal.remove(key);
     }
 
-    //Double Linked List
-    private class Node {
-        private int key;
-        private int value;
-        private Node next;
-        private Node prev;
-
-        public Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public int key() {
-            return key;
-        }
-
-        public int value() {
-            return value;
-        }
-    }
-
-    private class DoubleLinkedList {
-        private int n;
-        private Node head;
-        private Node tail;
-
-        public void add(Node node) {
-            if (head == null) {
-                head = node;
-            } else {
-                tail.next = node;
-                node.prev = tail;
-            }
-            tail = node;
-            n++;
-        }
-
-        public void remove(Node node) {
-
-            if (node.next == null) tail = node.prev;
-            else node.next.prev = node.prev;
-
-            if (head.key == node.key) head = node.next;
-            else node.prev.next = node.next;
-
-            n--;
-        }
-
-        public Node head() {
-            return head;
-        }
-
-        public int size() {
-            return n;
-        }
+    private void putCount(int key, int count) {
+        keyToCount.put(key, count);
+        countToLRUKeys.computeIfAbsent(count, ignore -> new LinkedHashSet<>());
+        countToLRUKeys.get(count).add(key);
     }
 
     public static void main(String[] args) {
-        LFUCache lfuCache = new LFUCache(5);
-        lfuCache.set(1, 10);
-        lfuCache.set(2, 15);
-        lfuCache.set(3, 20);
-        lfuCache.set(4, 25);
-        lfuCache.set(5, 30);
+        LFUCache lfuCache = new LFUCache(3);
+        lfuCache.put(1, 1);
+        lfuCache.put(2, 2);
+        lfuCache.put(3, 3);
+        System.out.println(lfuCache.get(1));
+        System.out.println(lfuCache.get(2));
+        System.out.println(lfuCache.get(2));
     }
 }

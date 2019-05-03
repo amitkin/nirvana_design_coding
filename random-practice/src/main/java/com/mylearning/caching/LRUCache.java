@@ -84,14 +84,14 @@ public class LRUCache {
     }
 
     public static void main(String[] args) {
-        LRUCache lruCache = new LRUCache(5);
-        lruCache.put(1, 10);
-        lruCache.put(2, 15);
-        lruCache.put(3, 20);
-        lruCache.put(4, 25);
-        lruCache.put(5, 30);
+        LRUCache lruCache = new LRUCache(2);
+        lruCache.put(2, 1);
+        lruCache.put(2, 2);
         lruCache.cache.values().forEach(System.out::println);
-        lruCache.put(6, 34);
+        System.out.println(lruCache.get(2));
+        lruCache.put(1, 1);
+        lruCache.put(4, 1);
         lruCache.cache.values().forEach(System.out::println);
+        System.out.println(lruCache.get(2));
     }
 }

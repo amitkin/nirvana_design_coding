@@ -177,7 +177,6 @@ public class Graph {
         for (int vertex = 0; vertex < noOfVertices; vertex++) {
             if (!indegree.containsKey(vertex)){
                 queue.offer(vertex);
-                result.add(vertex);
             }
         }
 
@@ -186,12 +185,12 @@ public class Graph {
         //as we delete the edge from the vertex to its neighbors.
         while (!queue.isEmpty()) {
             int vertex = queue.poll();
+            result.add(vertex);
             Iterator<Integer> neighbors = adjacencyListMap.get(vertex).iterator();
             while (neighbors.hasNext()) {
                 int neighbor = neighbors.next();
                 indegree.put(neighbor, indegree.get(neighbor) - 1);
                 if (indegree.get(neighbor) == 0){
-                    result.add(neighbor);
                     queue.offer(neighbor);
                 }
             }

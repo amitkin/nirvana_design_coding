@@ -3,6 +3,7 @@ package com.mylearning.epi;
 import com.mylearning.epi.test_framework.EpiTest;
 import com.mylearning.epi.test_framework.GenericTest;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class FindSalaryThreshold {
   }
 
   public static void main(String[] args) {
+    findSalaryCap(210, Arrays.asList(20, 30, 40, 90, 100)); //60
     System.exit(
         GenericTest
             .runFromAnnotations(args, "FindSalaryThreshold.java",

@@ -1,28 +1,38 @@
-package com.mylearning;
+package com.mylearning.sorting;
+
+import java.util.Random;
 
 public class QuickSort {
+
+    private Random random = new Random(0);
+
     public void sort(int s[], int lo, int hi){
-        if(lo >= hi)
+        if(lo > hi)
             return;
-        int partitionindex = partition(s, lo, hi);
+        // Generates a random integer in [lo, hi]
+        int pivotIdx = random.nextInt(hi - lo + 1) + lo;
+
+        int partitionindex = partitionAroundPivot(s, lo, hi, pivotIdx);
         sort(s,lo, partitionindex-1);
         sort(s,partitionindex+1,hi);
     }
 
-    private int partition(int s[], int lo, int hi){
-        int pivot, partitionindex,i;
-        pivot = hi;
-        partitionindex = lo;
+    private int partitionAroundPivot(int s[], int lo, int hi, int pivotIdx){
+        int pivotValue = s[pivotIdx];
+        int partitionindex = lo;
 
-        for(i=lo+1; i<hi; i++)
+        //swap pivot value i.e. pivotIdx with hi
+        swap(s, pivotIdx, hi);
+
+        for(int i=lo; i<hi; i++)
         {
-            if(s[i]<=s[pivot])
+            if(s[i] < pivotValue)
             {
                 swap(s, i, partitionindex);
                 partitionindex = partitionindex + 1;
             }
         }
-        swap(s, partitionindex, pivot); //swap with pivot
+        swap(s, partitionindex, hi); //swap hi i.e. pivot value with partitionindex
         return partitionindex;
     }
 

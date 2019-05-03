@@ -1,4 +1,4 @@
-package com.mylearning;
+package com.mylearning.sorting;
 
 public class HeapSort {
     private void sort(int arr[])

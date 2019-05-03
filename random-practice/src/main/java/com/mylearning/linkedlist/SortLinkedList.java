@@ -4,7 +4,38 @@ import com.mylearning.linkedlist.LinkedList.ListNode;
 
 public class SortLinkedList {
 
-    public ListNode sortList(ListNode head) {
+    /*
+    The time complexity is 0(n2), which corresponds to the case where the list is reverse sorted to begin with.
+    The space complexity is 0(1).
+    */
+    public ListNode insertionSort(ListNode head) {
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode current = head;
+
+        while (current != null && current.next != null) {
+            if (current.data > current.next.data) {
+                ListNode target = current.next, pre = dummyHead;
+                while (pre.next.data < target.data) {
+                    pre = pre.next;
+                }
+                ListNode temp = pre.next;
+                pre.next = target;
+                current.next = target.next;
+                target.next = temp;
+            } else {
+                current = current.next;
+            }
+        }
+        return dummyHead.next ;
+    }
+
+    /*
+    Mergesort applied to arrays is a stable 0(n log n) algorithm. However, it is not in-place, since there is no way to merge
+    two sorted halves of an array in-place in linear time. Unlike arrays, lists can be merged in-place—conceptually, this is because
+    insertion into the middle of a list is an 0(1) operation. The following program implements a mergesort on lists.
+    */
+    public ListNode mergeSort(ListNode head) {
         if (head == null || head.next == null)
             return head;
 
@@ -20,8 +51,8 @@ public class SortLinkedList {
         prev.next = null;
 
         // step 2. sort each half
-        ListNode l1 = sortList(head);
-        ListNode l2 = sortList(slow);
+        ListNode l1 = mergeSort(head);
+        ListNode l2 = mergeSort(slow);
 
         // step 3. merge l1 and l2
         return merge(l1, l2);
@@ -62,7 +93,10 @@ public class SortLinkedList {
 
         linkedList.display();
         SortLinkedList sortLinkedList = new SortLinkedList();
-        sortLinkedList.sortList(linkedList.root);
+        sortLinkedList.mergeSort(linkedList.root);
+        linkedList.display();
+
+        sortLinkedList.insertionSort(linkedList.root);
         linkedList.display();
     }
 }

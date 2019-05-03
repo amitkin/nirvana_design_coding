@@ -1,6 +1,7 @@
 package com.mylearning.tree;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -69,6 +70,45 @@ public class SerializeDeserialize {
         return root;
     }
 
+    public static  List<Integer> serializeF(BinaryTreeNode root){
+        List<Integer> result = new ArrayList<>();
+        preOrder(root, result);
+        return result;
+    }
+
+    private static void preOrder(BinaryTreeNode root, List<Integer> result) {
+        if(root == null){
+            result.add(-1);
+            return;
+        }
+        result.add(root.data);
+        preOrder(root.left, result);
+        preOrder(root.right, result);
+    }
+
+    public static BinaryTreeNode deSerializeF(List<Integer> list){
+        Iterator<Integer> iterator = list.iterator();
+        BinaryTreeNode root = deSerializeHelper(iterator);
+        return root;
+
+    }
+
+    private static BinaryTreeNode deSerializeHelper(Iterator<Integer> iterator) {
+        if(!iterator.hasNext()){
+            return null;
+        }
+
+        Integer next = iterator.next();
+        if(next == -1){
+            return  null;
+        }
+
+        BinaryTreeNode root = new BinaryTreeNode(next);
+        root.left = deSerializeHelper(iterator);
+        root.right = deSerializeHelper(iterator);
+        return  root;
+    }
+
     // Decodes your encoded data to tree.
     public BinaryTreeNode deserializeFromArray(List<Integer> data) {
         if (data.size() == 0) return null;
@@ -112,6 +152,14 @@ public class SerializeDeserialize {
         System.out.println("Original Tree : ");
         tree.inorder();
         System.out.println("\n");
+
+        List<Integer> savedTreeFList = SerializeDeserialize.serializeF(tree.root);
+        BinaryTreeNode deserializedFTree = SerializeDeserialize.deSerializeF(savedTreeFList);
+
+        ArrayList<Integer> deserializedFArrayTree = new ArrayList<>();
+        tree.inorderArray(deserializedFTree, deserializedFArrayTree);
+        System.out.println("DeserializedF Tree : " + deserializedFArrayTree.toString());
+
         SerializeDeserialize serializeDeserialize = new SerializeDeserialize();
 
         String savedTree = serializeDeserialize.serialize(tree.root);
