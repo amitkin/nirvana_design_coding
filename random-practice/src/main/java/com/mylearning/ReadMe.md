@@ -32,6 +32,7 @@ SynchronousQueue        | O(1)     | O(1) | O(1)     |  O(n)  | O(1) | None!
 DelayQueue              | O(log n) | O(1) | O(log n) |  O(n)  | O(1) | Priority Heap
 LinkedBlockingQueue     | O(1)     | O(1) | O(1)     |  O(n)  | O(1) | Linked List
 
+Here, PriorityQueue remove is remove(Object) which is linear but remove() is Olog(n).
 
 
 Map                   |   Get    | ContainsKey |   Next   | Data Structure
