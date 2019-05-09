@@ -487,16 +487,12 @@ public class Solution {
         return nums.length + 1;
     }
 
-    void printNGE(int arr[], int n)
-    {
+    void printNGE(int arr[], int n) {
         int next, i, j;
-        for (i = 0; i < n; i++)
-        {
+        for (i = 0; i < n; i++) {
             next = -1;
-            for (j = i + 1; j < n; j++)
-            {
-                if (arr[i] < arr[j])
-                {
+            for (j = i + 1; j < n; j++) {
+                if (arr[i] < arr[j]) {
                     next = arr[j];
                     break;
                 }
@@ -513,7 +509,7 @@ public class Solution {
         Map<Integer, Integer> map = new HashMap<>();
         Stack<Integer> stack = new Stack<>();
 
-        for (int i = 0; i < prices.size(); i++){
+        for (int i = 0; i < prices.size(); i++) {
             while (!stack.isEmpty() && prices.get(i) <= prices.get(stack.peek())) {
                 int prevPriceIndex = stack.pop();
                 int discount = prices.get(i);
@@ -524,10 +520,10 @@ public class Solution {
 
         List<String> nonDiscountIndexes = new ArrayList<>();
         int totalCost = 0;
-        for (int i = 0; i < prices.size(); i++){
-            if(map.containsKey(i)){
+        for (int i = 0; i < prices.size(); i++) {
+            if (map.containsKey(i)) {
                 totalCost += map.get(i);
-            } else{
+            } else {
                 totalCost += prices.get(i);
                 nonDiscountIndexes.add(i + "");
             }
@@ -542,24 +538,25 @@ public class Solution {
         int bLength = B.size();
         int cLength = C.size();
 
-        int maxLength = aLength > bLength ? (aLength > cLength ? aLength : cLength) : (bLength > cLength ? bLength : cLength);
+        int maxLength =
+                aLength > bLength ? (aLength > cLength ? aLength : cLength) : (bLength > cLength ? bLength : cLength);
 
         int i = 0, j = 0, k = 0;
         int currentMax = 0;
         int currentMin = 0;
         int minDifference = Integer.MAX_VALUE;
 
-        while(i<maxLength){
+        while (i < maxLength) {
 
-            if(A.get(i) < B.get(j) && A.get(i) < C.get(k)){
+            if (A.get(i) < B.get(j) && A.get(i) < C.get(k)) {
                 i++;
                 currentMin = A.get(i);
                 currentMax = B.get(j) < C.get(k) ? C.get(k) : B.get(j);
-            } else if(B.get(j) <= A.get(i) && B.get(j) < C.get(k)){
+            } else if (B.get(j) <= A.get(i) && B.get(j) < C.get(k)) {
                 j++;
                 currentMin = B.get(j);
                 currentMax = A.get(i) < C.get(k) ? C.get(k) : A.get(i);
-            } else if(C.get(k) < A.get(i) && C.get(k) <= B.get(j)){
+            } else if (C.get(k) < A.get(i) && C.get(k) <= B.get(j)) {
                 k++;
                 currentMin = C.get(k);
                 currentMax = A.get(i) < B.get(j) ? B.get(j) : A.get(i);
@@ -577,8 +574,8 @@ public class Solution {
         int j = b.size() - 1;
         int k = a.size() + b.size() - 1;
 
-        while(i>=0 && j>=0){
-            if(a.get(i) > b.get(j)) {
+        while (i >= 0 && j >= 0) {
+            if (a.get(i) > b.get(j)) {
                 a.add(k, a.get(i));
                 i--;
                 k--;
@@ -589,21 +586,74 @@ public class Solution {
             }
         }
 
-        while(i>=0){
+        while (i >= 0) {
             a.add(k, a.get(i));
             i--;
             k--;
         }
 
-        while(j>=0){
+        while (j >= 0) {
             a.add(k, b.get(j));
             j--;
             k--;
         }
     }
 
-    public static void main(String[] args) {
+    class UF {
+        int[] id;
+        public UF(int N) {
+            id = new int[N];
+            for (int i = 0; i < N; i++) {
+                id[i] = i;
+            }
+        }
+        //Find the representative recursively and does path compression as well
+        public int root(int i) {
+            while (i != id[i]) {
+                id[i] = id[id[i]];
+                i = id[i];
+            }
+            return i;
+        }
+        public boolean isConnected(int p, int q) {
+            return root(p)==root(q);
+        }
+        public void union(int p, int q) {
+            //if they are part of same set do nothing
+            if (isConnected(p, q)) return;
+            //else one of them's parent(q's parent) becomes parent of other(p's parent)
+            id[root(p)] = root(q);
+        }
+    }
 
+    public int swimInWater(int[][] grid) {
+        int N = grid.length;
+        UF uf = new UF(N*N);
+        int time = 0;
+        while(!uf.isConnected(0, N*N-1)) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (grid[i][j] > time) continue;
+                    /*
+                    At first i*N+j is a really common way to transform 2D matrix into 1D array.
+                    Then, if (i < N-1 && grid[i+1][j]<=time) uf.union(iN+j, iN+j+N) is move to the next row,
+                    for example, you are currently at grid[1][2] and you're moving to grid[2][2];
+                    and for if (j < N-1 && grid[i][j+1]<=time) uf.union(iN+j, iN+j+1) is move to the next column,
+                    for example, grid[1][2] to grid[1][3]
+                    */
+                    if (i < N-1 && grid[i+1][j]<=time) uf.union(i*N+j, i*N+j+N);
+                    if (j < N-1 && grid[i][j+1]<=time) uf.union(i*N+j, i*N+j+1);
+                }
+            }
+            time++;
+        }
+        return time - 1;
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        int[][] grid = {{0,2},{1,3}};
+        s.swimInWater(grid);
         /*int arr[] = { 1, 3, 1, 5, 4 };
         int k = 0;
         findPairs(arr, k);

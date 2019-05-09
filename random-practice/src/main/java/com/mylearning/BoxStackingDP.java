@@ -1,7 +1,6 @@
 package com.mylearning;
 
-/* Dynamic Programming implementation
-of Box Stacking problem in Java*/
+/* Dynamic Programming implementation of Box Stacking problem in Java*/
 import java.util.*;
 
 public class BoxStackingDP {

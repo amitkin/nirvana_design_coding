@@ -35,9 +35,9 @@ public class MyLinkedList {
     /** Add a node of value val before the first element of the linked list. After the insertion, the new
      node will be the first node of the linked list. */
     public void addAtHead(int val) {
-        Node prev = head;
-        head = new Node(val);
-        head.next = prev;
+        Node temp = new Node(val);
+        temp.next = head;
+        head = temp;
         size++;
     }
 
@@ -98,9 +98,10 @@ public class MyLinkedList {
         MyLinkedList linkedList = new MyLinkedList();
         linkedList.addAtIndex(-1,0);
         linkedList.get(0);
-        //linkedList.addAtHead(1);
-        //linkedList.addAtTail(val);
-        //linkedList.addAtIndex(index,val);
+        linkedList.addAtHead(2);
+        linkedList.addAtHead(1);
+        linkedList.addAtTail(4);
+        linkedList.addAtIndex(2,3);
         linkedList.deleteAtIndex(-1);
     }
 }

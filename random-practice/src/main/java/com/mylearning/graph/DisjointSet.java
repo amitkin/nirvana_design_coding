@@ -79,6 +79,7 @@ public class DisjointSet {
      * compression as well.
      */
     private Node findSet(Node node) {
+        System.out.println("node : " + node.data + " parent : " + node.parent.data);
         Node parent = node.parent;
         if (parent == node) {
             return parent;

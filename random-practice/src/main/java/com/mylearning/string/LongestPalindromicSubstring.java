@@ -81,7 +81,7 @@ public class LongestPalindromicSubstring {
     }
 
     public static void main(String[] args) {
-        String str = ")()())";
+        String str = "(()))(())";
         System.out.println("Length of longest valid parenthesis : " + longestValidParentheses(str));
         System.out.println("Longest palindrome is : " + longestPalindrome(str));
     }

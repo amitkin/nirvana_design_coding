@@ -1,4 +1,4 @@
-package com.mylearning.stackqueue;
+package com.mylearning.design;
 
 import java.util.Stack;
 
