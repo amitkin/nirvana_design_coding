@@ -1,4 +1,4 @@
-package com.mylearning.graph;
+package com.mylearning.graph.unionfind;
 
 import java.util.HashMap;
 import java.util.Map;
