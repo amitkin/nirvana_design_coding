@@ -44,7 +44,12 @@ public class Main {
 
     static CommandDefinition getCommand(String command){
         String[] tokens = command.split(" ");
-        CommandDefinition commandDefinition = new CommandDefinition(Command.valueOf(tokens[0]), tokens[1]);
+        CommandDefinition commandDefinition;
+        if(tokens.length == 1) {
+            commandDefinition = new CommandDefinition(Command.valueOf(tokens[0]));
+        } else {
+            commandDefinition = new CommandDefinition(Command.valueOf(tokens[0]), tokens[1]);
+        }
         return commandDefinition;
     }
 }

@@ -58,7 +58,7 @@ public class BinarySearchTree {
         return root;
     }
 
-    //From EPI
+    //From EPI, see below for more simpler implementation
     public boolean delete(Integer key) {
         // Find the node with key.
         BinaryTreeNode curr = root, parent = null;
@@ -102,6 +102,44 @@ public class BinarySearchTree {
             }
         }
         return true ;
+    }
+
+    /*
+    1. Recursively find the node that has the same value as the key, while setting the left/right nodes equal to the returned subtree
+    2. Once the node is found, have to handle the below 4 cases:
+        2a. node doesn't have left or right - return null
+        2b. node only has left subtree- return the left subtree
+        2c. node only has right subtree- return the right subtree
+        2d. node has both left and right - find the minimum value in the right subtree, set that value to the currently
+        found node, then recursively delete the minimum value in the right subtree
+    */
+    public BinaryTreeNode delete(BinaryTreeNode root, int key) {
+        if(root == null){
+            return null;
+        }
+        if(key < root.data){
+            root.left = delete(root.left, key);
+        }else if(key > root.data){
+            root.right = delete(root.right, key);
+        }else{
+            if(root.left == null){
+                return root.right;
+            }else if(root.right == null){
+                return root.left;
+            }
+
+            BinaryTreeNode minNode = findMin(root.right);
+            root.data = minNode.data;
+            root.right = delete(root.right, root.data);
+        }
+        return root;
+    }
+
+    private BinaryTreeNode findMin(BinaryTreeNode node){
+        while(node.left != null){
+            node = node.left;
+        }
+        return node;
     }
 
     public void inorder(){

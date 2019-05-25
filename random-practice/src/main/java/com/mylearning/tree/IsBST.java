@@ -4,6 +4,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.mylearning.epi.tree.BinaryTree;
 import com.mylearning.tree.BinarySearchTree.BinaryTreeNode;
 
 public class IsBST {
@@ -100,39 +101,67 @@ public class IsBST {
         return true;
     }*/
 
-    //Without global
-    public boolean isValidBSTHelper(BinaryTreeNode root, BinaryTreeNode prev) {
-        if(root != null){
-            if(!isValidBSTHelper(root.left, prev)) {
-                return false;
-            }
-            if(prev != null && prev.data >= root.data) {
-                return false;
-            }
-            prev = root;
-            if(prev != null) {
-                prev.data = root.data; //Important
-            }
-            return isValidBSTHelper(root.right, prev);
-        }
-        return true;
-    }
+
 
     public boolean isValidBST (BinaryTreeNode root){
-        return isValidBSTHelper(root, null);
+        //return isValidBSTHelper(root, null);
+
+        ResultType r = isValidBSTHelper(root);
+        return r.is_bst;
+    }
+
+    class ResultType {
+        boolean is_bst;
+        int maxValue, minValue;
+
+        ResultType(boolean is_bst, int maxValue, int minValue) {
+            this.is_bst = is_bst;
+            this.maxValue = maxValue;
+            this.minValue = minValue;
+        }
+    }
+
+    //Bottom-up approach, very tough
+    private ResultType isValidBSTHelper(BinaryTreeNode root) {
+        if (root == null) {
+            //Important to note this - reverse order
+            return new ResultType(true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+
+        ResultType left = isValidBSTHelper(root.left);
+        ResultType right = isValidBSTHelper(root.right);
+
+        //Important to note below two if conditions
+        if (!left.is_bst || !right.is_bst) {
+            // if is_bst is false then minValue and maxValue are useless
+            return new ResultType(false, 0, 0);
+        }
+
+        if (root.left != null && left.maxValue >= root.data ||
+                root.right != null && right.minValue <= root.data) {
+            return new ResultType(false, 0, 0);
+        }
+
+        return new ResultType(true, Math.max(root.data, right.maxValue), Math.min(root.data, left.minValue));
     }
 
     public static void main(String args[]){
         BinarySearchTree bt = new BinarySearchTree();
-        bt.add(10);
+        /*bt.add(10);
         bt.add(15);
         bt.add(-10);
         bt.add(17);
         bt.add(20);
-        bt.add(0);
-        /*bt.add(2);
+        bt.add(0);*/
+        bt.add(2);
         bt.add(1);
-        bt.add(3);*/
+        bt.add(3);
+        /*bt.root = new BinaryTreeNode(5);
+        bt.root.left = new BinaryTreeNode(1);
+        bt.root.right = new BinaryTreeNode(4);
+        bt.root.right.left = new BinaryTreeNode(3);
+        bt.root.right.right = new BinaryTreeNode(6);*/
+        bt.inorder();
 
         IsBST isBST = new IsBST();
         System.out.println(isBST.isBST(bt.root));
@@ -144,6 +173,6 @@ public class IsBST {
         root.right = new BinaryTreeNode(1);
         //root.right.left = new BinaryTreeNode(3);
         //root.right.right = new BinaryTreeNode(6);
-        System.out.println(isBST.isValidBST(root));
+        System.out.println(isBST.isValidBST(bt.root));
     }
 }

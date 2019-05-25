@@ -6,11 +6,13 @@ import com.mylearning.epi.test_framework.GenericTest;
 import com.mylearning.epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MaxTeamsInPhotograph {
 
-  public static class GraphVertex {
+  /*public static class GraphVertex {
     public List<GraphVertex> edges = new ArrayList<>();
     // Set maxDistance = 0 to indicate unvisited vertex.
     public int maxDistance = 0;
@@ -35,6 +37,51 @@ public class MaxTeamsInPhotograph {
           (vertex.maxDistance != 0 ? vertex.maxDistance : dfs(vertex)) + 1);
     }
     return curr.maxDistance;
+  }*/
+
+  public static class GraphVertex {
+    public List<GraphVertex> edges = new ArrayList <>();
+    public int maxDistance = 1;
+    public boolean visited = false;
+  }
+
+  public static int findLargestNumberTeams(List<GraphVertex> G){
+    Deque<GraphVertex> orderedVertices = buildTopologicalOrdering(G);
+    return findLongestPath(orderedVertices);
+  }
+
+  private static Deque<GraphVertex> buildTopologicalOrdering(
+          List<GraphVertex > G) {
+    Deque<GraphVertex> orderedVertices = new LinkedList<>();
+    for (GraphVertex g : G){
+      if(!g .visited) {
+        DFS(g, orderedVertices);
+      }
+    }
+    return orderedVertices;
+  }
+
+  private static int findLongestPath(Deque <GraphVertex> orderedVertices) {
+    int maxDistance = 0;
+    while (!orderedVertices.isEmpty()){
+      GraphVertex u = orderedVertices.peekFirst();
+      maxDistance = Math.max(maxDistance , u.maxDistance);
+      for (GraphVertex v : u.edges) {
+        v.maxDistance = Math.max(v.maxDistance , u.maxDistance + 1);
+      }
+      orderedVertices.removeFirst();
+    }
+    return maxDistance;
+  }
+
+  private static void DFS(GraphVertex cur, Deque<GraphVertex> orderedVertices) {
+    cur.visited = true;
+    for (GraphVertex next : cur.edges) {
+      if (!next.visited) {
+        DFS(next, orderedVertices);
+      }
+    }
+    orderedVertices.addFirst(cur);
   }
 
   @EpiUserType(ctorParams = {int.class, int.class})

@@ -1,6 +1,7 @@
 package com.mylearning.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,11 +32,19 @@ public class Graph {
         }
     }
 
+    public int getNoOfVertices() {
+        return noOfVertices;
+    }
+
     // Function to add an edge into the graph
-    private void addEdge(int vertex, int destination)
+    public void addEdge(int vertex, int destination)
     {
         //get the adjacency set of vertex and add the edge
-        adjacencyListMap.get(vertex).add(destination);
+        adjacencyListMap.getOrDefault(vertex, new HashSet<>()).add(destination);
+    }
+
+    public Set<Integer> getNeighbours(int vertex) {
+        return adjacencyListMap.getOrDefault(vertex, Collections.emptySet());
     }
 
     public List<Integer> bfs(int vertex) {

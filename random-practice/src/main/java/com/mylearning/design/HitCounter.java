@@ -4,6 +4,14 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.Lock;
 
 //Changing two arrays - hits, times to AtomicIntegerArray does not make it thread safe.
+
+//How to design counter not just in last x time but till now, see below comments
+//Our goal is to remove write contention so we want to parallelize writes.
+//In real scenarios where timestamps are not unique, especially with a lot of users. Keep appending stuff until it becomes unique.
+//For example - time stamp + user ID + user comment ID
+//Reads are cheap so we replace having a single easily read counter with having to make multiple reads to recover the actual count.
+//Read Sharded Counters - http://highscalability.com/numbers-everyone-should-know
+
 class HitCounter {
     private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     private final Lock r = rwl.readLock();

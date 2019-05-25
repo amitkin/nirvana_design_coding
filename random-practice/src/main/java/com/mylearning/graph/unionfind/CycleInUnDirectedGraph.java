@@ -1,6 +1,6 @@
 package com.mylearning.graph.unionfind;
 
-class CycleDetectUnionFind {
+class CycleInUnDirectedGraph {
     int V, E; // V-> no. of vertices & E->no.of edges
     Edge edge[]; // /collection of all edges
 
@@ -10,7 +10,7 @@ class CycleDetectUnionFind {
     }
 
     // Creates a graph with V vertices and E edges
-    CycleDetectUnionFind(int v,int e)
+    CycleInUnDirectedGraph(int v,int e)
     {
         V = v;
         E = e;
@@ -45,29 +45,29 @@ class CycleDetectUnionFind {
 
     // The main function to check whether a given graph
     // contains cycle or not
-    int isCycle(CycleDetectUnionFind graph)
+    boolean hasCycle()
     {
         // Allocate memory for creating V subsets
-        int parent[] = new int[graph.V];
+        int parent[] = new int[V];
 
         // Initialize all subsets as single element sets with itself
-        for (int i=0; i<graph.V; ++i)
+        for (int i=0; i<V; ++i)
             parent[i]=i;
 
         // Iterate through all edges of graph, find subset of both
         // vertices of every edge, if both subsets are same, then
         // there is cycle in graph.
-        for (int i = 0; i < graph.E; ++i)
+        for (int i = 0; i < E; ++i)
         {
-            int x = graph.find(parent, graph.edge[i].src);
-            int y = graph.find(parent, graph.edge[i].dest);
+            int x = find(parent, edge[i].src);
+            int y = find(parent, edge[i].dest);
 
             if (x == y)
-                return 1;
+                return true;
 
-            graph.union(parent, x, y);
+            union(parent, x, y);
         }
-        return 0;
+        return false;
     }
 
     // Driver Method
@@ -79,7 +79,7 @@ class CycleDetectUnionFind {
 		|  \
 		1---2 */
         int V = 3, E = 3;
-        CycleDetectUnionFind graph = new CycleDetectUnionFind(V, E);
+        CycleInUnDirectedGraph graph = new CycleInUnDirectedGraph(V, E);
 
         // add edge 0-1
         graph.edge[0].src = 0;
@@ -93,7 +93,7 @@ class CycleDetectUnionFind {
         graph.edge[2].src = 0;
         graph.edge[2].dest = 2;
 
-        if (graph.isCycle(graph)==1)
+        if (graph.hasCycle())
             System.out.println( "graph contains cycle" );
         else
             System.out.println( "graph doesn't contain cycle" );
