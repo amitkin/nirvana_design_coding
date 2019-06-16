@@ -75,3 +75,4 @@ As all coffee lovers will agree, there are huge differences between filter coffe
     
 In the next step, you need to refactor both coffee machine classes so that they implement one or both of these interfaces.
 
+The only code that directly depends on one of the implementation classes is the CoffeeAppStarter class, which instantiates a CoffeeApp object and provides an implementation of the CoffeeMachine interface. You could avoid this compile-time dependency entirely by using a dependency injection framework, like Spring or CDI, to resolve the dependency at runtime.
