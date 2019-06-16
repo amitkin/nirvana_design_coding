@@ -5,15 +5,18 @@ import java.util.Collections;
 import java.util.NoSuchElementException;
 
 //A brute-force approach is to use an array, with the head always at index 0.
-//An additional variable tracks the index of the tail element. Enqueue has0(1) time complexity.
+//An additional variable tracks the index of the tail element. Enqueue has 0(1) time complexity.
 //However dequeue's time complexity is 0(n), where n is the number of elements in the queue,
 //since every element has to be left-shifted to fill up the space created at index 0.
 
-//A better approach is to keep one more variable to track the head
+//A better approach is to keep one more variable to track the head. This way, dequeue can also be performed in O(1) time.
+//When performing an enqueue into a full array, we need to resize the array.
+
 public class CircularQueueDynamicSizing {
+
     private int head = 0, tail = 0, numQueueElements = 0;
-    private static final int SCALE_FACTOR = 2 ;
-    private Integer [] entries;
+    private static final int SCALE_FACTOR = 2;
+    private Integer[] entries;
 
     public CircularQueueDynamicSizing(int capacity) {
         entries = new Integer[capacity];

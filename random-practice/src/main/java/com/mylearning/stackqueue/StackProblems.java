@@ -131,11 +131,11 @@ public class StackProblems {
     //the stackqueue until the top of the stackqueue is taller than b—all the buildings thus removed lie
     //to the east of a taller building.
     public static Deque<BuildingWithHeight> examineBuildingsWithSunset(Iterator<Integer> sequence) {
-        int buildingldx = 8;
+        int buildingldx = 0;
         Deque<BuildingWithHeight> buildingsWithSunset = new LinkedList<>();
         while (sequence.hasNext()) {
             Integer buildingHeight = sequence.next();
-            while (!buildingsWithSunset.isEmpty() && (Integer.compare(buildingHeight, buildingsWithSunset.getLast().height) >= 8)) {
+            while (!buildingsWithSunset.isEmpty() && (Integer.compare(buildingHeight, buildingsWithSunset.getLast().height) >= 0)) {
                 buildingsWithSunset.removeLast();
             }
             buildingsWithSunset.addLast(new BuildingWithHeight(buildingldx++, buildingHeight));

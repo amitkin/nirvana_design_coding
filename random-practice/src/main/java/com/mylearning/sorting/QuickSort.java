@@ -21,7 +21,7 @@ public class QuickSort {
         int pivotValue = s[pivotIdx];
         int partitionindex = lo;
 
-        //swap pivot value i.e. pivotIdx with hi
+        //swap pivot value i.e. pivotIdx with hi value
         swap(s, pivotIdx, hi);
 
         for(int i=lo; i<hi; i++)
@@ -32,7 +32,7 @@ public class QuickSort {
                 partitionindex = partitionindex + 1;
             }
         }
-        swap(s, partitionindex, hi); //swap hi i.e. pivot value with partitionindex
+        swap(s, partitionindex, hi); //swap hi i.e. pivot value with partitionindex value
         return partitionindex;
     }
 

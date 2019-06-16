@@ -7,9 +7,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
 //DFS and BFS in Java 8 style
 public class StreamBinarySearchTree {
 
@@ -18,7 +15,7 @@ public class StreamBinarySearchTree {
         private Node right;
         private String label;
 
-        public Node(@NotNull String label, @Nullable Node left, @Nullable Node right) {
+        public Node(String label, Node left, Node right) {
             this.left = left;
             this.right = right;
             this.label = label;

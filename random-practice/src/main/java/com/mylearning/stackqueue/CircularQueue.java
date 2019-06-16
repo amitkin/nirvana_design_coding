@@ -1,92 +1,76 @@
 package com.mylearning.stackqueue;
 
-import java.io.*;
-
 class CircularQueue
 {
-    private int cQueue[];
-    private int front;
-    private int rear;
-    private int count;
-    private CircularQueue(int count)
-    {
-        cQueue = new int[count];
-        front = rear = this.count = 0;
+    final int[] a;
+    int front, rear = -1, len = 0;
+
+    private CircularQueue(int k) {
+        a = new int[k];
     }
 
-    private void enqueue(int element) {
-        if(count == cQueue.length)
-            System.out.println("CircularQueueDynamicSizing is full.");
-        else{
-            cQueue[rear] = element;
-            rear = (rear + 1)%cQueue.length;
-            count = count + 1;
+    private void enQueue(int element) {
+        if (!isFull()) {
+            rear = (rear + 1) % a.length;
+            a[rear] = element;
+            len++;
+        } else {
+            System.out.println("CircularQueue is full.");
         }
     }
 
-    private int dequeue() {
-        if(count == 0) {
-            System.out.println("CircularQueueDynamicSizing is empty.");
+    private int deQueue() {
+        if (!isEmpty()) {
+            int deleted = a[front];        // Delete the front element
+            front = (front + 1) % a.length;
+            len--;
+            return deleted;
+        } else {
+            System.out.println("CircularQueue is empty.");
             return -1;
         }
-        else {
-            int deleted = cQueue[front];        // Delete the front element
-            cQueue[front] = 0;
-            front = (front + 1)%cQueue.length;
-            count = count - 1;
-            return deleted;
-        }
+    }
+
+    public int Front() {
+        return isEmpty() ? -1 : a[front];
+    }
+
+    public int Rear() {
+        return isEmpty() ? -1 : a[rear];
+    }
+
+    public boolean isEmpty() {
+        return len == 0;
+    }
+
+    public boolean isFull() {
+        return len == a.length;
     }
 
     private void display() {
         int curr = front;
-        int noOfElements = count;
-        System.out.print("CircularQueueDynamicSizing state: ");
-        if (count == 0) { System.out.print("[empty]"); }
+        int noOfElements = len;
+        System.out.print("CircularQueue state: ");
+        if (len == 0) { System.out.print("[empty]"); }
         else while (noOfElements > 0) {
-            System.out.print(cQueue[curr] + " ");
-            curr = (curr + 1) % cQueue.length;
+            System.out.print(a[curr] + " ");
+            curr = (curr + 1) % a.length;
             noOfElements--;
         }
         System.out.println();
     }
 
-    public static void main(String args[]) throws IOException
-    {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter the count of the queue : ");
-        int size = Integer.parseInt(br.readLine());
-        CircularQueue call = new CircularQueue(size);
-        int choice;
-        boolean exit = false;
-        while(!exit)
-        {
-            System.out.print("\n1 : Add\n2 : Delete\n3 : Display\n4 : Exit\n\nYour Choice : ");
-            choice = Integer.parseInt(br.readLine());
-            switch(choice)
-            {
-            case 1 :
-                System.out.print("\nEnter number to be added : ");
-                int num = Integer.parseInt(br.readLine());
-                call.enqueue(num);
-                break;
-            case 2 :
-                int popped = call.dequeue();
-                if(popped != -9999)
-                    System.out.println("\nDeleted : " +popped);
-                else
-                    System.out.println("\nCircularQueueDynamicSizing is empty !");
-                break;
-            case 3 :
-                call.display();
-                break;
-            case 4 :
-                exit = true;
-                break;
-            default :
-                System.out.println("\nWrong Choice !");
-                break;
-            }
-        }
+    public static void main(String[] args) {
+        CircularQueue circularQueue = new CircularQueue(3);
+        circularQueue.enQueue(1);  // return true
+        circularQueue.enQueue(2);  // return true
+        circularQueue.enQueue(3);  // return true
+        circularQueue.enQueue(4);  // return false, the queue is full
+        circularQueue.Rear();  // return 3
+        circularQueue.isFull();  // return true
+        circularQueue.deQueue();  // return true
+        circularQueue.enQueue(4);  // return true
+        circularQueue.Rear();  // return 4
+        circularQueue.display();
     }
 }

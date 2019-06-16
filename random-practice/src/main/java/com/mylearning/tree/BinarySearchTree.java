@@ -9,6 +9,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 /*
 In a Binary Search Tree (BST), all keys in left subtree of a key must be smaller
@@ -369,6 +370,39 @@ public class BinarySearchTree {
                     queue.add(tempNode.right);
                 }
             }
+        }
+    }
+
+    //Using Stack + Queue
+    public void levelOrderTraversalReverse(){
+        if(root == null) return;
+        Stack<BinaryTreeNode> stack = new Stack<>();
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+
+        queue.add(root);
+        while (!queue.isEmpty())
+        {
+            /* poll() - Removes and returns the head of the queue. Returns null if queue is empty.
+            remove()-Removes and returns the head of the queue. Throws NoSuchElementException when queue is impty.
+            */
+            BinaryTreeNode tempNode = queue.poll();
+            System.out.print(tempNode.data + " ");
+
+            /*Enqueue right child */
+            if (tempNode.right != null) {
+                queue.add(tempNode.right);
+            }
+
+            /*Enqueue left child */
+            if (tempNode.left != null) {
+                queue.add(tempNode.left);
+            }
+
+            stack.push(tempNode);
+        }
+
+        while(!stack.isEmpty()) {
+            System.out.println(stack.pop().data);
         }
     }
 

@@ -67,14 +67,7 @@ public class LinkedList {
     }
 
     public void display(){
-        ListNode temp = root;
-        while(temp != null){
-            System.out.print(temp.data);
-            temp = temp.next;
-            if(temp != null)
-                System.out.print("->");
-        }
-        System.out.print("\n");
+        display(root);
     }
 
     public void display(ListNode node){
@@ -118,35 +111,10 @@ public class LinkedList {
     }
 
     public ListNode reverseK(ListNode head, int k) {
-        int n = 0;
-        for (ListNode i = head; i != null; n++, i = i.next);
-
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
-        ListNode prev = dummy;
-        ListNode tail = head;
-
-        while(n >= k) {
-            for (int i = 1; i < k; i++) {
-                //Changing pointers as below in one iteration - one link reversed
-                //2->1->3, head=2, tail=1, next=3
-                //so this needs to be done k-1 times
-                ListNode next = tail.next.next;
-                tail.next.next = prev.next;
-                prev.next = tail.next;
-                tail.next = next;
-            }
-
-            //Moving prev to end of first chunk reversed
-            //and tail to the beginning of second chunk
-            prev = tail;
-            tail = tail.next;
-            n -= k;
-        }
-        return dummy.next;
+        ReverseKGroup reverseKGroup = new ReverseKGroup();
+        return reverseKGroup.reverseKGroup(head, k);
     }
 
-    //https://leetcode.com/problems/intersection-of-two-linked-lists/description/
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         //boundary check
         if(headA == null || headB == null)
