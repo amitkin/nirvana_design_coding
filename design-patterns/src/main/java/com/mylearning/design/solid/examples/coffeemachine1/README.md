@@ -40,7 +40,7 @@ After you segregated the interfaces so that you can evolve the two coffee machin
 
 4. The new coffee machine provides new functionality, but you can also use it to brew a filter coffee or an espresso. In that case, you should define a new interface for the new functionality. Your implementation class can then implement this new interface and one or more of the existing interfaces. But please make sure to segregate the new interface from the existing ones, as you did for the FilterCoffeeMachine and the EspressoCoffeeMachine interfaces.
 
-##Definition of the Dependency Inversion Principle
+## Definition of the Dependency Inversion Principle
 
 The general idea of this principle is as simple as it is important: High-level modules, which provide complex logic, should be easily reusable and unaffected by changes in low-level modules, which provide utility features. To achieve that, you need to introduce an abstraction that decouples the high-level and low-level modules from each other.
 
