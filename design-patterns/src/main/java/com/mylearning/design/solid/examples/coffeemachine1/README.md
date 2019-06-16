@@ -63,10 +63,6 @@ To implement a class that follows the Dependency Inversion Principle and can use
 
 As all coffee lovers will agree, there are huge differences between filter coffee and espresso. That’s why we are using different machines to brew them, even so, some machines can do both. I, therefore, suggest to create two independent abstractions:
 
-1. The FilterCoffeeMachine interface defines the Coffee brewFilterCoffee() method and gets implemented by all coffee machine classes that can brew a filter coffee.
-2. All classes that you can use to brew an espresso, implement the EspressoMachine interface, which defines the Coffee brewEspresso() method.
-    
-    
     public interface CoffeeMachine {
         Coffee brewFilterCoffee();
     }
@@ -74,5 +70,7 @@ As all coffee lovers will agree, there are huge differences between filter coffe
     public interface EspressoMachine {
         Coffee brewEspresso();
     }
+1. The FilterCoffeeMachine interface defines the Coffee brewFilterCoffee() method and gets implemented by all coffee machine classes that can brew a filter coffee.
+2. All classes that you can use to brew an espresso, implement the EspressoMachine interface, which defines the Coffee brewEspresso() method.
     
 In the next step, you need to refactor both coffee machine classes so that they implement one or both of these interfaces.
