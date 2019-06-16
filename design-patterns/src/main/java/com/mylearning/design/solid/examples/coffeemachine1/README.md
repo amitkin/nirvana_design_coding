@@ -74,3 +74,4 @@ As all coffee lovers will agree, there are huge differences between filter coffe
 2. All classes that you can use to brew an espresso, implement the EspressoMachine interface, which defines the Coffee brewEspresso() method.
     
 In the next step, you need to refactor both coffee machine classes so that they implement one or both of these interfaces.
+
