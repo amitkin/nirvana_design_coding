@@ -14,6 +14,7 @@ public class CoffeeMachineApplication {
     If they submit "r" or "R" the ingredients should restock, and "q" or "Q" should quit. Blank lines should be ignored, and invalid input should print an
     invalid input message.
     */
+    //https://codereview.stackexchange.com/questions/83195/designing-another-coffee-machine-application
     public static void main(String[] args) {
         List<Ingredient> ingredients = Default.getDefaultIngredients();
         Map<Ingredient, Integer> ingredientStock = ingredients.stream().
