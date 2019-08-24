@@ -69,7 +69,7 @@ public class WordLadderII {
                         toVisit.offer(neighbour);
                     } else { // already visited
                         if( distance.get(neighbour) != distance.get(word)+1)//if not shortest
-                            iterator.remove(); //remove since not shortest
+                            iterator.remove(); //remove since not shortest and creating loop
                     }
                 }
 

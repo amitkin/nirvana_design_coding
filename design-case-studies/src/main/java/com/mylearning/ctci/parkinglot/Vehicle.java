@@ -3,11 +3,11 @@ package com.mylearning.ctci.parkinglot;
 import java.util.ArrayList;
 
 public abstract class Vehicle {
-	protected ArrayList<ParkingSpot> parkingSpots = new ArrayList<ParkingSpot>();
+	protected ArrayList<ParkingSpot> parkingSpots = new ArrayList<>();
 	protected String licensePlate;
 	protected int spotsNeeded;
 	protected VehicleSize size;
-	
+
 	public int getSpotsNeeded() {
 		return spotsNeeded;
 	}

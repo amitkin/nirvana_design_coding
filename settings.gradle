@@ -9,4 +9,5 @@ include 'design-case-studies'
 include 'design-patterns'
 include 'transaction-statistics'
 include 'CtCI-6th-Edition'
+include 'spring-testing'
 

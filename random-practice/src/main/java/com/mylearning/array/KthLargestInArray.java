@@ -53,8 +53,8 @@ public class KthLargestInArray {
     }
 
     public static void main(String[] args) {
-        int [] arr = new int[]{3,1,-1,2};
-        //int [] arr = new int[]{3,2,3,1,2,4,5,5,6};
+        //int [] arr = new int[]{3,1,-1,2};
+        int [] arr = new int[]{3,2,3,1,2,4,5,5,6};
         int k = 2;
         System.out.println(findKth(arr, k));
     }

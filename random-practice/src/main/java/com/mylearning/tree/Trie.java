@@ -68,7 +68,6 @@ public class Trie{
         return current.wordCount;
     }
 
-
     public static void main(String [] args){
         Trie test = new Trie();
         test.insert("abc");

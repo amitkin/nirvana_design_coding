@@ -6,10 +6,14 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -653,8 +657,11 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        int[][] grid = {{0,2},{1,3}};
-        s.swimInWater(grid);
+        //System.out.println(s.solve(new ArrayList<>(Arrays.asList(1, 2, 4)), new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6))));
+        //System.out.println(s.solve(new ArrayList<>(Arrays.asList(39, 99, 70, 24, 49, 13, 86, 43, 88, 74, 45, 92, 72, 71, 90, 32, 19, 76, 84, 46, 63, 15, 87, 1, 39, 58, 17, 65, 99, 43, 83, 29, 64, 67, 100, 14, 17, 100, 81, 26, 45, 40, 95, 94, 86, 2, 89, 57, 52, 91, 45)), new ArrayList<>(Arrays.asList(1221, 360, 459, 651, 958, 584, 345, 181, 536, 116, 1310, 403, 669, 1044, 1281, 711, 222, 280, 1255, 257, 811, 409, 698, 74, 838))));
+
+        //int[][] grid = {{0,2},{1,3}};
+        //s.swimInWater(grid);
         /*int arr[] = { 1, 3, 1, 5, 4 };
         int k = 0;
         findPairs(arr, k);

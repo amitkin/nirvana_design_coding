@@ -163,6 +163,8 @@ public class Graph {
     // When you poll a vertex from the queue, the indegree of its neighbors need to be decreased by 1, this is like delete the vertex from the graph
     // and delete the edge between the vertex and its neighbors. Every time you come across vertices with 0 indegree, offer them to the queue for
     // checking their neighbors later and add them to the result.
+    //https://leetcode.com/problems/course-schedule/
+    //https://leetcode.com/problems/course-schedule-ii/
     public ArrayList<Integer> topologicalSortBFS() {
 
         ArrayList<Integer> result = new ArrayList<>();

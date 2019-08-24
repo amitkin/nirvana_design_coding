@@ -1,10 +1,15 @@
-## Introducing a shared interface
+#Scenario
+
+Consider the case of addCoffee method where it expects an object of type CoffeeBean instead of an object of type GroundCoffee. If you add a shared superclass or an interface that gets implemented by the BasicCoffeeMachine and the PremiumCoffeeMachine class, you will need to decide how to handle this difference.
+
+## Introducing a shared interface(Liskov)
 
 You can either create another abstraction, e.g., Coffee, as the superclass of CoffeeBean and GroundCoffee and use it as the type of the method parameter. That would unify the structure of both addCoffee methods, but require additional validation in both methods. The addCoffee method of the BasicCoffeeMachine class would need to check that the caller provided an instance of GroundCoffee, and the addCoffee implementation of the PremiumCoffeeMachine would require an instance of CoffeeBean. This would obviously break the Liskov Substitution Principle because the validation would fail if you provide a BasicCoffeeMachine object instead of a PremiumCoffeeMachine and vice versa.
 
 The better approach is to exclude the addCoffee method from the interface or superclass because you can’t interchangeably implement it. 
 
 ## Follow the Interface Segregation Principle
+Clients should not be forced to depend upon interfaces that they do not use.
 You need to split the CoffeeMachine interface into multiple interfaces for the different kinds of coffee machines. All known implementations of the interface implement the addGroundCoffee method. So, there is no reason to remove it.
 
     public interface CoffeeMachine {

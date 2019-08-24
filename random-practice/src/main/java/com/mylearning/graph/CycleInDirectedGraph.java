@@ -6,6 +6,10 @@ import java.util.Set;
 /**
  * https://www.youtube.com/watch?v=rKQaZuoUR4M
  */
+//This has multiple solutions :
+//1. https://www.geeksforgeeks.org/detect-cycle-in-a-directed-graph-using-bfs/ - same as topological sort
+//2. https://www.geeksforgeeks.org/detect-cycle-in-a-graph/
+//3. https://www.geeksforgeeks.org/detect-cycle-direct-graph-using-colors/
 public class CycleInDirectedGraph {
 
     Graph graph;

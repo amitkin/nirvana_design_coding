@@ -14,13 +14,15 @@ Then we have some new Roads i.e some new edges, out of those edges we can choose
 In minimum spanning tree (MST) we need n-1 edges to connect n cities(vertexes).
 
 Implementation is as follows :-
-1) we created disjoint sets which represents connected cities using roads available. So initially each city is connected to itself only. Then we iterate through all the existing roads,
-for each existing road, union them so that they are connected. Ignore the ones creating cycle. We are increasing the count of roads used also.
+1) we created disjoint sets which represents connected cities using roads available. So initially each city is connected to itself only.
+Then we iterate through all the existing roads, for each existing road, union them so that they are connected. Ignore the ones creating cycle.
+We are increasing the count of roads used also.
 2) Sort new roads by increasing order of cost, so that we pick the new road with lowest cost first.
 3) for each new road, again union the two cities. Ignore the ones creating cycle and update the cost also.
 4) In the end if number of roads used are not equal to (number of cities -1), then MST is not possible so we will return cost as -1, else just return the cost.
 */
 public class MinCostSpanningTree {
+
     class UnionFind {
 
         int[] parent;
