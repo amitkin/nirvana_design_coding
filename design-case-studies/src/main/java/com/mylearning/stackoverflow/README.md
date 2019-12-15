@@ -1,0 +1,1 @@
+Member creates Question and add Tags to it. Question can be searchable so it implements search interface. 

@@ -18,6 +18,18 @@ public class LRUCache {
         }
     }
 
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        count = 0;
+        head = new Node();
+        head.pre = null;
+        tail = new Node();
+        tail.post = null;
+        head.post = tail;
+        tail.pre = head;
+    }
+
+    //Add at head to avoid tail traversing
     private void addNode(Node node){
         node.pre = head;
         node.post = head.post;
@@ -39,17 +51,6 @@ public class LRUCache {
         Node node = tail.pre;
         removeNode(node);
         return node;
-    }
-
-    public LRUCache(int capacity) {
-        this.capacity = capacity;
-        count = 0;
-        head = new Node();
-        head.pre = null;
-        tail = new Node();
-        tail.post = null;
-        head.post = tail;
-        tail.pre = head;
     }
 
     public int get(int key) {

@@ -140,7 +140,7 @@ public class Game implements IGame {
             winner = currentPlayer;
         }
 	    if (players.size() == 1) {
-	        winner = players.element(); // we can assume that this is the winner
+	        winner = players.element(); // we can assume that this is the winner, getFirst()
 	    }
 	}
 

@@ -588,7 +588,7 @@ public class BinarySearchTree {
         }
     }
 
-    public void inorderArray(BinaryTreeNode node,ArrayList<Integer> arr) {
+    public void inorderArray(BinaryTreeNode node, List<Integer> arr) {
         if (node != null) {
             inorderArray(node.left, arr);
             arr.add(node.data);

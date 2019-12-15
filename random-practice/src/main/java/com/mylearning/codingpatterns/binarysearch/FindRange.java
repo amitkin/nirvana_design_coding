@@ -2,6 +2,7 @@ package com.mylearning.codingpatterns.binarysearch;
 
 public class FindRange {
 
+    //https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array
     public static int[] findRange(int[] arr, int key) {
         int[] result = new int[] { -1, -1 };
         result[0] = search(arr, key, false);

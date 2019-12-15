@@ -1,4 +1,4 @@
-#Scenario
+    #Scenario
 
 Consider the case of addCoffee method where it expects an object of type CoffeeBean instead of an object of type GroundCoffee. If you add a shared superclass or an interface that gets implemented by the BasicCoffeeMachine and the PremiumCoffeeMachine class, you will need to decide how to handle this difference.
 

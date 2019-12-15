@@ -1,6 +1,7 @@
 package com.mylearning.tree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,67 +9,45 @@ import java.util.Queue;
 
 import com.mylearning.tree.BinarySearchTree.BinaryTreeNode;
 
+//Use preorder approach
 public class SerializeDeserialize {
 
     // Encodes a tree to a single string.
     public String serialize(BinaryTreeNode root) {
-        if (root == null) return "";
-        Queue<BinaryTreeNode> q = new LinkedList<>();
-        StringBuilder res = new StringBuilder();
-        q.add(root);
-        while (!q.isEmpty()) {
-            BinaryTreeNode node = q.poll();
-            if (node == null) {
-                res.append("n ");
-                continue;
-            }
-            res.append(node.data + " ");
-            q.add(node.left);
-            q.add(node.right);
-        }
-        return res.toString();
+        StringBuilder sb = new StringBuilder();
+        serializeHelper(root, sb);
+        return sb.toString();
     }
 
-    public List<Integer> serializeToArray(BinaryTreeNode root) {
-        if (root == null) return new ArrayList<>();
-        Queue<BinaryTreeNode> q = new LinkedList<>();
-        List<Integer> res = new ArrayList<>();
-        q.add(root);
-        while (!q.isEmpty()) {
-            BinaryTreeNode node = q.poll();
-            if (node == null) {
-                res.add(null);
-                continue;
-            }
-            res.add(node.data);
-            q.add(node.left);
-            q.add(node.right);
+    private void serializeHelper(BinaryTreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append("X").append(",");
+        } else {
+            sb.append(node.data).append(",");
+            serializeHelper(node.left, sb);
+            serializeHelper(node.right,sb);
         }
-        return res;
     }
 
     // Decodes your encoded data to tree.
     public BinaryTreeNode deserialize(String data) {
-        if (data == "") return null;
-        Queue<BinaryTreeNode> q = new LinkedList<>();
-        String[] values = data.split(" ");
-        BinaryTreeNode root = new BinaryTreeNode(Integer.parseInt(values[0]));
-        q.add(root);
-        for (int i = 1; i < values.length; i++) {
-            BinaryTreeNode parent = q.poll();
-            if (!values[i].equals("n")) {
-                BinaryTreeNode left = new BinaryTreeNode(Integer.parseInt(values[i]));
-                parent.left = left;
-                q.add(left);
-            }
-            if (!values[++i].equals("n")) {
-                BinaryTreeNode right = new BinaryTreeNode(Integer.parseInt(values[i]));
-                parent.right = right;
-                q.add(right);
-            }
-        }
-        return root;
+        Queue<String> nodes = new LinkedList<>();
+        nodes.addAll(Arrays.asList(data.split(",")));
+        return deserializeHelper(nodes);
     }
+
+    private BinaryTreeNode deserializeHelper(Queue<String> nodes) {
+        String val = nodes.poll();
+        if (val.equals("X")) return null;
+        else {
+            BinaryTreeNode node = new BinaryTreeNode(Integer.valueOf(val));
+            node.left = deserializeHelper(nodes);
+            node.right = deserializeHelper(nodes);
+            return node;
+        }
+    }
+
+    //=================================Facebook Question================================================================
 
     public static  List<Integer> serializeF(BinaryTreeNode root){
         List<Integer> result = new ArrayList<>();
@@ -86,14 +65,15 @@ public class SerializeDeserialize {
         preOrder(root.right, result);
     }
 
-    public static BinaryTreeNode deSerializeF(List<Integer> list){
+    public static BinaryTreeNode deSerializeF(List<Integer> list) {
         Iterator<Integer> iterator = list.iterator();
-        BinaryTreeNode root = deSerializeHelper(iterator);
+        //Imp to note that Queue is not created here but iterator is used.
+        BinaryTreeNode root = deSerializeFHelper(iterator);
         return root;
 
     }
 
-    private static BinaryTreeNode deSerializeHelper(Iterator<Integer> iterator) {
+    private static BinaryTreeNode deSerializeFHelper(Iterator<Integer> iterator) {
         if(!iterator.hasNext()){
             return null;
         }
@@ -104,32 +84,47 @@ public class SerializeDeserialize {
         }
 
         BinaryTreeNode root = new BinaryTreeNode(next);
-        root.left = deSerializeHelper(iterator);
-        root.right = deSerializeHelper(iterator);
+        root.left = deSerializeFHelper(iterator);
+        root.right = deSerializeFHelper(iterator);
         return  root;
     }
 
-    // Decodes your encoded data to tree.
-    public BinaryTreeNode deserializeFromArray(List<Integer> data) {
-        if (data.size() == 0) return null;
-        Queue<BinaryTreeNode> q = new LinkedList<>();
-        List<Integer> values = new ArrayList<>(data);
-        BinaryTreeNode root = new BinaryTreeNode(values.get(0));
-        q.add(root);
-        for (int i = 1; i < values.size(); i++) {
-            BinaryTreeNode parent = q.poll();
-            if (values.get(i) != null) {
-                BinaryTreeNode left = new BinaryTreeNode(values.get(i));
-                parent.left = left;
-                q.add(left);
-            }
-            if (values.get(++i) != null) {
-                BinaryTreeNode right = new BinaryTreeNode(values.get(i));
-                parent.right = right;
-                q.add(right);
-            }
+    //==================================================================================================================
+
+    public List<Integer> serializeToArrayList(BinaryTreeNode root) {
+        if (root == null) return new ArrayList<>();
+        List<Integer> res = new LinkedList<>();
+        serializeToArrayListHelper(root, res);
+        return res;
+    }
+
+    private void serializeToArrayListHelper(BinaryTreeNode node, List<Integer> res) {
+        if (node == null) {
+            res.add(-1);
+        } else {
+            res.add(node.data);
+            serializeToArrayListHelper(node.left, res);
+            serializeToArrayListHelper(node.right,res);
         }
-        return root;
+    }
+
+    // Decodes your encoded data to tree.
+    public BinaryTreeNode deserializeFromArrayList(List<Integer> data) {
+        if (data.size() == 0) return null;
+        List<Integer> values = new ArrayList<>(data);
+        Queue<Integer> q = new LinkedList<>(values);
+        return deserializeFromArrayHelper(q);
+    }
+
+    private BinaryTreeNode deserializeFromArrayHelper(Queue<Integer> nodes) {
+        Integer val = nodes.poll();
+        if (val == null || val == -1) return null;
+        else {
+            BinaryTreeNode node = new BinaryTreeNode(val);
+            node.left = deserializeFromArrayHelper(nodes);
+            node.right = deserializeFromArrayHelper(nodes);
+            return node;
+        }
     }
 
     public static void main(String[] args) {
@@ -165,13 +160,13 @@ public class SerializeDeserialize {
         String savedTree = serializeDeserialize.serialize(tree.root);
         BinaryTreeNode root = serializeDeserialize.deserialize(savedTree);
 
-        ArrayList<Integer> deserializedTree = new ArrayList<>();
+        List<Integer> deserializedTree = new ArrayList<>();
         tree.inorderArray(root, deserializedTree);
 
         System.out.println("Deserialized Tree : " + deserializedTree.toString());
 
-        List<Integer> savedTreeList =  serializeDeserialize.serializeToArray(tree.root);
-        root = serializeDeserialize.deserializeFromArray(savedTreeList);
+        List<Integer> savedTreeList =  serializeDeserialize.serializeToArrayList(tree.root);
+        root = serializeDeserialize.deserializeFromArrayList(savedTreeList);
 
         deserializedTree = new ArrayList<>();
         tree.inorderArray(root, deserializedTree);

@@ -5,8 +5,8 @@ public class OddEvenMonitor {
     public static final boolean EVEN_TURN = false;
     private boolean turn = ODD_TURN;
 
-    // Need synchronized in order to call wait(), see
-    // http://stackoverflow.com/questions/2779484 for discussion
+    // Need synchronized in order to call wait() so that the key which was hold could be released,
+    // see http://stackoverflow.com/questions/2779484 for discussion
     public synchronized void waitTurn(boolean oldTurn) {
         while (turn != oldTurn) {
             try {

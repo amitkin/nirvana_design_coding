@@ -61,7 +61,8 @@ class LargestBoxes{
 
     public static void main(String[] args) {
         LargestBoxes l = new LargestBoxes();
-        char[][] matrix = {{'B','B', 'B', ' ', ' '},{'B',' ', 'B', ' ', ' '}, {' ','B', ' ', 'B', 'B'}, {'B','B', 'B', ' ', ' '}, {' ','B', ' ', ' ', ' '}};
+        //char[][] matrix = {{'B','B', 'B', ' ', ' '},{'B',' ', 'B', ' ', ' '}, {' ','B', ' ', 'B', 'B'}, {'B','B', 'B', ' ', ' '}, {' ','B', ' ', ' ', ' '}};
+        char[][] matrix = {{'B',' ', 'B'},{'B',' ', 'B'}, {'B',' ','B'}};
         System.out.println(l.getMaximumConnectedBoxes(matrix));
     }
 }

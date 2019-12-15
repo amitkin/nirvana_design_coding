@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * using  BlockingQueue
  *
  */
-public class ProducerConsumerDesignPattern {
+public class    ProducerConsumerDesignPattern {
 
     public static void main(String[] args) throws InterruptedException {
 

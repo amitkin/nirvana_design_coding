@@ -7,8 +7,8 @@ import java.util.Queue;
 
 public class MaxQueue<T extends Comparable<T>> {
 
-    private Queue<T> entries = new ArrayDeque<>();
-    private Deque<T> candidatesForMax = new ArrayDeque<>();
+    private Queue<T> entries = new ArrayDeque<>(); //normal queue
+    private Deque<T> candidatesForMax = new ArrayDeque<>(); //Decreasing elements
 
     public void enqueue(T x) {
         entries.add(x);
