@@ -74,11 +74,11 @@ public class SerializeDeserialize {
     }
 
     private static BinaryTreeNode deSerializeFHelper(Iterator<Integer> iterator) {
-        if(!iterator.hasNext()){
-            return null;
+        Integer next = iterator.next();
+        if(next == null){
+            return  null;
         }
 
-        Integer next = iterator.next();
         if(next == -1){
             return  null;
         }

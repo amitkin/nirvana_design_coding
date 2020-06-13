@@ -1,11 +1,14 @@
 package com.mylearning.graph.topological;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 //Time complexity is O(V+E), where ‘V’ is the total number of different characters and ‘E’ is the total number of the rules in the alien language.
 //Since, at most, each pair of words can give us one rule, therefore, we can conclude that the upper bound for the rules is O(N) where ‘N’ is the number of words in the input.
@@ -62,6 +65,10 @@ public class AlienDictionary {
             }
         }
         /* after building graph, we will have an input that has exact same format as Course Schedule, then we can use BFS to do topological sort */
+        return topologicalSortBFS(graph, inDegreeMap);
+    }
+
+    private static String topologicalSortBFS(Map<Character, Set<Character>> graph, Map<Character, Integer> inDegreeMap) {
         StringBuilder sortedOrder = new StringBuilder();
         Queue<Character> queue = new LinkedList<>();
         /* put all starting node into queue, which means put all nodes that have inDegree = 0 */
@@ -91,8 +98,142 @@ public class AlienDictionary {
         return sortedOrder.toString();
     }
 
+
+    //########################################################## Alternative Approach ##################################################//
+
+    public static class GraphNode {
+        Character c;
+        Set<GraphNode> adjacencyList;
+
+        public GraphNode(Character c) {
+            this.c = c;
+            this.adjacencyList = new HashSet<>();
+        }
+    }
+
+    public static String alienOrder1(String[] words) {
+        if(words == null) {
+            return null;
+        }
+
+        // if(words.length == 1) {
+        //     return "";
+        // }
+
+        Map<Character, GraphNode> graph = new HashMap<>();
+
+        for(int i=0; i< words.length ; i++) {
+            for(Character c : words[i].toCharArray()) {
+                GraphNode a = graph.getOrDefault(c, new GraphNode(c));
+                graph.put(c, a);
+            }
+        }
+
+        for(int i=0; i < words.length -1 ; i++) {
+            formEdge(words[i], words[i+1], graph);
+        }
+
+        List<GraphNode> graphNodes = new ArrayList<>(graph.values());
+
+        return topologicalSortDFS(graphNodes);
+
+    }
+
+
+    public static void formEdge(String a, String b, Map<Character, GraphNode> graph) {
+        if(a == null || b== null) {
+            return;
+        }
+
+        int i = 0;
+        while(i< a.length() && i< b.length()) {
+            if(a.charAt(i) != b.charAt(i)) {
+                GraphNode an = graph.getOrDefault(a.charAt(i), new GraphNode(a.charAt(i)));
+                GraphNode bn = graph.getOrDefault(b.charAt(i), new GraphNode(b.charAt(i)));
+
+                an.adjacencyList.add(bn);
+
+                // graph.put(a.charAt(i), an);
+                // graph.put(b.charAt(i), bn);
+                break;
+            }
+            i++;
+        }
+
+    }
+
+    public static String topologicalSortDFS(List<GraphNode> graphNodes) {
+        if(graphNodes == null || graphNodes.size() == 0) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder("");
+
+        Map<GraphNode, Boolean> visitedMap = new HashMap<>();
+        for(GraphNode graphNode: graphNodes) {
+            visitedMap.put(graphNode, false);
+        }
+
+        Stack<Character> stack = new Stack<>();
+
+        Set<GraphNode> grayNodes =  new HashSet<>();
+
+        for(GraphNode gn : graphNodes ) {
+            if(!visitedMap.get(gn)) {
+                grayNodes.add(gn);
+
+                boolean b = topologicalSortUtil(gn, visitedMap, grayNodes, stack);
+                if(!b) {
+                    return "";
+                }
+                grayNodes.remove(gn);
+                visitedMap.put(gn, true);
+            }
+
+        }
+
+        while(!stack.isEmpty()) {
+            result.append(stack.pop());
+        }
+
+        return result.toString();
+
+    }
+
+
+    public static boolean topologicalSortUtil(GraphNode gn, Map<GraphNode, Boolean> visitedMap, Set<GraphNode> grayNodes, Stack<Character> stack) {
+
+        for(GraphNode node: gn.adjacencyList) {
+            if(grayNodes.contains(node)) {
+                return false;
+            }
+            if(!visitedMap.get(node)) {
+                grayNodes.add(node);
+                boolean b = topologicalSortUtil(node, visitedMap, grayNodes, stack);
+                if(!b) {
+                    return false;
+                }
+                grayNodes.remove(node);
+                visitedMap.put(node, true);
+            }
+        }
+        stack.push(gn.c);
+        return true;
+    }
+
+
     public static void main(String[] args) {
         String result = AlienDictionary.alienOrder(new String[] { "ba", "bc", "ac", "cab" });
+        System.out.println("Character order: " + result);
+
+        result = AlienDictionary.alienOrder(new String[] { "cab", "aaa", "aab" });
+        System.out.println("Character order: " + result);
+
+        result = AlienDictionary.alienOrder(new String[] { "ywx", "xww", "xz", "zyy", "zwz" });
+        System.out.println("Character order: " + result);
+
+        System.out.println("\nAnother Approach");
+        result = AlienDictionary.alienOrder1(new String[] { "ba", "bc", "ac", "cab" });
         System.out.println("Character order: " + result);
 
         result = AlienDictionary.alienOrder(new String[] { "cab", "aaa", "aab" });

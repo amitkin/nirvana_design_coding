@@ -12,6 +12,9 @@ import java.util.concurrent.locks.Lock;
 //Reads are cheap so we replace having a single easily read counter with having to make multiple reads to recover the actual count.
 //Read Sharded Counters - http://highscalability.com/numbers-everyone-should-know
 
+//basic idea is using buckets. 1 bucket for every second because we only need to keep the recent hits info for 300 seconds.
+//hit[] array is wrapped around by mod operation. Each hit bucket is associated with times[] bucket which record current time.
+//If it is not current time, it means it is 300s or 600s... ago and need to reset to 1.
 class HitCounter {
     private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     private final Lock r = rwl.readLock();

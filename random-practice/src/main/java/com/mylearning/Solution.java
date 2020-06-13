@@ -192,7 +192,9 @@ public class Solution {
         rightRotate(nums, k, nums.length);
     }
 
-    private void rightRotate(int[] nums, int k, int n) {
+    public void rightRotate(int[] nums, int k, int n) {
+        if (k >= nums.length)
+            k = k - nums.length;
         reverse(nums, 0, n - k - 1);
         reverse(nums, n - k, n - 1);
         reverse(nums, 0, n - 1);
@@ -656,8 +658,160 @@ public class Solution {
         return time - 1;
     }
 
+    public int numUniqueEmails(String[] emails) {
+        Set<String> seen = new HashSet();
+        for (String email: emails) {
+            String[] splits = email.split("@");
+            String local = splits[0];
+            String rest = splits[1];
+            //int i = email.indexOf('@');
+            //String local = email.substring(0, i);
+            //String rest = email.substring(i);
+            if (local.indexOf('+') > 0) {
+                local = local.substring(0, local.indexOf('+'));
+            }
+            local = local.replaceAll("\\.", "");
+            seen.add(local + "@" + rest);
+        }
+
+        return seen.size();
+    }
+
+    public boolean isHappy(int n) {
+        while(true) {
+            int result = 0;
+            while(n > 0) {
+                result = result + (n%10)*(n%10);
+                n = n/10;
+            }
+            if(result == 1) {
+                return true;
+            } else {
+                System.out.println(result);
+                n = result;
+            }
+        }
+    }
+
+    static int[] pancakeSort(int[] arr) {
+        // your code goes here
+
+        int n = arr.length;
+
+        for(int i=0; i<n; i++) {
+            int curMaxIndex = getMaxIndex(arr, n - i);
+            flip(arr, curMaxIndex + 1);
+            flip(arr, n - i);
+        }
+
+        return arr;
+    }
+
+    private static void flip(int[] arr, int k) {
+        if(k > 1 && k <= arr.length) {
+            int start = 0, end = k - 1;
+            while(start < end) {
+                int temp = arr[start];
+                arr[start] = arr[end];
+                arr[end] = temp;
+                start++;
+                end--;
+            }
+        }
+    }
+
+    private static int getMaxIndex(int[] arr, int end) {
+        int maxIndex = 0;
+        for(int i=1; i<end; i++) {
+            if(arr[i] > arr[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
+
+    static public int trimArray(int[] nums, int k) {
+        /*int n = nums.length;
+        if (n <= k) return n;
+
+        int i = 1, j = 1;
+        int count = 1;
+        while (j < n) {
+            if (nums[j] != nums[j-1]) {
+                count = 1;
+                nums[i++] = nums[j];
+            } else {
+                if (count < k) {
+                    nums[i++] = nums[j];
+                    count++;
+                }
+            }
+            ++j;
+        }
+        return i;*/
+
+        int i=0, j=1;
+        while(j < nums.length) {
+            if (nums[j] != nums[i]) {
+                nums[++i] = nums[j++];
+            }  else {
+                j++;
+            }
+        }
+        return i+1;
+    }
+
+    public void leftRotateArray(List<Integer> arr, Integer k){
+        int n = arr.size();
+        if(n<=1) return;
+
+        int[] a = new int[n];
+        /*if(k>0) {
+            k = k%n;
+            for(int i=0; i<n; i++) {
+                a[(i-k+n)%n] = arr.get(i);
+            }
+            for(int i=0; i<n; i++) {
+                arr.set(i,a[i]);
+            }
+        }*/
+        for(int p=0; p<n; p++) {
+            int i = (p+k)%n;
+            a[p] = arr.get(i);
+        }
+
+        for(int i=0; i<n; i++) {
+            arr.set(i,a[i]);
+        }
+    }
+
+    private void leftRotateArray(int[] nums, int k) {
+        int n = nums.length;
+        if(n<=1) return;
+
+        if (k>0) {
+            k = k % n;
+            reverse(nums, 0, n - 1);
+            reverse(nums, 0, n - k - 1);
+            reverse(nums, n - k, n - 1);
+        }
+    }
+
     public static void main(String[] args) {
         Solution s = new Solution();
+        //int[] a = {1,2,2,2,2,3,3,4,4,4,4,4,5};
+        //System.out.println(trimArray(a, 3)); //{1,2,2,2,3,3,4,4,4,5} = 10
+        //int[] arr = {1,2,3,4,5};
+        List<Integer> arrList = Arrays.asList(1,2,3,4,5);
+        s.leftRotateArray(arrList, 7);
+        //s.leftRotateArray(arr, 6);
+        System.out.println(arrList);
+        //pancakeSort(arr);
+        //System.out.println(Arrays.toString(arr));
+
+        //Solution s = new Solution();
+        //System.out.println(s.isHappy(11));
+        //System.out.println(s.numUniqueEmails(new String[]{"test.email+alex@leetcode.com","test.email.leet+alex@code.com"}));
         //System.out.println(s.solve(new ArrayList<>(Arrays.asList(1, 2, 4)), new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6))));
         //System.out.println(s.solve(new ArrayList<>(Arrays.asList(39, 99, 70, 24, 49, 13, 86, 43, 88, 74, 45, 92, 72, 71, 90, 32, 19, 76, 84, 46, 63, 15, 87, 1, 39, 58, 17, 65, 99, 43, 83, 29, 64, 67, 100, 14, 17, 100, 81, 26, 45, 40, 95, 94, 86, 2, 89, 57, 52, 91, 45)), new ArrayList<>(Arrays.asList(1221, 360, 459, 651, 958, 584, 345, 181, 536, 116, 1310, 403, 669, 1044, 1281, 711, 222, 280, 1255, 257, 811, 409, 698, 74, 838))));
 

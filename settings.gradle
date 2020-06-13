@@ -6,7 +6,7 @@ project(':movie-theater').projectDir = "$rootDir/movie-theater" as File
 project(':random-practice').projectDir = "$rootDir/random-practice" as File
 include 'parking-lot-design'
 include 'design-case-studies'
-include 'design-patterns'
+include 'oo-design'
 include 'transaction-statistics'
 include 'CtCI-6th-Edition'
 include 'spring-testing'
