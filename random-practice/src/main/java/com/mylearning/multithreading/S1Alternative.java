@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing;
+package com.mylearning.multithreading;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

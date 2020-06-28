@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing;
+package com.mylearning.multithreading;
 
 public class MyDeadlock {
 

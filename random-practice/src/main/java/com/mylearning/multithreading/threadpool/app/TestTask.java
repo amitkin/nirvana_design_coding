@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing.threadpool.app;
+package com.mylearning.multithreading.threadpool.app;
 
 public class TestTask implements Runnable {
     private int number;

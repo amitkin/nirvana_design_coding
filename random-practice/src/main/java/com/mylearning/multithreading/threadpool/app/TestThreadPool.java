@@ -1,6 +1,6 @@
-package com.mylearning.parallelcomputing.threadpool.app;
+package com.mylearning.multithreading.threadpool.app;
 
-import com.mylearning.parallelcomputing.threadpool.pool.ThreadPool;
+import com.mylearning.multithreading.threadpool.pool.ThreadPool;
 
 public class TestThreadPool {
     public static void main(String[] args) throws InterruptedException {

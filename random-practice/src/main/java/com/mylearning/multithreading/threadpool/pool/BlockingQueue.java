@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing.threadpool.pool;
+package com.mylearning.multithreading.threadpool.pool;
 
 import java.util.LinkedList;
 import java.util.Queue;

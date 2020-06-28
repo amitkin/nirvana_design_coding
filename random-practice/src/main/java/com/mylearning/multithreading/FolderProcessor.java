@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing;
+package com.mylearning.multithreading;
 
 import static java.lang.Thread.sleep;
 

@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing;
+package com.mylearning.multithreading;
 
 public class Semaphore {
     private final int MAX_AVAILABLE;

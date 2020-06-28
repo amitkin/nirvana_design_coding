@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing.threadpool.pool;
+package com.mylearning.multithreading.threadpool.pool;
 
 public class TaskExecutor implements Runnable {
     BlockingQueue<Runnable> queue;

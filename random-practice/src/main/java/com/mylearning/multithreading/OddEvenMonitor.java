@@ -1,4 +1,4 @@
-package com.mylearning.parallelcomputing;
+package com.mylearning.multithreading;
 
 public class OddEvenMonitor {
     public static final boolean ODD_TURN = true;
