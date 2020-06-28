@@ -24,13 +24,12 @@ public class BaseCache implements Cache{
 
     @Override
     public void evict() {
-        EvictionPolicy evictionPolicy = getEvictionPolicy();
-        evictionPolicy.evict();
+        this.evictionPolicy.evict();
     }
 
     @Override
     public EvictionPolicy getEvictionPolicy() {
-        return evictionPolicy;
+        return this.evictionPolicy;
     }
 
     @Override

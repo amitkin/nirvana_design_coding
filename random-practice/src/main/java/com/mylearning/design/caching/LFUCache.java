@@ -36,7 +36,7 @@ public class LFUCache {
         countToLRUKeys.get(count).remove(key); // remove key from current count (since we will inc count and add it at end)
         if (count == min && countToLRUKeys.get(count).size() == 0) min++; // nothing in the current min bucket
 
-        putCount(key, count + 1); //Updating frequency map and frequency to lru keys map
+        updateCount(key, count + 1); //Updating frequency map and frequency to lru keys map
         return keyToVal.get(key);
     }
 
@@ -60,7 +60,7 @@ public class LFUCache {
             evict(lruKey); // evict LRU key from min count bucket
         }
         min = 1;
-        putCount(key, min); // Updating frequency map and frequency to lru keys map with new key
+        updateCount(key, min); // Updating frequency map and frequency to lru keys map with new key
         keyToVal.put(key, value); // adding new key and value
     }
 
@@ -70,9 +70,9 @@ public class LFUCache {
         keyToCount.remove(key);
     }
 
-    private void putCount(int key, int count) {
+    private void updateCount(int key, int count) {
         keyToCount.put(key, count);
-        countToLRUKeys.computeIfAbsent(count, ignore -> new LinkedHashSet<>());
+        countToLRUKeys.putIfAbsent(count, new LinkedHashSet<>());
         countToLRUKeys.get(count).add(key);
     }
 
