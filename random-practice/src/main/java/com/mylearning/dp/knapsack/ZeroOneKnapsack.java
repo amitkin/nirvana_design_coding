@@ -33,9 +33,41 @@ class ZeroOneKnapsack {
         return Math.max(profit1, profit2);
     }
 
+    //Memoization
+    public int solveKnapsackMemoization(int[] profits, int[] weights, int capacity) {
+        Integer[][] dp = new Integer[profits.length][capacity + 1];
+        return this.knapsackRecursive(dp, profits, weights, capacity, 0);
+    }
+
+    private int knapsackRecursive(Integer[][] dp, int[] profits, int[] weights, int capacity,
+            int currentIndex) {
+
+        // base checks
+        if (capacity <= 0 || currentIndex >= profits.length)
+            return 0;
+
+        // if we have already solved a similar problem, return the result from memory
+        if(dp[currentIndex][capacity] != null)
+            return dp[currentIndex][capacity];
+
+        // recursive call after choosing the element at the currentIndex
+        // if the weight of the element at currentIndex exceeds the capacity, we shouldn't process this
+        int profit1 = 0;
+        if( weights[currentIndex] <= capacity )
+            profit1 = profits[currentIndex] + knapsackRecursive(dp, profits, weights,
+                    capacity - weights[currentIndex], currentIndex + 1);
+
+        // recursive call after excluding the element at the currentIndex
+        int profit2 = knapsackRecursive(dp, profits, weights, capacity, currentIndex + 1);
+
+        dp[currentIndex][capacity] = Math.max(profit1, profit2);
+        return dp[currentIndex][capacity];
+    }
+
     //dp[i][c] = max (dp[i-1][c], profit[i] + dp[i-1][c-weight[i]])
     //dp[i][c] will represent the maximum knapsack profit for capacity ‘c’ calculated from the first ‘i’ items.
     //Time and Space complexity of O(N*C), where ‘N’ represents total items and ‘C’ is the maximum capacity.
+    //Bottom up
     public int solveKnapsackDP(int[] profits, int[] weights, int capacity) {
         // basic checks
         if (capacity <= 0 || profits.length == 0 || weights.length != profits.length)
@@ -91,9 +123,8 @@ class ZeroOneKnapsack {
         System.out.println("");
     }
 
-    //Can we improve our bottom-up DP solution even further? Can you find an algorithm that has O(C)O(C)O(C) space complexity?
+    //Can we improve our bottom-up DP solution even further? Can you find an algorithm that has O(C) space complexity?
     //The solution above is similar to the previous solution, the only difference is that we use i%2 instead if i and (i-1)%2 instead if i-1.
-
     static int solveKnapsack1D(int[] profits, int[] weights, int capacity) {
         // basic checks
         if (capacity <= 0 || profits.length == 0 || weights.length != profits.length)

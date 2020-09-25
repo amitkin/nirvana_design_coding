@@ -1,10 +1,10 @@
 package com.mylearning.codingpatterns.binarysearch;
 
-public class    FindRange {
+public class FindRange {
 
     //https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array
     public static int[] findRange(int[] arr, int key) {
-        int[] result = new int[] { -1, -1 };
+        int[] result = new int[]{-1, -1};
         result[0] = search(arr, key, false);
         if (result[0] != -1) // no need to search, if 'key' is not present in the input array
             result[1] = search(arr, key, true);

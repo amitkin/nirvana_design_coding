@@ -21,7 +21,7 @@ Design a data structure that implements the following methods:
 
 Solution:
 A hash table is a natural data structure for this application. However, it does not support efficient max operations,
-nor is there an obvious way to perform the simultaneous increment, short traversing all entries.
+nor is there an obvious way to perform the simultaneous increment, without traversing all entries.
 A BST does have efficient max operation, but it too does not natively support the global increment.
 
 In our context, this suggests storing the clients in a BST, and having the wrapper track the total increment amount.

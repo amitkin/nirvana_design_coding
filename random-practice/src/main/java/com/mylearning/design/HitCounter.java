@@ -37,6 +37,7 @@ class HitCounter {
         w.lock();
         try {
             int idx = timestamp % 300;
+            //0-299, 300-599 - For next window timestamp will not match so reset it
             if (times[idx] != timestamp) {
                 // not in the same 5 minute window
                 times[idx] = timestamp;
