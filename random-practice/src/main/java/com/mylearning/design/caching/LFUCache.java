@@ -84,5 +84,7 @@ public class LFUCache {
         System.out.println(lfuCache.get(1));
         System.out.println(lfuCache.get(2));
         System.out.println(lfuCache.get(2));
+        lfuCache.put(4, 4);
+        System.out.println(lfuCache.get(4));
     }
 }

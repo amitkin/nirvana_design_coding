@@ -34,9 +34,9 @@ public class TaskScheduler {
 
     public static int leastInterval(char[] tasks, int n) {
         Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < tasks.length; i++) {
+        for(char task : tasks) {
             // map key is TaskName, and value is number of times to be executed.
-            map.put(tasks[i], map.getOrDefault(tasks[i], 0) + 1);
+            map.put(task, map.getOrDefault(task, 0) + 1);
         }
         //frequency sort in decreasing order
         PriorityQueue<Entry<Character, Integer>> queue = new PriorityQueue<>(
@@ -47,16 +47,16 @@ public class TaskScheduler {
         int count = 0;
         while (!queue.isEmpty()) {
             int k = n + 1;
-            List<Entry> tempList = new ArrayList<>();
+            List<Entry<Character, Integer>> waitingList = new ArrayList<>();
             while (k > 0 && !queue.isEmpty()) {
                 Map.Entry<Character, Integer> top = queue.poll(); // most frequency task
                 top.setValue(top.getValue() - 1); // decrease frequency, meaning it got executed
-                tempList.add(top); // collect task to add back to queue
+                waitingList.add(top); // collect task to add back to queue
                 k--;
                 count++; //successfully executed task
             }
 
-            for (Map.Entry<Character, Integer> e : tempList) {
+            for (Map.Entry<Character, Integer> e : waitingList) {
                 if (e.getValue() > 0)
                     queue.add(e); // add valid tasks
             }

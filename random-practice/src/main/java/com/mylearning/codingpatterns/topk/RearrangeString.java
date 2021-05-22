@@ -20,7 +20,7 @@ public class RearrangeString {
         for (char chr : str.toCharArray())
             charFrequencyMap.put(chr, charFrequencyMap.getOrDefault(chr, 0) + 1);
 
-        PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<Map.Entry<Character, Integer>>(
+        PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>(
                 (e1, e2) -> e2.getValue() - e1.getValue());
 
         // add all characters to the max heap

@@ -18,7 +18,7 @@ Pop() : Removes an element from top of stack.
       For example, let the element to be removed be 1 and minElement be 2. We remove 1 and update minElement as 2*2 – 1 = 3.
 
 Stack doesn’t hold actual value of an element if it is minimum so far.
-Actual minimum element is always stored in minEle
+Actual minimum element is always stored in minElement
 */
 
 public class MinStack {

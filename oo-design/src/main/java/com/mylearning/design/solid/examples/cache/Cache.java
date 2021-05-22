@@ -6,7 +6,6 @@ import com.mylearning.design.solid.examples.cache.policies.EvictionPolicy;
 import com.mylearning.design.solid.examples.cache.storage.Storage;
 
 public class Cache<Key, Value> {
-    //Dependency Inversion
     private final EvictionPolicy<Key> evictionPolicy;
     private final Storage<Key, Value> storage;
 

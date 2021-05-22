@@ -58,7 +58,7 @@ class HitCounter {
         r.lock();
         try {
             for (int i = 0; i < 300; i++) {
-                if (timestamp - times[i] < 300) sum += hits[i];
+                if (times[i] + 300 > timestamp) sum += hits[i];
             }
         } finally {
             r.unlock();
