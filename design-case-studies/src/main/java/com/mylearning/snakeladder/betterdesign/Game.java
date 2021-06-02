@@ -4,24 +4,25 @@ package com.mylearning.snakeladder.betterdesign;
  * The |Game| is the core class which defines everything general about the game.
  */
 import java.util.LinkedList;
+import java.util.Queue;
 
 public final class Game {
-	private LinkedList <Player> players = new LinkedList<>();
+	private Queue<Player> players = new LinkedList<>();
 	// this is a queue : elements are removed from the beginning
 	// with players . remove () and added to the end by players . add ()
 	private Board board;
 	private Player winner;
 
 	public Game(String[] playerNames , int numSquares , int[][] snakes , int[][] ladders) {
-		makeBoard(numSquares, ladders, snakes);
-		makePlayers(playerNames);
+		populateBoard(numSquares, ladders, snakes);
+		populatePlayers(playerNames);
 	}
 
-	private void makeBoard(int numSquares, int[][] ladders , int[][] snakes) {
+	private void populateBoard(int numSquares, int[][] ladders , int[][] snakes) {
 		board = new Board(numSquares, ladders, snakes);
 	}
 
-	private void makePlayers(String [] playerNames) {
+	private void populatePlayers(String [] playerNames) {
 		assert playerNames . length >0 : " There must be some player " ;
 		System.out.println("Players are : ");
 		int i=1;
@@ -65,7 +66,7 @@ public final class Game {
 
 	private void placePlayersAtFirstSquare () {
 		for ( Player player : players ) {
-			board . firstSquare (). enter ( player );
+			board.firstSquare().enter(player);
 		}
 	}
 

@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /*
  * Concurrent linked Queue
  * simple one producer one exchange multiple queues, one queue to one consumer
+ * https://www.cloudamqp.com/blog/a-walk-through-of-the-design-and-architecture-of-rabbitmq.html
+ * rabbitmq : channel -> exchange -> queue -> bind queue to exchange -> subscribe consumer to queues
  */
 class Sleep {
     static void sleep(){
@@ -61,11 +63,11 @@ class Producer implements Runnable {
         int i = 0;
         Sleep.sleep();
         while(i < 100){
-
-            if(i%2 == 0)
-                exchange.addAndRoute(i,"even,number");
-            else
-                exchange.addAndRoute(i,"odd,number");
+            if(i%2 == 0) {
+                exchange.addAndRoute(i, "evenQueue, numberQueue");
+            } else {
+                exchange.addAndRoute(i, "oddQueue, numberQueue");
+            }
             System.out.println("prod .. "+ i);
             i++;
         }
@@ -119,19 +121,21 @@ class Exchange{
 class Broker{
     Exchange exchange;
 
-    Broker(Exchange e, Producer p){
-        this.exchange = e;
-        this.exchange.producer = p;
+    Broker(Exchange exchange, Producer producer){
+        this.exchange = exchange;
+        this.exchange.producer = producer;
     }
-    void bindToExchange(Queue q, Consumer c, String rq){
-        MyQueue mq = new MyQueue(rq, q, c);
+
+    //bind queue and consumer to exchange
+    void bindToExchange(Queue queue, Consumer consumer, String routingKey){
+        MyQueue mq = new MyQueue(routingKey, queue, consumer);
         exchange.bindConsumer(mq);
     }
 }
 
 public class MessageBroker {
     public static void main(String[] args) {
-        Exchange exchange = new Exchange("rabbitmq");
+        Exchange exchange = new Exchange("rbmqexchange");
         Producer producer = new Producer(exchange);
         Broker broker = new Broker(exchange, producer);
 

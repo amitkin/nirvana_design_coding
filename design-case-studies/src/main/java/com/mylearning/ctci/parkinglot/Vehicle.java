@@ -1,10 +1,10 @@
 package com.mylearning.ctci.parkinglot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Vehicle {
-	protected ArrayList<ParkingSpot> parkingSpots = new ArrayList<>();
-	protected String licensePlate;
+	protected List<ParkingSpot> parkingSpots = new ArrayList<>();
 	protected int spotsNeeded;
 	protected VehicleSize size;
 

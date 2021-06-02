@@ -2,7 +2,7 @@ package com.mylearning.ctci.parkinglot;
 
 /* Represents a level in a parking garage */
 public class Level {
-	private int floor;
+	private final int floor;
 	private ParkingSpot[] spots;
 	private int availableSpots = 0; // number of free spots
 	private static final int SPOTS_PER_ROW = 10;

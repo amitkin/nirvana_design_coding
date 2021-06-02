@@ -20,7 +20,8 @@ public class OddEvenMonitor {
 
     // Need synchronized in order to call notify()
     public synchronized void toggleTurn() {
-        // only odd can change the turn to even and vice-versa
+        // true(1)  ^ true(1) = false(0)
+        // false(0) ^ true(1) = true(1)
         turn ^= true;
         notify();
     }

@@ -6,7 +6,7 @@ import java.util.Queue;
 public class BlockingQueue <T> {
     private Queue<T> queue = new LinkedList<>();
     private int EMPTY = 0;
-    private int MAX_TASK_IN_QUEUE = -1;
+    private int MAX_TASK_IN_QUEUE;
 
     public BlockingQueue(int size){
         this.MAX_TASK_IN_QUEUE = size;

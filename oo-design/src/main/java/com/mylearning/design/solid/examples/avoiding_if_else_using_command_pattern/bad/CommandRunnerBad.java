@@ -19,7 +19,7 @@ public class CommandRunnerBad {
                 return "Invalid Command";
             }
             String user = command.getParams().get(0);
-            return database.getUsreBalance(user).toString();
+            return database.getUserBalance(user).toString();
         } else if ("recharge".equals(command.getName())) {
             if (command.getParams().size() != 2) {
                 return "Invalid Command";
@@ -27,7 +27,7 @@ public class CommandRunnerBad {
             String user = command.getParams().get(0);
             Integer rechargeAmount = Integer.parseInt(command.getParams().get(1));
 
-            Integer userBalance = database.getUsreBalance(user);
+            Integer userBalance = database.getUserBalance(user);
             if (userBalance < rechargeAmount) {
                 return "Not sufficient balance";
             }

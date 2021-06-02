@@ -15,6 +15,19 @@ import java.util.concurrent.locks.Lock;
 //basic idea is using buckets. 1 bucket for every second because we only need to keep the recent hits info for 300 seconds.
 //hit[] array is wrapped around by mod operation. Each hit bucket is associated with times[] bucket which record current time.
 //If it is not current time, it means it is 300s or 600s... ago and need to reset to 1.
+
+/*
+Distribute the counter
+
+When a single machine gets too many traffic and performance becomes an issue, it’s the perfect time to think of distributed solution.
+Distributed system significantly reduces the burden of a single machine by scaling the system to multiple nodes, but at the same time
+adding complexity. Let’s say we distribute visit requests to multiple machines equally. I’d like to emphasize the importance of equal
+distribution first. If particular machines get much more traffic than the rest machines, the system doesn’t get to its full usage and
+it’s very important to take this into consideration when designing the system. In our case, we can get a hash of users email and distribute
+by the hash (it’s not a good idea to use email directly as some letter may appear much more frequent than the others).
+To count the number, each machine works independently to count its own users from the past minute. When we request the global number,
+we just need to add all counters together.
+ */
 class HitCounter {
     private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     private final Lock r = rwl.readLock();
@@ -58,7 +71,9 @@ class HitCounter {
         r.lock();
         try {
             for (int i = 0; i < 300; i++) {
-                if (times[i] + 300 > timestamp) sum += hits[i];
+                if (timestamp - times[i] < 300) {
+                    sum += hits[i];
+                }
             }
         } finally {
             r.unlock();

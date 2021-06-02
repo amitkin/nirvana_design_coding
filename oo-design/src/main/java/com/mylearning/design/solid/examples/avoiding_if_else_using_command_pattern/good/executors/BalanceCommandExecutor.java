@@ -21,6 +21,6 @@ public class BalanceCommandExecutor extends CommandExecutor {
 
     protected String executeValidCommand(Command command) {
         String user = command.getParams().get(0);
-        return database.getUsreBalance(user).toString();
+        return database.getUserBalance(user).toString();
     }
 }

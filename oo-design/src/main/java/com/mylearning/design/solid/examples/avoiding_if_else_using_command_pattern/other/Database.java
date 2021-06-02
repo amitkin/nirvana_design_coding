@@ -2,7 +2,7 @@ package com.mylearning.design.solid.examples.avoiding_if_else_using_command_patt
 
 public class Database {
 
-    public Integer getUsreBalance(String user) {
+    public Integer getUserBalance(String user) {
         return 1000;
     }
 }

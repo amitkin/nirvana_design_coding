@@ -16,18 +16,19 @@ public class CourseSchedule {
         for (int i = 0; i < prerequisites.length; i++) // Indegree - how many prerequisites are needed.
             indegree[prerequisites[i][0]]++;
 
-        Queue<Integer> queue = new LinkedList<Integer>();
-        for (int i = 0; i < numCourses; i++)
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
             if (indegree[i] == 0) {
                 // Add the course to the order because it has no prerequisites.
                 queue.offer(i);
             }
+        }
 
         // How many courses don't need prerequisites.
         while (!queue.isEmpty()) {
             int prerequisite = queue.poll(); // Already finished this prerequisite course.
             order[index++] = prerequisite; // If indegree is zero, then add the course to the order.
-            for (int i = 0; i < prerequisites.length; i++)  {
+            for (int i = 0; i < prerequisites.length; i++) {
                 if (prerequisites[i][1] == prerequisite) {
                     indegree[prerequisites[i][0]]--;
                     if (indegree[prerequisites[i][0]] == 0) {

@@ -16,7 +16,7 @@ public class Board {
 
     private void makeSquares(int numSquares) {
         System .out . println ("There are " + numSquares + " squares");
-        for (int position =0 ; position < numSquares ; position ++) {
+        for (int position = 0 ; position < numSquares ; position++) {
             Square square = new Square(position, this);
             squares.add(square);
             square.setSquareRole(new RegularSquareRole(square));

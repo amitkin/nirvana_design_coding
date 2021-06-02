@@ -24,7 +24,7 @@ public class RechargeCommandExecutor extends CommandExecutor {
         String user = command.getParams().get(0);
         Integer rechargeAmount = Integer.parseInt(command.getParams().get(1));
 
-        Integer userBalance = database.getUsreBalance(user);
+        Integer userBalance = database.getUserBalance(user);
         if (userBalance < rechargeAmount) {
             return "Not sufficient balance";
         }
