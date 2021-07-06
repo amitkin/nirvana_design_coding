@@ -12,6 +12,7 @@ public class MyConnectionPool implements ConnectionPool{
 
     @Override
     public Connection getConnection() {
+        // Decorator Design Pattern
         // The solution is another layer of indirection : Instead of returning the "real" connection object from the pool,
         // a wrapper is returned which gives the pool control of connection life cycle, instead of the client.
         final Connection realConnection = borrowConnection();
