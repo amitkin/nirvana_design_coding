@@ -1,11 +1,7 @@
 package com.mylearning.multithreading;
 
 import java.util.Queue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /*
 1. Parameter is CircularQueueDynamicSizing which has got Strings
@@ -66,14 +62,15 @@ public class StringProcessor {
                 try {
                     //Blocking calls and will consume 3 threads at for each StringProcessor thread created
                     //Since the pool for these are different so they will always get processed for infinite supply of strings in the inputQueue
-                    Integer stringToProcessLength = innerPool.submit(new LengthCallable(stringToProcess)).get();
-                    Character stringToProcessFirstChar = innerPool.submit(new FirstCharacterCallable(stringToProcess)).get();
-                    String noVowelString = innerPool.submit(new RemoveVowelsCallable(stringToProcess)).get();
+                    //TODO: Can be done parallely and collected in order in result
+                    Future<Integer> stringToProcessLength = innerPool.submit(new LengthCallable(stringToProcess));
+                    Future<Character> stringToProcessFirstChar = innerPool.submit(new FirstCharacterCallable(stringToProcess));
+                    Future<String> noVowelString = innerPool.submit(new RemoveVowelsCallable(stringToProcess));
 
                     StringBuffer result = new StringBuffer();
-                    result.append(stringToProcessLength);
-                    result.append(stringToProcessFirstChar);
-                    result.append(noVowelString);
+                    result.append(stringToProcessLength.get());
+                    result.append(stringToProcessFirstChar.get());
+                    result.append(noVowelString.get());
 
                     System.out.println("Original String : " + stringToProcess + " Processed string : " + result);
 

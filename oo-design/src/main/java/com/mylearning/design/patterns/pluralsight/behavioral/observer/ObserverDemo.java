@@ -1,5 +1,6 @@
 package com.mylearning.design.patterns.pluralsight.behavioral.observer;
 
+//https://www.youtube.com/watch?v=Ep9_Zcgst3U
 public class ObserverDemo {
 
     public static void main(String[] args) {

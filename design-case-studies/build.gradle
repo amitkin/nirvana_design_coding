@@ -11,9 +11,13 @@ repositories {
 }
 
 dependencies {
-    compile group: 'com.google.collections', name: 'google-collections', version: '1.0'
+    implementation group: 'com.google.collections', name: 'google-collections', version: '1.0'
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
-    compile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.2'
-    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    implementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.2'
+    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+
+    // Add Lombok if you use it in the project
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
 }

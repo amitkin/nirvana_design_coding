@@ -1,12 +1,14 @@
 package com.myleaning.interviews.uag.memory;
 
 import com.myleaning.interviews.uag.api.User;
+import com.myleaning.interviews.uag.api.UserService;
+import com.myleaning.interviews.uag.core.ServiceFactory;
+import com.myleaning.interviews.uag.core.Services;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class MemoryUserServiceTest {
@@ -15,7 +17,7 @@ public class MemoryUserServiceTest {
 
     @Test
     public void testCreateUser_duplicate() {
-        final MemoryUserService service = createService();
+        final UserService service = createService();
         final User fred = new User("fred");
         service.create(fred);
 
@@ -27,7 +29,7 @@ public class MemoryUserServiceTest {
 
     @Test
     public void testCreateUser_npe() {
-        final MemoryUserService service = createService();
+        final UserService service = createService();
 
         thrown.expect(NullPointerException.class);
         service.create(null);
@@ -35,7 +37,7 @@ public class MemoryUserServiceTest {
 
     @Test
     public void testCreateUser_ok() {
-        final MemoryUserService service = createService();
+        final UserService service = createService();
         assertNull("fred should not exist yet", service.findByName("fred"));
 
         final User fred = new User("fred");
@@ -46,7 +48,7 @@ public class MemoryUserServiceTest {
 
     @Test
     public void testDeleteUser_notExists() {
-        final MemoryUserService service = createService();
+        final UserService service = createService();
         assertNull("fred should not exist yet", service.findByName("fred"));
 
         final User fred = new User("fred");
@@ -57,7 +59,7 @@ public class MemoryUserServiceTest {
 
     @Test
     public void testDeleteUser_npe() {
-        final MemoryUserService service = createService();
+        final UserService service = createService();
 
         thrown.expect(NullPointerException.class);
         service.delete(null);
@@ -65,7 +67,7 @@ public class MemoryUserServiceTest {
 
     @Test
     public void testDeleteUser_ok() {
-        final MemoryUserService service = createService();
+        final UserService service = createService();
 
         final User fred = new User("fred");
 
@@ -77,7 +79,8 @@ public class MemoryUserServiceTest {
     }
 
 
-    private MemoryUserService createService() {
-        return new MemoryUserService(null);
+    private UserService createService() {
+        final Services services = ServiceFactory.createServices();
+        return services.getUserService();
     }
 }

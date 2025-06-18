@@ -19,10 +19,10 @@ import java.util.concurrent.locks.Lock;
 /*
 Distribute the counter
 
-When a single machine gets too many traffic and performance becomes an issue, it’s the perfect time to think of distributed solution.
+When a single machine gets too much traffic and performance becomes an issue, it’s the perfect time to think of distributed solution.
 Distributed system significantly reduces the burden of a single machine by scaling the system to multiple nodes, but at the same time
 adding complexity. Let’s say we distribute visit requests to multiple machines equally. I’d like to emphasize the importance of equal
-distribution first. If particular machines get much more traffic than the rest machines, the system doesn’t get to its full usage and
+distribution first. If particular machines get much more traffic than the rest machines, the system doesn’t get to its full usage, and
 it’s very important to take this into consideration when designing the system. In our case, we can get a hash of users email and distribute
 by the hash (it’s not a good idea to use email directly as some letter may appear much more frequent than the others).
 To count the number, each machine works independently to count its own users from the past minute. When we request the global number,
@@ -30,7 +30,10 @@ we just need to add all counters together.
  */
 class HitCounter {
     private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+    // multiple threads can read at same time BUT if writeLock takes control, then NONE can read at that time
     private final Lock r = rwl.readLock();
+
+    // only one thread can write at a time and NONE read thread could read either
     private final Lock w = rwl.writeLock();
 
     // store each last get hit timestamp with that bucket
@@ -52,7 +55,7 @@ class HitCounter {
             int idx = timestamp % 300;
             //0-299, 300-599 - For next window timestamp will not match so reset it
             if (times[idx] != timestamp) {
-                // not in the same 5 minute window
+                // not in the same 5-minute window
                 times[idx] = timestamp;
                 hits[idx] = 1;
             } else {

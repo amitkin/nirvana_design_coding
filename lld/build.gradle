@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Core dependencies
+    implementation 'com.google.collections:google-collections:1.0'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'org.twitter4j:twitter4j-core:4.0.1'
+    implementation 'org.apache.derby:derby:10.13.1.1'
+
+    // Add Lombok if you use it in the project
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+
+    // JUnit 5 (JUnit Jupiter)
+    implementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+
+    // Assertions library (optional, for more fluent assertions)
+    implementation 'org.assertj:assertj-core:3.24.2'
+
+    // Mocking framework (optional, if mocking is needed)
+    implementation 'org.mockito:mockito-core:5.5.0'
+}
+
+test {
+    useJUnitPlatform() // Enable JUnit 5 platform
+}
+
+task prepareKotlinBuildScriptModel {
+
+}
+
+task wrapper(type: Wrapper){
+    gradleVersion = '7.6'
+}

@@ -24,7 +24,7 @@ public class MemoryGroupService extends AbstractService implements GroupService 
     private final Map<String, Group> groups = new ConcurrentHashMap<>(); //TODO: Added by Amit for 3
 
     public MemoryGroupService(Services services) {
-        super(services);
+            super(services);
     }
 
     public Group findByName(String name) {

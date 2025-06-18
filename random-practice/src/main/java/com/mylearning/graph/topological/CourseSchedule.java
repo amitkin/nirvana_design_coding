@@ -9,6 +9,8 @@ import java.util.Stack;
 //https://leetcode.com/problems/course-schedule-ii/
 public class CourseSchedule {
 
+    //'1','2'
+    //'1' - '2','3'
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         if (numCourses == 0) return null;
         // Convert graph presentation from edges to indegree of adjacent list.

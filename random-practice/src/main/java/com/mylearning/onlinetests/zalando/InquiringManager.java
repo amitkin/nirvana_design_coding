@@ -4,7 +4,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 /*
 https://www.hackerrank.com/contests/zalando-codesprint/challenges/the-inquiring-manager
@@ -36,7 +36,7 @@ public class InquiringManager {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt(); //range is pow(10,6)
 
-        Deque<Pair<Long, Long>> queue = new LinkedList<>();
+        //Deque<Pair<Long, Long>> queue = new LinkedList<>();
 
         /*PriorityQueue<Pair<Long, Long>> queue = new PriorityQueue<>((p1, p2) -> {
             if (p1.getKey() > p2.getKey()) {
@@ -48,7 +48,7 @@ public class InquiringManager {
             }
         });*/
 
-        int type;
+        /*int type;
         long p, t; //range is pow(10,18)
         for (int i = 0; i < n; i++) {
             type = scanner.nextInt();
@@ -77,6 +77,6 @@ public class InquiringManager {
                     System.out.println(queue.peek().getKey());
                 }
             }
-        }
+        }*/
     }
 }

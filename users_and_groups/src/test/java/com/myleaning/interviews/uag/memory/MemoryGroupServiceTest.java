@@ -1,6 +1,7 @@
 package com.myleaning.interviews.uag.memory;
 
 import com.myleaning.interviews.uag.api.Group;
+import com.myleaning.interviews.uag.api.GroupService;
 import com.myleaning.interviews.uag.core.ServiceFactory;
 import com.myleaning.interviews.uag.core.Services;
 import org.junit.Rule;
@@ -16,7 +17,7 @@ public class MemoryGroupServiceTest {
 
     @Test
     public void testCreateGroup_duplicate() {
-        final MemoryGroupService service = createService();
+        final GroupService service = createService();
         final Group hackers = new Group("hackers");
         service.create(hackers);
 
@@ -28,7 +29,7 @@ public class MemoryGroupServiceTest {
 
     @Test
     public void testCreateGroup_npe() {
-        final MemoryGroupService service = createService();
+        final GroupService service = createService();
 
         thrown.expect(NullPointerException.class);
         service.create(null);
@@ -36,7 +37,7 @@ public class MemoryGroupServiceTest {
 
     @Test
     public void testCreateGroup_ok() {
-        final MemoryGroupService service = createService();
+        final GroupService service = createService();
         assertNull("hackers should not exist yet", service.findByName("hackers"));
 
         final Group hackers = new Group("hackers");
@@ -47,7 +48,7 @@ public class MemoryGroupServiceTest {
 
     @Test
     public void testDeleteGroup_notExists() {
-        final MemoryGroupService service = createService();
+        final GroupService service = createService();
         assertNull("hackers should not exist yet", service.findByName("hackers"));
 
         final Group hackers = new Group("hackers");
@@ -58,7 +59,7 @@ public class MemoryGroupServiceTest {
 
     @Test
     public void testDeleteGroup_npe() {
-        final MemoryGroupService service = createService();
+        final GroupService service = createService();
 
         thrown.expect(NullPointerException.class);
         service.delete(null);
@@ -66,7 +67,7 @@ public class MemoryGroupServiceTest {
 
     @Test
     public void testDeleteGroup_ok() {
-        final MemoryGroupService service = createService();
+        final GroupService service = createService();
 
         final Group hackers = new Group("hackers");
 
@@ -78,8 +79,8 @@ public class MemoryGroupServiceTest {
     }
 
 
-    private MemoryGroupService createService() {
+    private GroupService createService() {
         final Services services = ServiceFactory.createServices();
-        return new MemoryGroupService(services);
+        return services.getGroupService();
     }
 }

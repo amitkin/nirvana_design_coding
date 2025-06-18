@@ -8,6 +8,7 @@ public abstract class Subject {
     private List<Observer> observers = new ArrayList<>();
 
     abstract void setState(String state);
+
     abstract String getState();
 
     public void attach(Observer observer) {

@@ -58,6 +58,7 @@ public class LunchOrder {
     private String veggies;
     private String meat;
 
+    // Private constructor to enforce usage of the Builder
     private LunchOrder(Builder builder) {
         this.bread = builder.bread;
         this.condiments = builder.condiments;
@@ -79,5 +80,9 @@ public class LunchOrder {
 
     public String getMeat() {
         return meat;
+    }
+
+    public static void main(String[] args) {
+        LunchOrder lunch = new Builder("Lunch").bread("Bread").build();
     }
 }

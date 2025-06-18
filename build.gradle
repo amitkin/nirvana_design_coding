@@ -1,5 +1,5 @@
 ext {
-    javaLevel = 1.8
+    javaLevel = 17
 }
 
 allprojects {
@@ -14,10 +14,6 @@ allprojects {
 
     }
 
-    dependencies {
-        testCompile group: 'junit', name: 'junit', version: '4.12'
-    }
-
 }
 
 configurations.all {
@@ -28,4 +24,10 @@ idea {
     project {
         languageLevel = javaLevel
     }
+}
+
+// Ensure that Java 17 is used for compilation
+tasks.withType(JavaCompile) {
+    sourceCompatibility = javaLevel
+    targetCompatibility = javaLevel
 }
